@@ -2,6 +2,7 @@ dist
 node_modules
 .decisiontrace
 fixtures/repositories
+examples/dogfood/**/sample
 package-lock.json
 docs
 AGENTS.md

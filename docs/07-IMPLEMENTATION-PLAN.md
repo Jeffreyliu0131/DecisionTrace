@@ -1,6 +1,6 @@
 # DecisionTrace P0 Implementation Plan
 
-- 状态：`M5.5-local-review-ui-implemented; independent-validation-and-live-provider-pending`
+- 状态：`first-public-dogfood-recorded; independent-validation-and-live-provider-pending`
 - 日期：2026-08-27
 - 原则：一次只实现一个可验证 vertical slice；Local UI 必须保持 loopback/single-user，不得扩成 hosted dashboard、MCP 或 cloud LLM
 
@@ -33,7 +33,7 @@ M5.5 Local Review UI (loopback only)
 M6 Dogfood / External Validation / OSS Release
 ```
 
-`observed 2026-08-27`：`I-001`–`I-015`、`I-017`、M5 offline `I-018`–`I-021` 与 Local UI `I-023`–`I-028` 已实现并通过本地自动化验收；`I-016` 的 independent reviewer 仍为空，因此 E1/M4 Exit 未达到。Shadow Action 尚无 hosted runner 证据；M5 live provider/calibration 与 M6 外部动作保持未完成。
+`observed 2026-08-27`：`I-001`–`I-015`、`I-017`、M5 offline `I-018`–`I-021`、Local UI `I-023`–`I-028` 与 public dogfood `I-029` 已实现；hosted CI 与 Synthetic Shadow Scan 已在 public main 绿色。`I-016` independent reviewer、second dogfood repo、live provider/calibration 与其余 M6 外部动作保持未完成。
 
 ## 3. M1｜Scaffold & Schemas
 
@@ -279,6 +279,14 @@ M5.5 Exit：I-023–I-028 与 AC-039–AC-048 通过；UI 仍是本地 review su
 
 M6 的真实结果更新 Evidence，不回写成虚假 P0 完成。
 
+### I-029｜First public dogfood sample
+
+- 只读扫描 public `Jeffreyliu0131/thinkbud-ai` exact revision，不执行 target scripts、不调用模型。
+- 发布最小 config/contracts、canonical JSON + Markdown/HTML、manifest、provenance 与 analyst triage。
+- 保留配置依赖、detector blind spots、无 human disposition 与无 precision claim。
+
+Coverage：FR-032；AC-049。
+
 ## 10. Next Coding Task Boundary
 
 新的 coding agent 不应重做 M1–M5.5 已实现 slice。默认下一步只能选择一个有证据的缺口：协助独立 reviewer 处理 `EV-*` / `SEM-*` feedback、修复已知 bad case、验证 hosted shadow Action，或在用户明确 provider 与调用边界后实现 `I-022`。Hosted UI、MCP、真实 repo、部署、license、push/release 仍需当前请求授权。
@@ -287,8 +295,8 @@ M6 的真实结果更新 Evidence，不回写成虚假 P0 完成。
 
 P0 只有在以下全部满足时完成：
 
-- FR-001–FR-031 均有实现与 AC 映射；
-- AC-001–AC-048 全部有自动化或明确人工验证记录；
+- FR-001–FR-032 均有实现与 AC 映射；
+- AC-001–AC-049 全部有自动化或明确人工验证记录；
 - 30+ seeded cases 的真实 baseline 已记录；
 - JSON/Markdown/HTML 一致；
 - local-only 禁网验证通过；

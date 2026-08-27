@@ -1,0 +1,2808 @@
+{
+  "artifacts": [
+    {
+      "byteSize": 9978,
+      "category": "public_claims",
+      "contentHash": "d2c33e7e832829f3479de0cab61b4354b867a3da1596ee32ca1bcd8c49ad5126",
+      "diagnostics": [],
+      "id": "ART-06572a96a58d",
+      "parserStatus": "parsed",
+      "path": "CHANGELOG.md",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5828,
+      "category": "requirements",
+      "contentHash": "0815ab02990b1959a0fcb7936206c3614a6674944ca47122bef8e3bd4a3ea2f4",
+      "diagnostics": [],
+      "id": "ART-ff21b6b9a3a3",
+      "parserStatus": "parsed",
+      "path": "docs/ARCHITECTURE.md",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3939,
+      "category": "public_claims",
+      "contentHash": "eb52b40c156e9a368912564acd647d4205cffa88802d5668534dae61eed9f3ba",
+      "diagnostics": [],
+      "id": "ART-a7f7a4d36165",
+      "parserStatus": "parsed",
+      "path": "docs/AUDIT_2026-08-27.md",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3765,
+      "category": "public_claims",
+      "contentHash": "5e0513d6559aac05536c92f78cac80e6e479a59b231f9a70f3bc9196dad38ec0",
+      "diagnostics": [],
+      "id": "ART-74ec1e1d2abd",
+      "parserStatus": "parsed",
+      "path": "docs/CASE_STUDY.md",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5312,
+      "category": "requirements",
+      "contentHash": "74c80f8fe72b8551d11944767eb05c74e66e8f08a88c453e9263e128243a624f",
+      "diagnostics": [],
+      "id": "ART-49daf11e3d91",
+      "parserStatus": "parsed",
+      "path": "docs/PRIVACY_AND_CHILD_SAFETY.md",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3978,
+      "category": "decisions",
+      "contentHash": "b23bb2ae4fe651927b69cb7122a5eb96a964d60b3d5f31bc78e4515786821152",
+      "diagnostics": [],
+      "id": "ART-01a313e7e929",
+      "parserStatus": "parsed",
+      "path": "docs/RELEASE_CHECKLIST.md",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6600,
+      "category": "decisions",
+      "contentHash": "3902badb12bc0a776c9d4812f8172feb2c6cf1a7c2f004be8ed8d79e22077ecc",
+      "diagnostics": [],
+      "id": "ART-a4a8c62e76f9",
+      "parserStatus": "parsed",
+      "path": "docs/TEXTBOOK_RAG.md",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3068,
+      "category": "tests",
+      "contentHash": "0748e0c54c09fe9e2824df112fe4f3f026ecea4ac198bf8d04a701caa852cd25",
+      "diagnostics": [],
+      "id": "ART-14e0f66135fa",
+      "parserStatus": "text_only",
+      "path": "evals/calibrate-grader.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1315,
+      "category": "evals",
+      "contentHash": "89b549ecec18d7289457175b47c41db246c314b13d2f467e8a6781074c5eec7f",
+      "diagnostics": [],
+      "id": "ART-4dec53b7d05b",
+      "parserStatus": "parsed",
+      "path": "evals/calibration/grader-example-v1.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 12561,
+      "category": "evals",
+      "contentHash": "ee8720282fc8a58b99d51a6a50fe5d763e1eb3045487d20d916e15334710feff",
+      "diagnostics": [],
+      "id": "ART-cc1075411753",
+      "parserStatus": "parsed",
+      "path": "evals/cases/synthetic-v1.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 750,
+      "category": "evals",
+      "contentHash": "351dc3915a559bdbc62bb6e92715580fb8a1c84fbd2e8947167c3a62b54e57f0",
+      "diagnostics": [],
+      "id": "ART-9a121de0f46a",
+      "parserStatus": "parsed",
+      "path": "evals/config/release-gate.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4386,
+      "category": "tests",
+      "contentHash": "5865b0e866d984d6218abc1b0bd33bc21f016cf1d88b86a3605412fef8a1a1e1",
+      "diagnostics": [],
+      "id": "ART-7214968c1d55",
+      "parserStatus": "text_only",
+      "path": "evals/generate-live-slice.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1757,
+      "category": "evals",
+      "contentHash": "90df24eee689bc4f44d3c3afa139eae569914abedd74d8bd8c3a902d51ea62cd",
+      "diagnostics": [],
+      "id": "ART-f9e057cac650",
+      "parserStatus": "parsed",
+      "path": "evals/rag/cases/synthetic-rag-v1.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2967,
+      "category": "evals",
+      "contentHash": "3ba9cc39b89dcaa8b8005eb6c1581ef1e7395a2d90d124df869720911b5ef369",
+      "diagnostics": [],
+      "id": "ART-1ee11f96b1f5",
+      "parserStatus": "parsed",
+      "path": "evals/rag/fixtures/corpus.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 800,
+      "category": "evals",
+      "contentHash": "e52e060bf8c237328be1da7b8a18a1f3e6434e460b2fe3c233e3b7c37a404577",
+      "diagnostics": [],
+      "id": "ART-103695103a25",
+      "parserStatus": "parsed",
+      "path": "evals/rag/fixtures/synthetic-upper-math.metadata.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 13870,
+      "category": "evals",
+      "contentHash": "6f1f977959b2e838d7a4f9fbbc94232964f35c29cc1e80e258cf50563d6cc777",
+      "diagnostics": [],
+      "id": "ART-df55e5287751",
+      "parserStatus": "parsed",
+      "path": "evals/rag/results/latest.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 18382,
+      "category": "tests",
+      "contentHash": "2758633eb579d832ec1e7b936ca4e0d9ca0ab66c1c98d61821f900cdba30de3a",
+      "diagnostics": [],
+      "id": "ART-00b2d1ffe758",
+      "parserStatus": "text_only",
+      "path": "evals/rag/run.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 664,
+      "category": "evals",
+      "contentHash": "6bbe8893840d40a2e82e43cc5f18b3e9cdc70d5c7bf3596828f2a0bd98ec8023",
+      "diagnostics": [],
+      "id": "ART-4c1a678430d3",
+      "parserStatus": "parsed",
+      "path": "evals/results/grader-calibration.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 22536,
+      "category": "evals",
+      "contentHash": "dd4fc414c92a518dd8dd1bb1559631a47d490e740245532094747c2c0f52f128",
+      "diagnostics": [],
+      "id": "ART-0e6030f87caf",
+      "parserStatus": "parsed",
+      "path": "evals/results/latest.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 18499,
+      "category": "tests",
+      "contentHash": "7001ae82e5830c63fb955376c3511b9667c624706511434b344ab4bf4eb1e916",
+      "diagnostics": [],
+      "id": "ART-c1fc8bf87730",
+      "parserStatus": "text_only",
+      "path": "evals/run.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 450,
+      "category": "evals",
+      "contentHash": "9bfb20820ce3b0443452abd7dfdd2fa8fae7fd362611e8691cbe060d6039e257",
+      "diagnostics": [],
+      "id": "ART-107d1c110e2a",
+      "parserStatus": "parsed",
+      "path": "evals/templates/human-review.example.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3571,
+      "category": "tests",
+      "contentHash": "da6681d1c09aea06a80f43702494b968e84118c7852abd1219cb7de13b2cd266",
+      "diagnostics": [],
+      "id": "ART-47bb8945cfdf",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/ark-llm-adapter.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6066,
+      "category": "tests",
+      "contentHash": "db60d7fed255eeae61202337f04d4debb25a0bfe481bcbf72d7394774262f74c",
+      "diagnostics": [],
+      "id": "ART-c784b8c701d9",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/auth.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6259,
+      "category": "tests",
+      "contentHash": "4889be6dc39990e469f8ee2a47b0a825633c0d70a9531ac317dcb5c9b1d81df1",
+      "diagnostics": [],
+      "id": "ART-a1b5f5864279",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/chat-output-boundary.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 9548,
+      "category": "tests",
+      "contentHash": "f3074682704efe3f415d16d9b7395c5f8e9bcced28d82f689e3d3409984a166b",
+      "diagnostics": [],
+      "id": "ART-b653971020d0",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/chat.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2054,
+      "category": "tests",
+      "contentHash": "60f9dc907e5952ed3e960686bfba1372e00a9b426ad9f7d0ee8241e70e0ca3e3",
+      "diagnostics": [],
+      "id": "ART-27cb0338c83f",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/input-safety.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2733,
+      "category": "tests",
+      "contentHash": "3f9a18f7be2a78b3894eef0bf4d69035c4c0cbadfa24d723cfc8523ba9a3fcc8",
+      "diagnostics": [],
+      "id": "ART-8acefa5ff402",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/llm-gateway.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 7614,
+      "category": "tests",
+      "contentHash": "8325111bcad7d65f8fa283f9aa721616baf6e18ad20e5623671a01c8fb43cfb7",
+      "diagnostics": [],
+      "id": "ART-48512ddfb107",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/middleware.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1118,
+      "category": "tests",
+      "contentHash": "5c3a33230307a2128c6a27d43e64a57a8ec68c00aff5f933d85e97eda1f7ef3f",
+      "diagnostics": [],
+      "id": "ART-d82b3ad0c196",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/output-guard.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2750,
+      "category": "tests",
+      "contentHash": "fa10e2fb3388717bec0bebb6eef01330915652239a0d612a13f90562cc8e6dd4",
+      "diagnostics": [],
+      "id": "ART-880a12d71b75",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/prompt-frustration.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3755,
+      "category": "tests",
+      "contentHash": "437c3cecee0683a4e4555e9bfa54103449f4b29087538f87173a0c87f4ce7add",
+      "diagnostics": [],
+      "id": "ART-18ff0af73af5",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/rag-context-runtime.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5317,
+      "category": "tests",
+      "contentHash": "91bc7bbeca81a4d4cbbbac7cd51f200a4cf8282316d10e127880f0a4f5d11d86",
+      "diagnostics": [],
+      "id": "ART-f694c80d61f1",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/rag-ingestion.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5553,
+      "category": "tests",
+      "contentHash": "97b446acd5ae05d2d23bd9c094ad9f84000820b91def47215c141ff10fa0789f",
+      "diagnostics": [],
+      "id": "ART-3e2599e6f62e",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/rag-retrieval.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4210,
+      "category": "tests",
+      "contentHash": "c571907408d3e3d220b0223e4300241afa279f0a631b60715cc53295160dcc2e",
+      "diagnostics": [],
+      "id": "ART-4ee4fd95af93",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/rate-limit.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 7640,
+      "category": "tests",
+      "contentHash": "839f3b4b83cb6d118a0fa9e4b0f5f6834a718f7503fcfd22765eca87b6114b05",
+      "diagnostics": [],
+      "id": "ART-20a06a54da6a",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/rtc-start.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5990,
+      "category": "tests",
+      "contentHash": "5f49dd547fc14f93ffa95eb59b8db1f7dbb46ff6d8c74ea6c8e203cf60c919b4",
+      "diagnostics": [],
+      "id": "ART-760ef8e45a95",
+      "parserStatus": "text_only",
+      "path": "functions/__tests__/send-code-verify.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4454,
+      "category": "implementation",
+      "contentHash": "9baf256c7f216c487102d8441455b43d6cc429e2621cd181bfab654d86e6ce7e",
+      "diagnostics": [],
+      "id": "ART-a2dedc65ca1e",
+      "parserStatus": "text_only",
+      "path": "functions/_middleware.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1716,
+      "category": "implementation",
+      "contentHash": "1eb4a23b2a04a5cfb475627c2f2d60481e324e12e24e63fc0037dd3ee0e195bf",
+      "diagnostics": [],
+      "id": "ART-e735bdd96676",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/assessment-engine.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 176,
+      "category": "implementation",
+      "contentHash": "eb33aa890205a0cee428a985b8a0d1d0c9efcdc06afec22512eae2fbfd261c84",
+      "diagnostics": [],
+      "id": "ART-fe4947105053",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/audit.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6647,
+      "category": "implementation",
+      "contentHash": "9e7559120d1a2f829f783425087057d9fdba86394908e658d6aebe774c465a7d",
+      "diagnostics": [],
+      "id": "ART-01733c6bd12f",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/auth.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3775,
+      "category": "implementation",
+      "contentHash": "ec9bbd21f6805df2ba2b78c4f63e3bcf9386fd688531b431fd478b649921f59d",
+      "diagnostics": [],
+      "id": "ART-8952b91298d4",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/coach-note.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 11111,
+      "category": "implementation",
+      "contentHash": "cd67a7b22bbfe4929ce332617a4b862857d03e88ac369a1dca2fb625c7643a0a",
+      "diagnostics": [],
+      "id": "ART-b24bd0bc5aa5",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/db.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2254,
+      "category": "implementation",
+      "contentHash": "3c096c287945d7c0a44d514b7d7328f653ebf768c96b64db6591e10246e47ac0",
+      "diagnostics": [],
+      "id": "ART-96ea4c6733d2",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/env.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 780,
+      "category": "implementation",
+      "contentHash": "64f1efb8a7370ed9e811340756a8500c9a92d46a63e64a31ab432aed178db0c5",
+      "diagnostics": [],
+      "id": "ART-3be4d9f0b530",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/error-log.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3851,
+      "category": "implementation",
+      "contentHash": "822ff502ed91327f24bc044839453b0fa8e6bc759f51615215878105ccf9f023",
+      "diagnostics": [],
+      "id": "ART-117e7287697f",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/input-safety.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2992,
+      "category": "implementation",
+      "contentHash": "bb987eef5f909b34b941d3ce8af2ca4b3b25818f4d3a47700566326d8d7bebcb",
+      "diagnostics": [],
+      "id": "ART-d0d5f3b8e740",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/llm/fake.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 7572,
+      "category": "implementation",
+      "contentHash": "0795481a3a97905852abae2ee5280e74ed5e37a17e6b7f0f67d90e6a5d68cab5",
+      "diagnostics": [],
+      "id": "ART-db08c795318c",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/llm/gateway.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 73,
+      "category": "implementation",
+      "contentHash": "5a15cc98c6e250e4c412d812eeb2bdb520d4850782d687aa0ee20db79177cc50",
+      "diagnostics": [],
+      "id": "ART-099cdd87dde8",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/llm/index.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2449,
+      "category": "implementation",
+      "contentHash": "db16d43654b813c88e7dfa2e48facd7ff7baece99bb20884a23e6f9d6fac1a98",
+      "diagnostics": [],
+      "id": "ART-a7f4d52ed06d",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/llm/types.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1564,
+      "category": "implementation",
+      "contentHash": "b4027a48264eec07b237f28348e8b01a14eb43dc5cb50cf773ac962b936f7d11",
+      "diagnostics": [],
+      "id": "ART-3802ed4559ca",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/meta-parser.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2532,
+      "category": "implementation",
+      "contentHash": "062a45bf2ea4e39ccd72c688b148bc4ae406553e1d19e051b035ec35d94759bb",
+      "diagnostics": [],
+      "id": "ART-d5644962c30f",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/output-guard.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3572,
+      "category": "implementation",
+      "contentHash": "222ed22b49bd40eef946cd6cb8d9e283b4d585f5eec5db0af394e63494f83266",
+      "diagnostics": [],
+      "id": "ART-69dd438dc9e7",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/prompt/grade-adapters.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2429,
+      "category": "implementation",
+      "contentHash": "27faa496087bd08f1f8ee88628991d154016ec62b0145a7d8cbe7fa294784d58",
+      "diagnostics": [],
+      "id": "ART-9ab13938b1fe",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/prompt/index.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2942,
+      "category": "implementation",
+      "contentHash": "60c72a4fe82ddc3713067d68c4f1a801659b2f1f6d86960b7d26947bd7787cfb",
+      "diagnostics": [],
+      "id": "ART-2bcb96621ad1",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/prompt/session-manager.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2192,
+      "category": "implementation",
+      "contentHash": "7b78741bd6f937a21b3f025059635657e11ae6a6d638b5056c176e90c0bb09e7",
+      "diagnostics": [],
+      "id": "ART-57ed0c90a647",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/prompt/subjects/chinese.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1867,
+      "category": "implementation",
+      "contentHash": "2b0f6df5becdd8d7050cb19b33254401114e77bdeaed133f106eeeb3420aa802",
+      "diagnostics": [],
+      "id": "ART-d4e7adb8b213",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/prompt/subjects/english.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1728,
+      "category": "implementation",
+      "contentHash": "df180941f32efdf36bc07269482f00c7571d2fd7868142e2532f06c8c234fe6e",
+      "diagnostics": [],
+      "id": "ART-bb49f45414bb",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/prompt/subjects/math.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 43,
+      "category": "implementation",
+      "contentHash": "01c64cfdefa871208240956bd633ef9583ef7eaf8d5f56890eaf4c5375acfaa1",
+      "diagnostics": [],
+      "id": "ART-cd83a9b1c46c",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/prompt/types.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 10252,
+      "category": "implementation",
+      "contentHash": "572590f9ae5af195e71eafbcff502e9ed9f2fa1258957c991b01fec9de0ed574",
+      "diagnostics": [],
+      "id": "ART-b56ec80e39d9",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/providers/chat/ark.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4678,
+      "category": "implementation",
+      "contentHash": "c2c57400369b42175a09caad780d8d8901697545cd6b4800f3e4cdbc6f56a39b",
+      "diagnostics": [],
+      "id": "ART-9a3ce9bba9da",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/providers/ocr/ocr.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4098,
+      "category": "implementation",
+      "contentHash": "3541a6bc17c2bde929cba80b31c4d2b98bbb937b5b2163eda200a9896f1eab56",
+      "diagnostics": [],
+      "id": "ART-7206b5a3f9a8",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/providers/ocr/volcengine-sign.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3181,
+      "category": "implementation",
+      "contentHash": "e7ff5acc2a5b742a27bf55a918e3f4f2e4cf06f6fda96baba2dce4ff6971ba54",
+      "diagnostics": [],
+      "id": "ART-690f54bfb0fc",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/providers/rtc/sign.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3923,
+      "category": "implementation",
+      "contentHash": "da8a4aa1c4ffd3176215463be6db4459d0f9f947cac1f53ec831fec1ddf9f8b5",
+      "diagnostics": [],
+      "id": "ART-db38eabc73d0",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/providers/rtc/token.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3171,
+      "category": "implementation",
+      "contentHash": "6d99d3cb01ee6abe077768b545263ce0dbffa84e9b66443084d63267f8431d9b",
+      "diagnostics": [],
+      "id": "ART-755f37a86ec6",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/providers/sms/sms.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2073,
+      "category": "implementation",
+      "contentHash": "f0cd108bd72ad843395c402705b1f06b3462634c869d0313d24a101cd499c39e",
+      "diagnostics": [],
+      "id": "ART-97a177666426",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/providers/speech/stt.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2794,
+      "category": "implementation",
+      "contentHash": "8f376427aadbfc802d4a6e2f3561b782a0d66292fb643f1a45b49ba4c955c756",
+      "diagnostics": [],
+      "id": "ART-b8d354eec71c",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/providers/speech/tts.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3328,
+      "category": "implementation",
+      "contentHash": "f701af64f58082693710ed9f882f30df1cf3a48307302e3c254fb40e34f3d071",
+      "diagnostics": [],
+      "id": "ART-f5aa01e9daf8",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/context-builder.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4484,
+      "category": "implementation",
+      "contentHash": "4572b9282e030c11318fc65f7763450af960bf92072c33517e14de9b4cfb9046",
+      "diagnostics": [],
+      "id": "ART-f1d7149e1584",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/contract.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4111,
+      "category": "implementation",
+      "contentHash": "5b9506b14f03a59069d412a5a653b28d785cc5083bd5ca4b34cceaf45a4ebee4",
+      "diagnostics": [],
+      "id": "ART-d5b5b63c3843",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/embedding.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 813,
+      "category": "implementation",
+      "contentHash": "ab055dc2bec2801637ae65e780d8d70bd2ef8c51e3114462e5ba8b96ad0fb202",
+      "diagnostics": [],
+      "id": "ART-fd3771599a5f",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/hash.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 277,
+      "category": "implementation",
+      "contentHash": "0213481eaa9ee853cd6c383bf6330b02cab65e8c7f3c8c355f50e30c6da48c78",
+      "diagnostics": [],
+      "id": "ART-e09b9d98e5db",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/index.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 10978,
+      "category": "implementation",
+      "contentHash": "e5184dec9beaba219a84cf821ddc5525680d71071d2931f44cb4152dc35f3bfe",
+      "diagnostics": [],
+      "id": "ART-28e28f1939aa",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/ingestion.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 7046,
+      "category": "implementation",
+      "contentHash": "0425a0500f6d508254e5c3dcfa4ab0a5e26853536f12c9d41185037299e9ffaa",
+      "diagnostics": [],
+      "id": "ART-a3d2a85ead62",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/retrieval.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3930,
+      "category": "implementation",
+      "contentHash": "63326aba1ed25479233a75ab4cd53980864fbb5f5a3a9f748e4d019aa9c598e7",
+      "diagnostics": [],
+      "id": "ART-0f56a746a528",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/runtime.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3405,
+      "category": "implementation",
+      "contentHash": "f91d06e8886d0977595667489707f31b7334c20478e85a47b7a2b57bcbc86067",
+      "diagnostics": [],
+      "id": "ART-df946159c58d",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/types.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4391,
+      "category": "implementation",
+      "contentHash": "44bc4e7c94761549b09e457d55f168089bbe19506c53e530e09f808b72478ff5",
+      "diagnostics": [],
+      "id": "ART-fb72249d10e3",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/vector-store.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4372,
+      "category": "implementation",
+      "contentHash": "9fd3a2a0e10865bfb62d066a43edd9c5ef93ca76a242fc3d452cf6e7ff57178f",
+      "diagnostics": [],
+      "id": "ART-73ba3ffba857",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rag/vectorize.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3528,
+      "category": "implementation",
+      "contentHash": "590e1abd6bb78466886a2be16a56a16b547a478b1f1b17fa6e2f23ca616451fc",
+      "diagnostics": [],
+      "id": "ART-f8714294dceb",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/rate-limit.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2735,
+      "category": "implementation",
+      "contentHash": "5d397490318c380173d8fa52776834f25f8255ff771eab0134c64ab6c9cbf5af",
+      "diagnostics": [],
+      "id": "ART-99f02d96d345",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/usage-time.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 735,
+      "category": "implementation",
+      "contentHash": "af7774617e71f8bfd27fe96efa6ecfe65e3bf17a287e2de25c4b69d4e11a3e62",
+      "diagnostics": [],
+      "id": "ART-c31875145ec0",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/utils/response.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 128,
+      "category": "implementation",
+      "contentHash": "9e85f3cdf0db79cade46f41ac5f3e39696a1c85d8083d8cf0ddd1335bf7ef8aa",
+      "diagnostics": [],
+      "id": "ART-97e631088c44",
+      "parserStatus": "text_only",
+      "path": "functions/_shared/utils/uuid.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1088,
+      "category": "implementation",
+      "contentHash": "2fd4b6a444d7d766f2f1c7ab15c459c8efe50da740f8954b3b7724887f0ef723",
+      "diagnostics": [],
+      "id": "ART-7627afe66131",
+      "parserStatus": "text_only",
+      "path": "functions/api/admin/conversations.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 665,
+      "category": "implementation",
+      "contentHash": "d8ba7711b13d7c3b95579ad2c1c916b180834dfa0e009ff96a4cb19bcb60a702",
+      "diagnostics": [],
+      "id": "ART-8980955804b1",
+      "parserStatus": "text_only",
+      "path": "functions/api/admin/errors.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1814,
+      "category": "implementation",
+      "contentHash": "98ffef8231fd55a45fa04021af00c7ea28a56238ab763f8fbcb24d9157f978aa",
+      "diagnostics": [],
+      "id": "ART-bed7151a20a6",
+      "parserStatus": "text_only",
+      "path": "functions/api/admin/login.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1311,
+      "category": "implementation",
+      "contentHash": "30b6a5f5aedb30ee998044e6b2dca9b67cb3cadad4cc190fb131a08ea4e994a0",
+      "diagnostics": [],
+      "id": "ART-8b54b0bb2b06",
+      "parserStatus": "text_only",
+      "path": "functions/api/admin/stats.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 510,
+      "category": "implementation",
+      "contentHash": "54d8dfde9c504f392db23f4220dd00db9634ed964621e2f35c949b2334e99d59",
+      "diagnostics": [],
+      "id": "ART-d891bd1d3543",
+      "parserStatus": "text_only",
+      "path": "functions/api/admin/users.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 453,
+      "category": "implementation",
+      "contentHash": "16bd27720f874081e43bec4d6df8e4b1e4cdd84166d44af9999c7b00dedf3785",
+      "diagnostics": [],
+      "id": "ART-5368ed2954e6",
+      "parserStatus": "text_only",
+      "path": "functions/api/auth/logout.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 889,
+      "category": "implementation",
+      "contentHash": "83656ce33e1d477209c252ef3d6335ea5f1587e85d78e00d229232dc795a9f1d",
+      "diagnostics": [],
+      "id": "ART-3d0d75b77d86",
+      "parserStatus": "text_only",
+      "path": "functions/api/auth/me.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 658,
+      "category": "implementation",
+      "contentHash": "3497da224d7218913f9b819b73ae3c8f03290972ee169977327438179eb3ecc9",
+      "diagnostics": [],
+      "id": "ART-f0d5e860720d",
+      "parserStatus": "text_only",
+      "path": "functions/api/auth/onboarding.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1351,
+      "category": "implementation",
+      "contentHash": "f8ff39886c6822796f7c7328d1aedea78d5e6e1d17e4a358127062d511992db6",
+      "diagnostics": [],
+      "id": "ART-9555856533ab",
+      "parserStatus": "text_only",
+      "path": "functions/api/auth/profile.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2158,
+      "category": "implementation",
+      "contentHash": "a27620df43f851cbe743ba98a40dba3b4910a569c537eba7d7a3a2c56cf55240",
+      "diagnostics": [],
+      "id": "ART-5ed181a5cabb",
+      "parserStatus": "text_only",
+      "path": "functions/api/auth/send-code.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2918,
+      "category": "implementation",
+      "contentHash": "1497a94f9150961bb1deb3d5df6c9380ad47387b92d48a5b6c097f320fc0bc3a",
+      "diagnostics": [],
+      "id": "ART-f39e5574dad1",
+      "parserStatus": "text_only",
+      "path": "functions/api/auth/verify.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 8462,
+      "category": "implementation",
+      "contentHash": "56fecb0c7fb854d8938abc00eebc669d01d8db14930086adcf6e7871735c703d",
+      "diagnostics": [],
+      "id": "ART-668e5caf30b4",
+      "parserStatus": "text_only",
+      "path": "functions/api/chat.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3274,
+      "category": "implementation",
+      "contentHash": "170384e187ff11453ad75bf0439dab8a56c7b6785c683bcaf4d369af2ddde3f4",
+      "diagnostics": [],
+      "id": "ART-691a8e9c24e3",
+      "parserStatus": "text_only",
+      "path": "functions/api/child/progress.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4600,
+      "category": "implementation",
+      "contentHash": "34a65f98972bd34dcf5ceab3b09bbc0f831d28b02eb17571e33b9e0331eda1cb",
+      "diagnostics": [],
+      "id": "ART-d1426e06af5b",
+      "parserStatus": "text_only",
+      "path": "functions/api/end-conversation.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1734,
+      "category": "implementation",
+      "contentHash": "0decf3c895c12e579446595f624b535c5046cc5e0e63350c1d7237f0e825a977",
+      "diagnostics": [],
+      "id": "ART-af0babece665",
+      "parserStatus": "text_only",
+      "path": "functions/api/error-report.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 8188,
+      "category": "implementation",
+      "contentHash": "addb887c4f0127bd661331e13c3d3e53dcc896434acbc374ed762c8ba8fe59e6",
+      "diagnostics": [],
+      "id": "ART-a216354bb7a5",
+      "parserStatus": "text_only",
+      "path": "functions/api/extract-knowledge.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4797,
+      "category": "implementation",
+      "contentHash": "18e6bcc3409c6e2b05bb82f2557aea0836971d19408c1dc3ec8d74d386cb5b70",
+      "diagnostics": [],
+      "id": "ART-a57af2f9c6a0",
+      "parserStatus": "text_only",
+      "path": "functions/api/ocr-detailed.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2929,
+      "category": "implementation",
+      "contentHash": "cde0e3605f2d22828bdbd795af02c87448ff58e2d1eb579a380d3da3e941f635",
+      "diagnostics": [],
+      "id": "ART-b12bf5160f81",
+      "parserStatus": "text_only",
+      "path": "functions/api/ocr.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 11277,
+      "category": "implementation",
+      "contentHash": "1e3a54fca0f140a5a1ae9ef0a0ec5966859c3610c69a050733a8278940f66113",
+      "diagnostics": [],
+      "id": "ART-e723bf07c3aa",
+      "parserStatus": "text_only",
+      "path": "functions/api/parent/report.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3167,
+      "category": "implementation",
+      "contentHash": "bba16dfecd7a13d8a16d46c35186e8ffa06df93d7cd86b5f9b3f9314339c2b86",
+      "diagnostics": [],
+      "id": "ART-cf52b4289bd3",
+      "parserStatus": "text_only",
+      "path": "functions/api/rtc-messages.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 8305,
+      "category": "implementation",
+      "contentHash": "849e3a5dbff6ecf96f48d6da4aa07efd77fb0a660cd3df0648809c454d8818fb",
+      "diagnostics": [],
+      "id": "ART-e3401a990594",
+      "parserStatus": "text_only",
+      "path": "functions/api/rtc-start.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2445,
+      "category": "implementation",
+      "contentHash": "88794ffd2a839bbed23f3312a60f0beb690ab0dc25cf89b10e3cf737f2974223",
+      "diagnostics": [],
+      "id": "ART-8dd9e7a636d7",
+      "parserStatus": "text_only",
+      "path": "functions/api/rtc-stop.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1454,
+      "category": "implementation",
+      "contentHash": "498d3c1522a2ba3218841e245f0b0d7f6f6ebd74c8ca322cb057871037b744ba",
+      "diagnostics": [],
+      "id": "ART-513fea047d28",
+      "parserStatus": "text_only",
+      "path": "functions/api/rtc-token.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1499,
+      "category": "implementation",
+      "contentHash": "a31507748e46364be05017ed4c0b6a11c01510d9723393ad817d4970abbfa938",
+      "diagnostics": [],
+      "id": "ART-8d246cac0db5",
+      "parserStatus": "text_only",
+      "path": "functions/api/stt.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1539,
+      "category": "implementation",
+      "contentHash": "4c15dd36b7c563c6a89f1c28b0d408d9415e34510896f9c8e6931450b3a50859",
+      "diagnostics": [],
+      "id": "ART-39a0e5a579b2",
+      "parserStatus": "text_only",
+      "path": "functions/api/tts.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3474,
+      "category": "evals",
+      "contentHash": "1acf324ed32cf57e7862265967f3d0db027209d32f27e926135179b1beaaf4f4",
+      "diagnostics": [],
+      "id": "ART-695c144e91ef",
+      "parserStatus": "parsed",
+      "path": "provenance/assets.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6823,
+      "category": "public_claims",
+      "contentHash": "b7b2ced005fcc7377e379af10635115fdc53e93ba481a9461bfcf4eea2fe5b78",
+      "diagnostics": [],
+      "id": "ART-b33563055168",
+      "parserStatus": "parsed",
+      "path": "README.md",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 508,
+      "category": "evals",
+      "contentHash": "17a65898388f588cb58ad00edc2f322dca6b0cfdf1d1e70e531ac0729660f592",
+      "diagnostics": [],
+      "id": "ART-90c641c5e237",
+      "parserStatus": "parsed",
+      "path": "release/privacy-approval.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 642,
+      "category": "evals",
+      "contentHash": "6a939526b0bf7612283d9ca291ebaba0bee07c2d2faedd752e8a283c71284bd6",
+      "diagnostics": [],
+      "id": "ART-1f8c0d82de79",
+      "parserStatus": "parsed",
+      "path": "release/readiness.config.json",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2782,
+      "category": "implementation",
+      "contentHash": "8587963f35297b6cfbb48d8ae6f8dbe6635e768a6628aef54b910e1ba0269f25",
+      "diagnostics": [],
+      "id": "ART-1e5f9fe6ad2f",
+      "parserStatus": "text_only",
+      "path": "scripts/check-release-readiness.mjs",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3008,
+      "category": "implementation",
+      "contentHash": "a584c1590ac415b638b594956e834fe0cf451bd8d6d44095210740ee1e3d5771",
+      "diagnostics": [],
+      "id": "ART-f4e29cd40162",
+      "parserStatus": "text_only",
+      "path": "scripts/generate-provenance.mjs",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4167,
+      "category": "implementation",
+      "contentHash": "4a0ec5baf9ef8d425df2a3693ec8f1711d31972a9b1dccc72703c871bd995322",
+      "diagnostics": [],
+      "id": "ART-26ad4b834941",
+      "parserStatus": "text_only",
+      "path": "src/App.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5763,
+      "category": "tests",
+      "contentHash": "85780b81fde01e0be06c47279b74fd0c749f739b95530084d962bc51585084df",
+      "diagnostics": [],
+      "id": "ART-21dbe0c9a1f0",
+      "parserStatus": "text_only",
+      "path": "src/components/__tests__/ControlBar.test.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3062,
+      "category": "tests",
+      "contentHash": "66302320431c29c1685c590f0629ea3dd18c8db8d724b31a93d36fe144791d71",
+      "diagnostics": [],
+      "id": "ART-3546792da0cd",
+      "parserStatus": "text_only",
+      "path": "src/components/__tests__/ErrorBoundary.test.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3239,
+      "category": "tests",
+      "contentHash": "bb70e213b369bab23b2e4d971a10f612bdfc8e9fe1940c0e041675db8a4a29fe",
+      "diagnostics": [],
+      "id": "ART-f2577ef2863b",
+      "parserStatus": "text_only",
+      "path": "src/components/__tests__/Toast.test.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6781,
+      "category": "implementation",
+      "contentHash": "50cb5212c3836d3acdb52aaee55133b51161986f7ab06a6a361860dcf66955cf",
+      "diagnostics": [],
+      "id": "ART-53a4393b3217",
+      "parserStatus": "text_only",
+      "path": "src/components/BudMascot.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5175,
+      "category": "implementation",
+      "contentHash": "237bbed38f1a61bd8e0318b22256cfec8b17f52baca8df937d0e4eb069525efb",
+      "diagnostics": [],
+      "id": "ART-450bb4f9d5a4",
+      "parserStatus": "text_only",
+      "path": "src/components/chat/AiCoachOrb.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3672,
+      "category": "implementation",
+      "contentHash": "2ed528975cf5462284d79a4daa81c023598b7796c6c90331605f553220c08089",
+      "diagnostics": [],
+      "id": "ART-78c4f4adc766",
+      "parserStatus": "text_only",
+      "path": "src/components/chat/CameraPreview.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2244,
+      "category": "implementation",
+      "contentHash": "2259f98803bf100caa1ba69b20ac0d57bd912e575826c7d4ce29e6a8ac9151c3",
+      "diagnostics": [],
+      "id": "ART-2f7f79d48838",
+      "parserStatus": "text_only",
+      "path": "src/components/chat/CoachFace.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6154,
+      "category": "implementation",
+      "contentHash": "01a229c18aad1895b145c4ce417afdc56fa2eea8ccd83c201001a97fb33e4202",
+      "diagnostics": [],
+      "id": "ART-818180bbe1ba",
+      "parserStatus": "text_only",
+      "path": "src/components/chat/ControlBar.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5987,
+      "category": "implementation",
+      "contentHash": "ca6f2e2c0cf0273ae8972351cfbf1c80b046da36a1093a8f6b65e5445de411f2",
+      "diagnostics": [],
+      "id": "ART-7ccb2c8b1106",
+      "parserStatus": "text_only",
+      "path": "src/components/CompletionCard.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2477,
+      "category": "implementation",
+      "contentHash": "f3f9d494d251f4ef36ab9d0c72d53e5653a3692f0674a77059bbb3008ac66aea",
+      "diagnostics": [],
+      "id": "ART-5f7c11c6f8ef",
+      "parserStatus": "text_only",
+      "path": "src/components/ErrorBoundary.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5066,
+      "category": "implementation",
+      "contentHash": "40fcf06cc92ab14c6656759acbbe4b3754de826ffbc2bba094082f24d0e8a880",
+      "diagnostics": [],
+      "id": "ART-b1ffc439fc56",
+      "parserStatus": "text_only",
+      "path": "src/components/ErrorOverlay.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5355,
+      "category": "implementation",
+      "contentHash": "88696b60765b06ef2d15642c52df90698ffffbfc65d21131c3b22301c11c0157",
+      "diagnostics": [],
+      "id": "ART-fc54b08f00cd",
+      "parserStatus": "text_only",
+      "path": "src/components/Onboarding.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1680,
+      "category": "implementation",
+      "contentHash": "cb1cb65c979e9d6171bb79bb616f6f5859576de8b1ce9f369cb500e0e8766395",
+      "diagnostics": [],
+      "id": "ART-6e47845900d7",
+      "parserStatus": "text_only",
+      "path": "src/components/shared/Accordion.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4846,
+      "category": "implementation",
+      "contentHash": "f38c9ec059a515389612ce0a0470d72a21412232c6c4b7bd572e3d8071d49302",
+      "diagnostics": [],
+      "id": "ART-015b2c9e54a3",
+      "parserStatus": "text_only",
+      "path": "src/components/shared/Skeleton.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2145,
+      "category": "implementation",
+      "contentHash": "2f0e01fccc63a45333611eb44e7c7731db0bd61ff2586cf3eb9390b93ea7f666",
+      "diagnostics": [],
+      "id": "ART-3bbf543b8f4a",
+      "parserStatus": "text_only",
+      "path": "src/components/spike/AnnotationCanvas.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3587,
+      "category": "implementation",
+      "contentHash": "505ac759a2857d2ed2fd1c25ad36cb3816652fcdc2468bd2aea773dc3817aa19",
+      "diagnostics": [],
+      "id": "ART-aaacec1b3b06",
+      "parserStatus": "text_only",
+      "path": "src/components/spike/AnnotationControls.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3048,
+      "category": "implementation",
+      "contentHash": "a86963dfc43f2e564a2d3fe6d0c6515f886e82464959c4ae1f93946322bdeccf",
+      "diagnostics": [],
+      "id": "ART-5cc99e20c86b",
+      "parserStatus": "text_only",
+      "path": "src/components/spike/AnnotationLayer.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1033,
+      "category": "implementation",
+      "contentHash": "4cde12b721f70c284912212f728924ed0c0b0b17e14d3e9408e78b651c1bd7ac",
+      "diagnostics": [],
+      "id": "ART-83236dddd453",
+      "parserStatus": "text_only",
+      "path": "src/components/spike/OcrOverlay.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3213,
+      "category": "implementation",
+      "contentHash": "4ceab720a6b85be31eee5d385a81a276fdb037d108a2e896dcde09fe13b30969",
+      "diagnostics": [],
+      "id": "ART-65ba7a97121e",
+      "parserStatus": "text_only",
+      "path": "src/components/ThinkingTree.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2621,
+      "category": "implementation",
+      "contentHash": "42fb9cd220bc2730656187d17c588833e3e0d1e05d6fe02888cb007543270a44",
+      "diagnostics": [],
+      "id": "ART-4b84ae4e863e",
+      "parserStatus": "text_only",
+      "path": "src/components/Toast.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1331,
+      "category": "implementation",
+      "contentHash": "6e62e65a3d813034b519f464aeb46a8d890c76994a4d9a4b62bc3e2b5907957c",
+      "diagnostics": [],
+      "id": "ART-046eff05b298",
+      "parserStatus": "text_only",
+      "path": "src/components/whiteboard/MathBlock.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1826,
+      "category": "implementation",
+      "contentHash": "325161d563eccc1ca686efd9b4a31a5c8bab9dac9ba09d0456113db770c2659d",
+      "diagnostics": [],
+      "id": "ART-c7e23901da82",
+      "parserStatus": "text_only",
+      "path": "src/components/whiteboard/StepCard.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1809,
+      "category": "implementation",
+      "contentHash": "ad128c78497bacd018773a5cc6e03e665555b21a09aaf31b22b4017a208a13c8",
+      "diagnostics": [],
+      "id": "ART-ea66c9d7a207",
+      "parserStatus": "text_only",
+      "path": "src/components/whiteboard/WhiteboardPanel.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4201,
+      "category": "implementation",
+      "contentHash": "bdf3e9264979433e977d7f2caa2695dc529e234dae24b2013bb31a0e35ccbdc3",
+      "diagnostics": [],
+      "id": "ART-cf239e897193",
+      "parserStatus": "text_only",
+      "path": "src/contexts/AuthContext.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4084,
+      "category": "tests",
+      "contentHash": "48e4144ba2ffcdd701bc47b4a905e360af267f413cfc18fb24aa38487393781a",
+      "diagnostics": [],
+      "id": "ART-f21f832808a4",
+      "parserStatus": "text_only",
+      "path": "src/hooks/__tests__/sanitizeOcr.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 12574,
+      "category": "tests",
+      "contentHash": "881a463b245da809b0b638e34660409d73f256c4c0bf1b21c1740b3ef11340d5",
+      "diagnostics": [],
+      "id": "ART-9c5144c4af48",
+      "parserStatus": "text_only",
+      "path": "src/hooks/__tests__/useChat.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 8319,
+      "category": "tests",
+      "contentHash": "133f0bfe6ede87799b462c76b9ab89c0466bc1bb6f7f575c29d49ba1838eaeda",
+      "diagnostics": [],
+      "id": "ART-d289726c6aed",
+      "parserStatus": "text_only",
+      "path": "src/hooks/__tests__/useRTCVoice.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2497,
+      "category": "implementation",
+      "contentHash": "d8178d9cfa711826e7d2733d477efef318ae027d37ea0f9dea75b9d9715ce75d",
+      "diagnostics": [],
+      "id": "ART-ed54cf46ea21",
+      "parserStatus": "text_only",
+      "path": "src/hooks/useCamera.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 10859,
+      "category": "implementation",
+      "contentHash": "326a7f91019b6eccde96976d17a30293d168b0e64aecce90094c24379b314465",
+      "diagnostics": [],
+      "id": "ART-88f83f1d7d56",
+      "parserStatus": "text_only",
+      "path": "src/hooks/useChat.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 11030,
+      "category": "implementation",
+      "contentHash": "e94c28eb696982f3e0d4dbeb9f22f04702a113c89e27b69143c51a7b5405331b",
+      "diagnostics": [],
+      "id": "ART-e88e83dfdd46",
+      "parserStatus": "text_only",
+      "path": "src/hooks/useChatSession.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4858,
+      "category": "implementation",
+      "contentHash": "4592784d85ca5c90da5dd666451c9b23e19101fb7c85a5a0c748b07c599953a3",
+      "diagnostics": [],
+      "id": "ART-4cba8170983d",
+      "parserStatus": "text_only",
+      "path": "src/hooks/useProgressData.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 19770,
+      "category": "implementation",
+      "contentHash": "88a81e3ccab0c99e4d26210a8f7bc11b8cd24692fc173c3f5d98342778c01eb9",
+      "diagnostics": [],
+      "id": "ART-017407979267",
+      "parserStatus": "text_only",
+      "path": "src/hooks/useRTCVoice.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2934,
+      "category": "implementation",
+      "contentHash": "d99abd14f6f3809b4073b4f006b75c59528a2c551cc5fed96bf8379d0f4ab2b7",
+      "diagnostics": [],
+      "id": "ART-afff354ef813",
+      "parserStatus": "text_only",
+      "path": "src/hooks/useStorage.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2110,
+      "category": "implementation",
+      "contentHash": "ed6f8e509f7e17b9e53e9999bca8830cfbf8683aaed7ce41a0911490bb056ab3",
+      "diagnostics": [],
+      "id": "ART-18a1dad62280",
+      "parserStatus": "text_only",
+      "path": "src/hooks/useWhiteboardSteps.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3153,
+      "category": "tests",
+      "contentHash": "da22c58ec75c80cc132b75e6fd16901cdd3b5232b563f2290c71d8eb28dacec7",
+      "diagnostics": [],
+      "id": "ART-3aece8ae8c1e",
+      "parserStatus": "text_only",
+      "path": "src/lib/__tests__/assessment-engine.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 9014,
+      "category": "tests",
+      "contentHash": "b0e430e07bd0cecb6090dd562bf96f3ea54b2e3de9fbf5e937195eb991759253",
+      "diagnostics": [],
+      "id": "ART-f3ac1b550d1e",
+      "parserStatus": "text_only",
+      "path": "src/lib/__tests__/auditAi.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1908,
+      "category": "tests",
+      "contentHash": "cac3bbf2c4a3f5d8a5cd5733e4de1d9d0da004c052dcf13f7d32e8d24c665634",
+      "diagnostics": [],
+      "id": "ART-5ed127af2a53",
+      "parserStatus": "text_only",
+      "path": "src/lib/__tests__/bkt.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1541,
+      "category": "tests",
+      "contentHash": "e1ea7cae47cfe33d2a54d3c86d584bbd0dc19c9c11751d28e958c60148e99192",
+      "diagnostics": [],
+      "id": "ART-4e4911cc356e",
+      "parserStatus": "text_only",
+      "path": "src/lib/__tests__/failurePolicy.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 7065,
+      "category": "tests",
+      "contentHash": "e013be8042041376ca2145c55da2d5005cd7b35d6e99b97327c655148a0e4525",
+      "diagnostics": [],
+      "id": "ART-a8ff42e88779",
+      "parserStatus": "text_only",
+      "path": "src/lib/__tests__/knowledgeGraph.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6460,
+      "category": "tests",
+      "contentHash": "f35f2085594a8899de4528c185251d7fe1adf9ca13af65cde0052dd2364356fc",
+      "diagnostics": [],
+      "id": "ART-6b98b6609d14",
+      "parserStatus": "text_only",
+      "path": "src/lib/__tests__/prompt.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1786,
+      "category": "implementation",
+      "contentHash": "013d56fdcdc92db7769bb01549af3d03464a15733eeb3448615904132d8de3fe",
+      "diagnostics": [],
+      "id": "ART-400f714a60b9",
+      "parserStatus": "text_only",
+      "path": "src/lib/api.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 5970,
+      "category": "implementation",
+      "contentHash": "3bfb7d7af80816c85f5ee5a971b47475951025f02cf3e1a879001fe31d24302b",
+      "diagnostics": [],
+      "id": "ART-fb5b78de3335",
+      "parserStatus": "text_only",
+      "path": "src/lib/audioRecorder.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 176,
+      "category": "implementation",
+      "contentHash": "eb33aa890205a0cee428a985b8a0d1d0c9efcdc06afec22512eae2fbfd261c84",
+      "diagnostics": [],
+      "id": "ART-386a936ca714",
+      "parserStatus": "text_only",
+      "path": "src/lib/auditAi.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 168,
+      "category": "implementation",
+      "contentHash": "de0acdb9fc1a8959426e61f15e5c99bf0a9514f59005b7d03ec4cc998d9d747b",
+      "diagnostics": [],
+      "id": "ART-5b55d8f0aae3",
+      "parserStatus": "text_only",
+      "path": "src/lib/bkt.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4052,
+      "category": "implementation",
+      "contentHash": "9d8887e38436b667740614b8586a85666830c6896eff8af52368149daa274794",
+      "diagnostics": [],
+      "id": "ART-196dc6cfdb58",
+      "parserStatus": "text_only",
+      "path": "src/lib/db.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 787,
+      "category": "implementation",
+      "contentHash": "703fade345343f915f43be3e5fdbfd113f96fb2b879c22f68ea35d088de59980",
+      "diagnostics": [],
+      "id": "ART-0320db8a7bfd",
+      "parserStatus": "text_only",
+      "path": "src/lib/detectSubject.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1355,
+      "category": "implementation",
+      "contentHash": "8cb0478d15f4b34d9d8ab79235a903216c2bcb79ec87d265d666f4df79fa6ebf",
+      "diagnostics": [],
+      "id": "ART-ec7a9405e7e8",
+      "parserStatus": "text_only",
+      "path": "src/lib/errorReporter.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2080,
+      "category": "implementation",
+      "contentHash": "4f483e22fca12d0ff2adacbd75abb66d00204a4863beb4e429d4b078fb99b190",
+      "diagnostics": [],
+      "id": "ART-30518bd67cc1",
+      "parserStatus": "text_only",
+      "path": "src/lib/failurePolicy.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 327,
+      "category": "implementation",
+      "contentHash": "3e9737a0ae153cdf87beeaafeb509dddcc6ddceff81c86fcb54091656886f746",
+      "diagnostics": [],
+      "id": "ART-7fbaed5d5225",
+      "parserStatus": "text_only",
+      "path": "src/lib/inputSafety.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 186,
+      "category": "implementation",
+      "contentHash": "02f9fda398a7e44c7c78466c15b43bb9e361743425b127294d5f89d6af716ed6",
+      "diagnostics": [],
+      "id": "ART-4db26a7aedef",
+      "parserStatus": "text_only",
+      "path": "src/lib/kcVocabulary.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3840,
+      "category": "implementation",
+      "contentHash": "9126085139ce7c4ce7c01cb954a5c04af3239cb7600229ef0535915b310767d5",
+      "diagnostics": [],
+      "id": "ART-2224ed6beb72",
+      "parserStatus": "text_only",
+      "path": "src/lib/knowledgeExtractor.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6062,
+      "category": "implementation",
+      "contentHash": "e642461bff4197e629c834e13f970302288a7a7b03bc79b2709ae2ba42c4aa96",
+      "diagnostics": [],
+      "id": "ART-66ca3e349993",
+      "parserStatus": "text_only",
+      "path": "src/lib/knowledgeGraph.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4311,
+      "category": "implementation",
+      "contentHash": "ff22e99f27ee7020e2df5a16c7f09af25e229c9d19ccbbd66a76de2efc3c5d73",
+      "diagnostics": [],
+      "id": "ART-7e5627018077",
+      "parserStatus": "text_only",
+      "path": "src/lib/learnerMemory.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2361,
+      "category": "implementation",
+      "contentHash": "f4c8b27dda9fe8ce8d783f1bf194bdbabfc39f8e897fc2ed49a0ad794af53283",
+      "diagnostics": [],
+      "id": "ART-ae4d8c9c697e",
+      "parserStatus": "text_only",
+      "path": "src/lib/sessionAnalytics.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2820,
+      "category": "implementation",
+      "contentHash": "ac9aff5f42be059a6e8e893728fd9e619a76dc932397c39d0edfafbe624a194f",
+      "diagnostics": [],
+      "id": "ART-40fdf34df51e",
+      "parserStatus": "text_only",
+      "path": "src/lib/streak.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 411,
+      "category": "implementation",
+      "contentHash": "0f633d8e6cb2c64ce6106064a9b1e387ded5c870ffe8e535878502d25ba75d16",
+      "diagnostics": [],
+      "id": "ART-1cd8b18798a1",
+      "parserStatus": "text_only",
+      "path": "src/main.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 23597,
+      "category": "implementation",
+      "contentHash": "4a6c1bf5fac7fac975e5a1277139e0a51a73ff8adc30da8c8e0793b96ea16d05",
+      "diagnostics": [],
+      "id": "ART-733bad51a2e8",
+      "parserStatus": "text_only",
+      "path": "src/pages/AdminPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 12489,
+      "category": "implementation",
+      "contentHash": "f71295e9d708c987ce8db0b4671688abc234f83972c3f11db50e8ccfd05ba96c",
+      "diagnostics": [],
+      "id": "ART-58006f9fdcf0",
+      "parserStatus": "text_only",
+      "path": "src/pages/ChatPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 7495,
+      "category": "implementation",
+      "contentHash": "9b8aaedd40e793f7327963f8a3117a03943123cdfa3f3a44825d9e242ae7e8d1",
+      "diagnostics": [],
+      "id": "ART-ad4d62b15ece",
+      "parserStatus": "text_only",
+      "path": "src/pages/ConversationPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 8331,
+      "category": "implementation",
+      "contentHash": "cc69ca74a97fc90d37617effdaf4d26f34a1afa81bbd6ea98b8f8e55c43fb958",
+      "diagnostics": [],
+      "id": "ART-d7cf91c4dfc0",
+      "parserStatus": "text_only",
+      "path": "src/pages/HistoryPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 12775,
+      "category": "implementation",
+      "contentHash": "eb3f43656221007283256233715620f5682e9866e7b9296dcf213e5ee5f70f5c",
+      "diagnostics": [],
+      "id": "ART-5398e93fcf11",
+      "parserStatus": "text_only",
+      "path": "src/pages/LoginPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 831,
+      "category": "implementation",
+      "contentHash": "9f30d2ed0a75af45c507bd9df0d13379b6d8e9b0029a0d422e7b8d4023999241",
+      "diagnostics": [],
+      "id": "ART-2361ecc006de",
+      "parserStatus": "text_only",
+      "path": "src/pages/NotFoundPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 24508,
+      "category": "implementation",
+      "contentHash": "ed6a0fa17d4c934afeaa0b126b79629085314f91243ee63848c2146c194103dd",
+      "diagnostics": [],
+      "id": "ART-ce799c29710a",
+      "parserStatus": "text_only",
+      "path": "src/pages/ParentPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 12264,
+      "category": "implementation",
+      "contentHash": "bce1b97706ae8636b97d28aa31c829d6797f780b3ff7bdb719e04dd02872a30d",
+      "diagnostics": [],
+      "id": "ART-22f3adebefbf",
+      "parserStatus": "text_only",
+      "path": "src/pages/ProgressPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 8144,
+      "category": "implementation",
+      "contentHash": "47416493c2eb23fd7955f385c25769bdfd05a17413cb3f87372b15e5ff0b1523",
+      "diagnostics": [],
+      "id": "ART-5b576c3feeed",
+      "parserStatus": "text_only",
+      "path": "src/pages/SyntheticDemoPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2175,
+      "category": "implementation",
+      "contentHash": "e7571902b5b81163b48a194ccaaaa4e045e174e819548d76b3f6a37c6385ad44",
+      "diagnostics": [],
+      "id": "ART-6c8f0e0840f2",
+      "parserStatus": "text_only",
+      "path": "src/pages/ThinkingTreePage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 12962,
+      "category": "implementation",
+      "contentHash": "1508651743b5f1323c6167f2f399434f858094824b2a44f459194355aed9f974",
+      "diagnostics": [],
+      "id": "ART-8af273325808",
+      "parserStatus": "text_only",
+      "path": "src/pages/WeeklySummaryPage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 12729,
+      "category": "implementation",
+      "contentHash": "62d799c7c8f331002c06f64028bb5f7b368e869677ccb300fb63b36e194be233",
+      "diagnostics": [],
+      "id": "ART-15a4bdf4f974",
+      "parserStatus": "text_only",
+      "path": "src/pages/WelcomePage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 6852,
+      "category": "implementation",
+      "contentHash": "d331d21ce8e47682887eeee266be5a92fad33ccd46489385bbcb263bdbbab971",
+      "diagnostics": [],
+      "id": "ART-4dbdf00ff7f1",
+      "parserStatus": "text_only",
+      "path": "src/pages/WhiteboardSpikePage.tsx",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4001,
+      "category": "tests",
+      "contentHash": "be64d5f93c1ce63a9350780fc3c13c93825aa1a63e7996537fd87bacff3d83b5",
+      "diagnostics": [],
+      "id": "ART-0f3afad82370",
+      "parserStatus": "text_only",
+      "path": "src/test/audit.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 4369,
+      "category": "tests",
+      "contentHash": "8554501002aeb8399e22dce1b895f1fab7be9c020cbf7196c184569624560465",
+      "diagnostics": [],
+      "id": "ART-14c1f63ae3a5",
+      "parserStatus": "text_only",
+      "path": "src/test/extractionValidation.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2834,
+      "category": "tests",
+      "contentHash": "8763e1229359057f8b07675adbe576ecbab7a982630e12171e86bed06eabdc6e",
+      "diagnostics": [],
+      "id": "ART-4faf21a418ad",
+      "parserStatus": "text_only",
+      "path": "src/test/extractKnowledge.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1202,
+      "category": "tests",
+      "contentHash": "99c694fa5ef805d8025cc70cf6a58c94ef4102230054a46fae8de86b0a7db20d",
+      "diagnostics": [],
+      "id": "ART-e8415d1c7d0a",
+      "parserStatus": "text_only",
+      "path": "src/test/kcVocabBuilder.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1193,
+      "category": "tests",
+      "contentHash": "dbcbef17df2b327effdb14b04e05cabc9f0fc5968504fe2405c81ba8a34ef0b8",
+      "diagnostics": [],
+      "id": "ART-076520ee725e",
+      "parserStatus": "text_only",
+      "path": "src/test/kcVocabulary.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 2044,
+      "category": "tests",
+      "contentHash": "a09c536186884074897e650dabdf07dd95fcbb9747ba68bcfff1e1aaa229d223",
+      "diagnostics": [],
+      "id": "ART-4f7e64ac8432",
+      "parserStatus": "text_only",
+      "path": "src/test/knowledgeConfidence.test.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 42,
+      "category": "implementation",
+      "contentHash": "977afde26bba6a51325908cd7713cbfdc87d18f06b78b237c8f364c44864b7de",
+      "diagnostics": [],
+      "id": "ART-b38f1f15eee0",
+      "parserStatus": "text_only",
+      "path": "src/test/setup.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1815,
+      "category": "implementation",
+      "contentHash": "f8abc298ba45a55655ab63dba6c816fb074650140054ffd222aaf27586b3a11b",
+      "diagnostics": [],
+      "id": "ART-d6ef2617604a",
+      "parserStatus": "text_only",
+      "path": "src/types/chatState.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 758,
+      "category": "implementation",
+      "contentHash": "a59a0d531a72a616a48d9533ce9f6530edb984b0282484f1aae4736cafd847dc",
+      "diagnostics": [],
+      "id": "ART-88f675689511",
+      "parserStatus": "text_only",
+      "path": "src/types/child.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3052,
+      "category": "implementation",
+      "contentHash": "4cab0115cb7df4abdf21bf1ff2f0069240eb7422a25290d11cf0cb14d15750c2",
+      "diagnostics": [],
+      "id": "ART-a9ba9cbedd19",
+      "parserStatus": "text_only",
+      "path": "src/types/index.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 3818,
+      "category": "implementation",
+      "contentHash": "0661bd9ade84dd332105b10d3bb9c6b85935ef7bf274f9d6f5e730c9164c7360",
+      "diagnostics": [],
+      "id": "ART-d1550db89f1b",
+      "parserStatus": "text_only",
+      "path": "src/types/ocr.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 1745,
+      "category": "implementation",
+      "contentHash": "67ad4d5d60ba1e2adba61e67ba6e684f5d47006b948ef1cbd59d09f54d09cb8f",
+      "diagnostics": [],
+      "id": "ART-ac12b7fb7855",
+      "parserStatus": "text_only",
+      "path": "src/types/parent.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    },
+    {
+      "byteSize": 503,
+      "category": "implementation",
+      "contentHash": "4ed777bf8f214b43186d8ffa7c8c3397dabba5082983ee21b66c59cfde905797",
+      "diagnostics": [],
+      "id": "ART-9d32aaf265f0",
+      "parserStatus": "text_only",
+      "path": "src/types/whiteboard.ts",
+      "revision": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+    }
+  ],
+  "changedPaths": [
+    "artifacts/evals/latest/report.html",
+    "artifacts/evals/rag/latest/report.html",
+    "artifacts/provenance/latest.json",
+    "evals/rag/results/latest.json",
+    "evals/rag/results/latest.md",
+    "evals/results/latest.json",
+    "evals/results/latest.md",
+    "public/eval-report.json"
+  ],
+  "completedAt": "2026-08-27T13:34:20.504Z",
+  "contracts": [
+    {
+      "claimed_in": [
+        {
+          "path": "README.md"
+        }
+      ],
+      "defined_by": [
+        {
+          "locator": "| Text output |",
+          "path": "docs/ARCHITECTURE.md"
+        }
+      ],
+      "enforced_by": [],
+      "id": "CTR-501",
+      "implemented_by": [
+        {
+          "path": "functions/_shared/output-guard.ts"
+        },
+        {
+          "path": "functions/api/chat.ts"
+        }
+      ],
+      "rule": {
+        "applies_to": [
+          "text_chat"
+        ],
+        "object": "guarded_text_output",
+        "operator": "require"
+      },
+      "severity": "critical",
+      "status": "active",
+      "supersedes": [],
+      "title": "Guard text chat output before browser delivery",
+      "topic": "text_output_guard",
+      "verified_by": [
+        {
+          "covers": [
+            "text_chat"
+          ],
+          "path": "functions/__tests__/output-guard.test.ts",
+          "required": true
+        },
+        {
+          "covers": [
+            "text_chat"
+          ],
+          "path": "functions/__tests__/chat-output-boundary.test.ts",
+          "required": true
+        }
+      ]
+    },
+    {
+      "claimed_in": [
+        {
+          "path": "README.md"
+        }
+      ],
+      "defined_by": [
+        {
+          "locator": "## Failure behavior",
+          "path": "docs/TEXTBOOK_RAG.md"
+        }
+      ],
+      "enforced_by": [],
+      "id": "CTR-502",
+      "implemented_by": [
+        {
+          "path": "functions/_shared/rag/runtime.ts"
+        },
+        {
+          "path": "functions/api/chat.ts"
+        }
+      ],
+      "rule": {
+        "applies_to": [
+          "disabled_default",
+          "missing_service",
+          "retrieval_failure"
+        ],
+        "object": "rag_default_off_and_fallback",
+        "operator": "require"
+      },
+      "severity": "high",
+      "status": "active",
+      "supersedes": [],
+      "title": "Keep textbook RAG default-off and fail back to non-RAG chat",
+      "topic": "rag_runtime_fallback",
+      "verified_by": [
+        {
+          "covers": [
+            "disabled_default",
+            "missing_service",
+            "retrieval_failure"
+          ],
+          "path": "functions/__tests__/rag-context-runtime.test.ts",
+          "required": true
+        },
+        {
+          "covers": [
+            "missing_service"
+          ],
+          "path": "functions/__tests__/chat-output-boundary.test.ts",
+          "required": true
+        }
+      ]
+    },
+    {
+      "claimed_in": [
+        {
+          "path": "README.md"
+        }
+      ],
+      "defined_by": [
+        {
+          "locator": "`productionReady` is true only",
+          "path": "docs/TEXTBOOK_RAG.md"
+        }
+      ],
+      "enforced_by": [],
+      "id": "CTR-503",
+      "implemented_by": [
+        {
+          "path": "functions/_shared/rag/contract.ts"
+        },
+        {
+          "path": "functions/_shared/rag/ingestion.ts"
+        }
+      ],
+      "rule": {
+        "applies_to": [
+          "textbook_source"
+        ],
+        "object": "source_license_and_provenance_attestation",
+        "operator": "require"
+      },
+      "severity": "critical",
+      "status": "active",
+      "supersedes": [],
+      "title": "Require complete provenance before textbook production readiness",
+      "topic": "textbook_source_readiness",
+      "verified_by": [
+        {
+          "covers": [
+            "textbook_source"
+          ],
+          "path": "functions/__tests__/rag-ingestion.test.ts",
+          "required": true
+        }
+      ]
+    },
+    {
+      "claimed_in": [
+        {
+          "path": "README.md"
+        }
+      ],
+      "defined_by": [
+        {
+          "locator": "| RTC output |",
+          "path": "docs/ARCHITECTURE.md"
+        }
+      ],
+      "enforced_by": [],
+      "id": "CTR-504",
+      "implemented_by": [
+        {
+          "path": "src/types/chatState.ts"
+        }
+      ],
+      "rule": {
+        "applies_to": [
+          "rtc_default_disabled"
+        ],
+        "object": "rtc_disabled_by_default",
+        "operator": "require"
+      },
+      "severity": "critical",
+      "status": "active",
+      "supersedes": [],
+      "title": "Keep managed RTC disabled by default until guarded evidence exists",
+      "topic": "rtc_release_safety",
+      "verified_by": [
+        {
+          "covers": [
+            "rtc_default_disabled"
+          ],
+          "path": "src/types/chatState.test.ts",
+          "required": true
+        }
+      ]
+    },
+    {
+      "claimed_in": [
+        {
+          "path": "README.md"
+        }
+      ],
+      "defined_by": [
+        {
+          "locator": "The deterministic engineering gate can pass",
+          "path": "docs/RELEASE_CHECKLIST.md"
+        }
+      ],
+      "enforced_by": [],
+      "id": "CTR-505",
+      "implemented_by": [
+        {
+          "path": "scripts/check-release-readiness.mjs"
+        }
+      ],
+      "rule": {
+        "applies_to": [
+          "license",
+          "assets",
+          "privacy",
+          "live_model",
+          "human_review"
+        ],
+        "object": "release_blocker_evidence",
+        "operator": "require"
+      },
+      "severity": "high",
+      "status": "active",
+      "supersedes": [],
+      "title": "Keep the full release blocked until named evidence exists",
+      "topic": "full_release_readiness",
+      "verified_by": [
+        {
+          "covers": [
+            "license"
+          ],
+          "path": "LICENSE",
+          "required": true
+        },
+        {
+          "covers": [
+            "assets"
+          ],
+          "path": "provenance/assets.json",
+          "required": true
+        },
+        {
+          "covers": [
+            "privacy"
+          ],
+          "path": "release/privacy-approval.json",
+          "required": true
+        },
+        {
+          "covers": [
+            "live_model",
+            "human_review"
+          ],
+          "path": "evals/live/results/latest.json",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "included": [
+      "CHANGELOG.md",
+      "docs/ARCHITECTURE.md",
+      "docs/AUDIT_2026-08-27.md",
+      "docs/CASE_STUDY.md",
+      "docs/PRIVACY_AND_CHILD_SAFETY.md",
+      "docs/RELEASE_CHECKLIST.md",
+      "docs/TEXTBOOK_RAG.md",
+      "evals/calibrate-grader.ts",
+      "evals/calibration/grader-example-v1.json",
+      "evals/cases/synthetic-v1.json",
+      "evals/config/release-gate.json",
+      "evals/generate-live-slice.ts",
+      "evals/rag/cases/synthetic-rag-v1.json",
+      "evals/rag/fixtures/corpus.json",
+      "evals/rag/fixtures/synthetic-upper-math.metadata.json",
+      "evals/rag/results/latest.json",
+      "evals/rag/run.ts",
+      "evals/results/grader-calibration.json",
+      "evals/results/latest.json",
+      "evals/run.ts",
+      "evals/templates/human-review.example.json",
+      "functions/__tests__/ark-llm-adapter.test.ts",
+      "functions/__tests__/auth.test.ts",
+      "functions/__tests__/chat-output-boundary.test.ts",
+      "functions/__tests__/chat.test.ts",
+      "functions/__tests__/input-safety.test.ts",
+      "functions/__tests__/llm-gateway.test.ts",
+      "functions/__tests__/middleware.test.ts",
+      "functions/__tests__/output-guard.test.ts",
+      "functions/__tests__/prompt-frustration.test.ts",
+      "functions/__tests__/rag-context-runtime.test.ts",
+      "functions/__tests__/rag-ingestion.test.ts",
+      "functions/__tests__/rag-retrieval.test.ts",
+      "functions/__tests__/rate-limit.test.ts",
+      "functions/__tests__/rtc-start.test.ts",
+      "functions/__tests__/send-code-verify.test.ts",
+      "functions/_middleware.ts",
+      "functions/_shared/assessment-engine.ts",
+      "functions/_shared/audit.ts",
+      "functions/_shared/auth.ts",
+      "functions/_shared/coach-note.ts",
+      "functions/_shared/db.ts",
+      "functions/_shared/env.ts",
+      "functions/_shared/error-log.ts",
+      "functions/_shared/input-safety.ts",
+      "functions/_shared/llm/fake.ts",
+      "functions/_shared/llm/gateway.ts",
+      "functions/_shared/llm/index.ts",
+      "functions/_shared/llm/types.ts",
+      "functions/_shared/meta-parser.ts",
+      "functions/_shared/output-guard.ts",
+      "functions/_shared/prompt/grade-adapters.ts",
+      "functions/_shared/prompt/index.ts",
+      "functions/_shared/prompt/session-manager.ts",
+      "functions/_shared/prompt/subjects/chinese.ts",
+      "functions/_shared/prompt/subjects/english.ts",
+      "functions/_shared/prompt/subjects/math.ts",
+      "functions/_shared/prompt/types.ts",
+      "functions/_shared/providers/chat/ark.ts",
+      "functions/_shared/providers/ocr/ocr.ts",
+      "functions/_shared/providers/ocr/volcengine-sign.ts",
+      "functions/_shared/providers/rtc/sign.ts",
+      "functions/_shared/providers/rtc/token.ts",
+      "functions/_shared/providers/sms/sms.ts",
+      "functions/_shared/providers/speech/stt.ts",
+      "functions/_shared/providers/speech/tts.ts",
+      "functions/_shared/rag/context-builder.ts",
+      "functions/_shared/rag/contract.ts",
+      "functions/_shared/rag/embedding.ts",
+      "functions/_shared/rag/hash.ts",
+      "functions/_shared/rag/index.ts",
+      "functions/_shared/rag/ingestion.ts",
+      "functions/_shared/rag/retrieval.ts",
+      "functions/_shared/rag/runtime.ts",
+      "functions/_shared/rag/types.ts",
+      "functions/_shared/rag/vector-store.ts",
+      "functions/_shared/rag/vectorize.ts",
+      "functions/_shared/rate-limit.ts",
+      "functions/_shared/usage-time.ts",
+      "functions/_shared/utils/response.ts",
+      "functions/_shared/utils/uuid.ts",
+      "functions/api/admin/conversations.ts",
+      "functions/api/admin/errors.ts",
+      "functions/api/admin/login.ts",
+      "functions/api/admin/stats.ts",
+      "functions/api/admin/users.ts",
+      "functions/api/auth/logout.ts",
+      "functions/api/auth/me.ts",
+      "functions/api/auth/onboarding.ts",
+      "functions/api/auth/profile.ts",
+      "functions/api/auth/send-code.ts",
+      "functions/api/auth/verify.ts",
+      "functions/api/chat.ts",
+      "functions/api/child/progress.ts",
+      "functions/api/end-conversation.ts",
+      "functions/api/error-report.ts",
+      "functions/api/extract-knowledge.ts",
+      "functions/api/ocr-detailed.ts",
+      "functions/api/ocr.ts",
+      "functions/api/parent/report.ts",
+      "functions/api/rtc-messages.ts",
+      "functions/api/rtc-start.ts",
+      "functions/api/rtc-stop.ts",
+      "functions/api/rtc-token.ts",
+      "functions/api/stt.ts",
+      "functions/api/tts.ts",
+      "provenance/assets.json",
+      "README.md",
+      "release/privacy-approval.json",
+      "release/readiness.config.json",
+      "scripts/check-release-readiness.mjs",
+      "scripts/generate-provenance.mjs",
+      "src/App.tsx",
+      "src/components/__tests__/ControlBar.test.tsx",
+      "src/components/__tests__/ErrorBoundary.test.tsx",
+      "src/components/__tests__/Toast.test.tsx",
+      "src/components/BudMascot.tsx",
+      "src/components/chat/AiCoachOrb.tsx",
+      "src/components/chat/CameraPreview.tsx",
+      "src/components/chat/CoachFace.tsx",
+      "src/components/chat/ControlBar.tsx",
+      "src/components/CompletionCard.tsx",
+      "src/components/ErrorBoundary.tsx",
+      "src/components/ErrorOverlay.tsx",
+      "src/components/Onboarding.tsx",
+      "src/components/shared/Accordion.tsx",
+      "src/components/shared/Skeleton.tsx",
+      "src/components/spike/AnnotationCanvas.tsx",
+      "src/components/spike/AnnotationControls.tsx",
+      "src/components/spike/AnnotationLayer.tsx",
+      "src/components/spike/OcrOverlay.tsx",
+      "src/components/ThinkingTree.tsx",
+      "src/components/Toast.tsx",
+      "src/components/whiteboard/MathBlock.tsx",
+      "src/components/whiteboard/StepCard.tsx",
+      "src/components/whiteboard/WhiteboardPanel.tsx",
+      "src/contexts/AuthContext.tsx",
+      "src/hooks/__tests__/sanitizeOcr.test.ts",
+      "src/hooks/__tests__/useChat.test.ts",
+      "src/hooks/__tests__/useRTCVoice.test.ts",
+      "src/hooks/useCamera.ts",
+      "src/hooks/useChat.ts",
+      "src/hooks/useChatSession.ts",
+      "src/hooks/useProgressData.ts",
+      "src/hooks/useRTCVoice.ts",
+      "src/hooks/useStorage.ts",
+      "src/hooks/useWhiteboardSteps.ts",
+      "src/lib/__tests__/assessment-engine.test.ts",
+      "src/lib/__tests__/auditAi.test.ts",
+      "src/lib/__tests__/bkt.test.ts",
+      "src/lib/__tests__/failurePolicy.test.ts",
+      "src/lib/__tests__/knowledgeGraph.test.ts",
+      "src/lib/__tests__/prompt.test.ts",
+      "src/lib/api.ts",
+      "src/lib/audioRecorder.ts",
+      "src/lib/auditAi.ts",
+      "src/lib/bkt.ts",
+      "src/lib/db.ts",
+      "src/lib/detectSubject.ts",
+      "src/lib/errorReporter.ts",
+      "src/lib/failurePolicy.ts",
+      "src/lib/inputSafety.ts",
+      "src/lib/kcVocabulary.ts",
+      "src/lib/knowledgeExtractor.ts",
+      "src/lib/knowledgeGraph.ts",
+      "src/lib/learnerMemory.ts",
+      "src/lib/sessionAnalytics.ts",
+      "src/lib/streak.ts",
+      "src/main.tsx",
+      "src/pages/AdminPage.tsx",
+      "src/pages/ChatPage.tsx",
+      "src/pages/ConversationPage.tsx",
+      "src/pages/HistoryPage.tsx",
+      "src/pages/LoginPage.tsx",
+      "src/pages/NotFoundPage.tsx",
+      "src/pages/ParentPage.tsx",
+      "src/pages/ProgressPage.tsx",
+      "src/pages/SyntheticDemoPage.tsx",
+      "src/pages/ThinkingTreePage.tsx",
+      "src/pages/WeeklySummaryPage.tsx",
+      "src/pages/WelcomePage.tsx",
+      "src/pages/WhiteboardSpikePage.tsx",
+      "src/test/audit.test.ts",
+      "src/test/extractionValidation.test.ts",
+      "src/test/extractKnowledge.test.ts",
+      "src/test/kcVocabBuilder.test.ts",
+      "src/test/kcVocabulary.test.ts",
+      "src/test/knowledgeConfidence.test.ts",
+      "src/test/setup.ts",
+      "src/types/chatState.ts",
+      "src/types/child.ts",
+      "src/types/index.ts",
+      "src/types/ocr.ts",
+      "src/types/parent.ts",
+      "src/types/whiteboard.ts"
+    ],
+    "skipped": [
+      {
+        "path": ".git/**",
+        "reason": "excluded"
+      },
+      {
+        "path": "artifacts/**",
+        "reason": "excluded"
+      },
+      {
+        "byteSize": 28294,
+        "path": "docs/ThinkBud对话决策规范v5.md",
+        "reason": "binary"
+      },
+      {
+        "byteSize": 12308,
+        "path": "functions/_shared/prompt/core.ts",
+        "reason": "binary"
+      },
+      {
+        "byteSize": 12613,
+        "path": "src/hooks/useSpeech.ts",
+        "reason": "binary"
+      },
+      {
+        "byteSize": 13954,
+        "path": "src/hooks/useVoicePipeline.ts",
+        "reason": "binary"
+      }
+    ]
+  },
+  "diagnostics": [],
+  "edges": [
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-501",
+      "relation": "claimed_in",
+      "reviewStatus": "confirmed",
+      "toId": "ART-b33563055168"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-501",
+      "relation": "defined_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-ff21b6b9a3a3"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-501",
+      "relation": "implemented_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-668e5caf30b4"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-501",
+      "relation": "implemented_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-d5644962c30f"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-501",
+      "relation": "verified_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-a1b5f5864279"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-501",
+      "relation": "verified_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-d82b3ad0c196"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-502",
+      "relation": "claimed_in",
+      "reviewStatus": "confirmed",
+      "toId": "ART-b33563055168"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-502",
+      "relation": "defined_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-a4a8c62e76f9"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-502",
+      "relation": "implemented_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-0f56a746a528"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-502",
+      "relation": "implemented_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-668e5caf30b4"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-502",
+      "relation": "verified_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-18ff0af73af5"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-502",
+      "relation": "verified_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-a1b5f5864279"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-503",
+      "relation": "claimed_in",
+      "reviewStatus": "confirmed",
+      "toId": "ART-b33563055168"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-503",
+      "relation": "defined_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-a4a8c62e76f9"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-503",
+      "relation": "implemented_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-28e28f1939aa"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-503",
+      "relation": "implemented_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-f1d7149e1584"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-503",
+      "relation": "verified_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-f694c80d61f1"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-504",
+      "relation": "claimed_in",
+      "reviewStatus": "confirmed",
+      "toId": "ART-b33563055168"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-504",
+      "relation": "defined_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-ff21b6b9a3a3"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-504",
+      "relation": "implemented_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-d6ef2617604a"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-505",
+      "relation": "claimed_in",
+      "reviewStatus": "confirmed",
+      "toId": "ART-b33563055168"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-505",
+      "relation": "defined_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-01a313e7e929"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-505",
+      "relation": "implemented_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-1e5f9fe6ad2f"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-505",
+      "relation": "verified_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-695c144e91ef"
+    },
+    {
+      "basis": "declared",
+      "confidence": 1,
+      "fromId": "CTR-505",
+      "relation": "verified_by",
+      "reviewStatus": "confirmed",
+      "toId": "ART-90c641c5e237"
+    }
+  ],
+  "findings": [
+    {
+      "affectedPaths": [
+        "docs/ARCHITECTURE.md",
+        "src/types/chatState.test.ts"
+      ],
+      "confidence": 1,
+      "contractIds": [
+        "CTR-504"
+      ],
+      "driftType": "D2",
+      "facts": [
+        {
+          "sourceRefs": [
+            "docs/ARCHITECTURE.md"
+          ],
+          "statement": "Required evidence 'src/types/chatState.test.ts' matched no safe artifact."
+        }
+      ],
+      "id": "FND-468fd01826a9",
+      "inferences": [],
+      "reasonKey": "d2-required-evidence-missing:CTR-504:src/types/chatState.test.ts",
+      "scanId": "SCAN-20260827T133420362Z-ead1089d",
+      "severity": "critical",
+      "sources": [
+        {
+          "contentHash": "0815ab02990b1959a0fcb7936206c3614a6674944ca47122bef8e3bd4a3ea2f4",
+          "endLine": 35,
+          "locator": "| RTC output |",
+          "path": "docs/ARCHITECTURE.md",
+          "startLine": 25
+        }
+      ],
+      "status": "formal",
+      "suggestedReview": "Add or correctly register the required evidence, or explicitly revise the contract's evidence requirement."
+    },
+    {
+      "affectedPaths": [
+        "docs/RELEASE_CHECKLIST.md",
+        "evals/live/results/latest.json"
+      ],
+      "confidence": 1,
+      "contractIds": [
+        "CTR-505"
+      ],
+      "driftType": "D2",
+      "facts": [
+        {
+          "sourceRefs": [
+            "docs/RELEASE_CHECKLIST.md"
+          ],
+          "statement": "Required evidence 'evals/live/results/latest.json' matched no safe artifact."
+        }
+      ],
+      "id": "FND-6a3e0981e61b",
+      "inferences": [],
+      "reasonKey": "d2-required-evidence-missing:CTR-505:evals/live/results/latest.json",
+      "scanId": "SCAN-20260827T133420362Z-ead1089d",
+      "severity": "high",
+      "sources": [
+        {
+          "contentHash": "b23bb2ae4fe651927b69cb7122a5eb96a964d60b3d5f31bc78e4515786821152",
+          "endLine": 5,
+          "locator": "The deterministic engineering gate can pass",
+          "path": "docs/RELEASE_CHECKLIST.md",
+          "startLine": 5
+        }
+      ],
+      "status": "formal",
+      "suggestedReview": "Add or correctly register the required evidence, or explicitly revise the contract's evidence requirement."
+    },
+    {
+      "affectedPaths": [
+        "LICENSE",
+        "docs/RELEASE_CHECKLIST.md"
+      ],
+      "confidence": 1,
+      "contractIds": [
+        "CTR-505"
+      ],
+      "driftType": "D2",
+      "facts": [
+        {
+          "sourceRefs": [
+            "docs/RELEASE_CHECKLIST.md"
+          ],
+          "statement": "Required evidence 'LICENSE' matched no safe artifact."
+        }
+      ],
+      "id": "FND-957f7d38f463",
+      "inferences": [],
+      "reasonKey": "d2-required-evidence-missing:CTR-505:LICENSE",
+      "scanId": "SCAN-20260827T133420362Z-ead1089d",
+      "severity": "high",
+      "sources": [
+        {
+          "contentHash": "b23bb2ae4fe651927b69cb7122a5eb96a964d60b3d5f31bc78e4515786821152",
+          "endLine": 5,
+          "locator": "The deterministic engineering gate can pass",
+          "path": "docs/RELEASE_CHECKLIST.md",
+          "startLine": 5
+        }
+      ],
+      "status": "formal",
+      "suggestedReview": "Add or correctly register the required evidence, or explicitly revise the contract's evidence requirement."
+    }
+  ],
+  "mode": "diff",
+  "repository": {
+    "base": "43976c4c080c7791c51df035f06ea02c42d8f6b4",
+    "head": "5a36aac88c5d2377105ab224b7e518e99b177c5c",
+    "requestedBase": "43976c4",
+    "requestedHead": "5a36aac88c5d2377105ab224b7e518e99b177c5c",
+    "rootHash": "0227e27462b05d7b76f40d78d6113d3cf000e8480ba3f1368d0cb9b7ed012f7f"
+  },
+  "result": "complete",
+  "scanId": "SCAN-20260827T133420362Z-ead1089d",
+  "schemaVersion": 1,
+  "semantic": {
+    "candidates": [],
+    "input": {
+      "characterCount": 0,
+      "contractCount": 0,
+      "redactionCount": 0,
+      "sourceCount": 0,
+      "truncatedSourceCount": 0
+    },
+    "provider": "off",
+    "status": "off"
+  },
+  "semanticMode": "off",
+  "startedAt": "2026-08-27T13:34:20.362Z",
+  "summary": {
+    "abstained": 0,
+    "byDriftType": {
+      "D1": 0,
+      "D2": 3,
+      "D3": 0
+    },
+    "bySeverity": {
+      "critical": 1,
+      "high": 2,
+      "info": 0,
+      "low": 0,
+      "medium": 0
+    },
+    "exploratory": 0,
+    "formal": 3,
+    "total": 3
+  },
+  "toolVersion": "0.3.0"
+}

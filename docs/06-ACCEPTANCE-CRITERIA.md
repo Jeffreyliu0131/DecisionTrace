@@ -415,6 +415,16 @@ status: implementation-contract
 
 **Then** 页面呈现 summary deltas 以及 finding/candidate/artifact/diagnostic changes，并可返回两份原报告；同一报告不能与自身比较。
 
+## J. Public Dogfood Evidence
+
+### AC-049｜Exact-revision public dogfood artifact
+
+**Given** 一个用户明确授权的 public target、固定 base/head 与 tracked dogfood config/contracts
+
+**When** DecisionTrace 以 local-only/no-semantic 模式运行并发布 sample
+
+**Then** config/contracts/report/renderings/manifest/provenance hashes 可复现，artifact 不含本机绝对路径或目标源码正文；analyst triage 区分 observed/inferred/proposed，并明确没有独立 human disposition 或 real-repo precision claim。
+
 ## Requirements Coverage
 
 | Requirement | Acceptance Criteria |
@@ -450,5 +460,6 @@ status: implementation-contract
 | FR-029 | AC-043, AC-046–AC-047 |
 | FR-030 | AC-040–AC-044 |
 | FR-031 | AC-041, AC-045–AC-048 |
+| FR-032 | AC-049 |
 
 每个实现 PR 必须列出覆盖的 `FR-*` 与 `AC-*`，没有验收映射的代码不算 P0 完成。

@@ -166,6 +166,8 @@ Recall    = TP / (TP + FN)
 - 报告 precision、误报类型和 review time；
 - 先处理 alert fatigue，再增加新 detector。
 
+`observed 2026-08-27`：已对 public `Jeffreyliu0131/thinkbud-ai` 的 exact range `43976c4...5a36aac` 完成一次 local-only dogfood，并发布 config/contracts/canonical report/provenance 与 analyst triage。它产生 3 条 D2 findings；其中 RTC default regression evidence 被评为 actionable candidate，LICENSE 与 fresh live/human evidence 是目标 repo 已明确承认的 intentional blockers。由于 required-evidence mapping 由本次 dogfood 配置提供，且没有独立 human disposition，这不满足 E2/E3，也不产生 real-repo precision。Artifact 见 [`../examples/dogfood/thinkbud-ai/`](../examples/dogfood/thinkbud-ai/)。
+
 ### Gate E4｜External Pilot
 
 候选设计：5 名目标用户，观察首次设置、首次报告和第二 repo 使用。不能用注册、赞美或看过 Demo 代替重复行为。

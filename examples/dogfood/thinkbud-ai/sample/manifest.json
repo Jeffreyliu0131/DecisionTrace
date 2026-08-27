@@ -1,0 +1,12 @@
+{
+  "configHash": "f8fd5c1987e071f21654a9af38ceaf15a61b7e61f9adbee32099d6a616f09fd9",
+  "contractRegistryHash": "9bb2e00a4c46dbaa10c915ebd0adf8d5d2f4944692b0ebbf638fdbc8eb5752a2",
+  "reportHash": "af1ec2b145befadb706cf2844f6e5d7cd84697876ce766c1d37fc30eed10ed8d",
+  "repository": {
+    "base": "43976c4c080c7791c51df035f06ea02c42d8f6b4",
+    "head": "5a36aac88c5d2377105ab224b7e518e99b177c5c"
+  },
+  "scanId": "SCAN-20260827T133420362Z-ead1089d",
+  "schemaVersion": 1,
+  "toolVersion": "0.3.0"
+}

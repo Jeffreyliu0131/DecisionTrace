@@ -1,8 +1,8 @@
 ---
 artifact: prd
-version: "0.5"
+version: "0.6"
 created: 2026-08-27
-status: local-review-ui-implemented-independent-validation-pending
+status: first-public-dogfood-recorded-independent-validation-pending
 ---
 
 # PRD：DecisionTrace P0
@@ -226,6 +226,10 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 - `FR-030`：所有 mutation API 必须要求不可由 cross-site form 构造的本地 token，并拒绝 unexpected Host/cross-site 请求；静态资源不得依赖 CDN 或外部运行时内容。
 - `FR-031`：SPA routes、production build 与 Vite development server 必须可复现；UI 不自动运行 scan、不开放 LAN，也不改变 CLI/Action 默认行为。
 
+### 6.9 Public Dogfood Evidence
+
+- `FR-032`：公开 dogfood sample 必须绑定 target URL、exact base/head、DecisionTrace commit、config/contracts 与 artifact hashes；不得复制目标源码正文、伪装独立 human disposition，或从一次配置依赖扫描推出真实 precision。
+
 ## 7. Core User Flow
 
 1. 用户在目标 repo 中添加配置并运行初始化扫描。
@@ -274,7 +278,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 |---|---|---|---|
 | Ground-truth drift cases | 用户 + Engineering | 30 synthetic cases authored；independent review pending | 不阻塞实现；继续阻塞 E1 ground-truth readiness |
 | Synthetic fixture repo | Engineering | Built；local baseline recorded | 不阻塞本地实现；真实有效性仍需独立 review 与 field evidence |
-| Real dogfood repo boundaries | 用户 | Unconfirmed | 不阻塞 fixtures；阻塞真实 backtest/shadow test |
+| Real dogfood repo boundaries | 用户 | Public thinkbud-ai exact-revision sample recorded；second repo unconfirmed | 不阻塞首个 sample；继续阻塞 two-repo shadow evidence |
 | Semantic model/data egress | 用户 | Offline M5 implemented；live provider deferred | 不阻塞 fake/replay 与 Local UI；继续阻塞真实 provider calibration |
 | Open-source license | 用户 | Open | 不能正式开源发布 |
 
@@ -314,6 +318,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 0.6 | 2026-08-27 | Codex（Public dogfood） | 增加 FR-032；固定 thinkbud-ai exact revision/config/contracts/report/provenance 与 analyst triage，保留无 human disposition/precision claim 的边界 |
 | 0.5 | 2026-08-27 | Codex（Local Review UI） | 增加 US-008、FR-027–FR-031，实现 loopback API、React/Vite routes、Dashboard/history/filter/review/comparison；不扩展为 hosted SaaS |
 | 0.4 | 2026-08-27 | Codex（M5 offline slice） | 增加 FR-023–FR-026，实现有界脱敏 semantic input、runtime-validated candidates、fake/offline replay、abstention 与 semantic review；真实 provider/calibration 未宣称完成 |
 | 0.3 | 2026-08-27 | Codex（实现与本地验证） | 实现 M1–M4 Deterministic Core tasks 并保存 synthetic baseline；M4 exit/E1 仍等待独立人工复核与 hosted Action 运行 |

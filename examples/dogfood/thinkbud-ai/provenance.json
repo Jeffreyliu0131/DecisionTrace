@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-27T13:34:20.362Z",
+  "target": {
+    "repository": "Jeffreyliu0131/thinkbud-ai",
+    "url": "https://github.com/Jeffreyliu0131/thinkbud-ai",
+    "visibility": "public",
+    "base": "43976c4c080c7791c51df035f06ea02c42d8f6b4",
+    "head": "5a36aac88c5d2377105ab224b7e518e99b177c5c",
+    "licenseStatus": "No LICENSE file; README states all rights reserved"
+  },
+  "decisiontrace": {
+    "repository": "Jeffreyliu0131/DecisionTrace",
+    "commit": "b1f1eab5bed92849e8c7c8dbecb6d643fcc8820a",
+    "toolVersion": "0.3.0",
+    "semanticMode": "off"
+  },
+  "scan": {
+    "scanId": "SCAN-20260827T133420362Z-ead1089d",
+    "mode": "diff",
+    "result": "complete",
+    "diagnosticCount": 0,
+    "findingSummary": {
+      "total": 3,
+      "D1": 0,
+      "D2": 3,
+      "D3": 0,
+      "formal": 3,
+      "exploratory": 0
+    }
+  },
+  "artifacts": {
+    "manifestSha256": "d05d2c09641e5df38c049b28d33f1778864e5a3e8ea524da658ea2497a314708",
+    "reportJsonSha256": "af1ec2b145befadb706cf2844f6e5d7cd84697876ce766c1d37fc30eed10ed8d",
+    "reportMarkdownSha256": "ac6be5940cfb8d7004251c754cbccb8a15552fd24ea6d2defffe1dd6cd639356",
+    "reportHtmlSha256": "0dbe46eb97ab522da9c5ea1cf2e8f198b9d7d6fad884e71a45b47ce33f9f07cf"
+  },
+  "dataBoundary": {
+    "sourceVisibility": "public",
+    "targetScriptsExecuted": false,
+    "networkOrModelCallsByDecisionTrace": 0,
+    "sourceTextCopiedIntoPublishedArtifacts": false,
+    "privateOrUserRecordsProcessed": false
+  },
+  "reviewBoundary": {
+    "analysisType": "Codex analyst triage",
+    "independentHumanDispositionComplete": false,
+    "precisionClaimAllowed": false
+  }
+}

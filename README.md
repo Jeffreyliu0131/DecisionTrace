@@ -1,8 +1,8 @@
 # DecisionTrace
 
-- 状态：`local-review-ui-implemented; independent-validation-pending`
+- 状态：`first-public-dogfood-recorded; independent-validation-pending`
 - 创建日期：2026-08-27
-- 当前阶段：M1–M5 offline slice 与本地 Review UI 已实现；独立人工复核、hosted Action 与真实 provider calibration 仍待完成
+- 当前阶段：M1–M5 offline slice、本地 Review UI、hosted CI/shadow Action 与首个 public thinkbud-ai dogfood sample 已完成；独立人工复核与真实 provider calibration 仍待完成
 - 项目负责人：用户（产品判断、ground truth 与发布决定）
 - AI 角色：研究、实现、测试与审查协作者；不能替用户确认需求、误报和用户价值
 - 开源状态：计划开源；许可证尚未选择，当前不授予任何复用权利
@@ -94,6 +94,8 @@ Deterministic Core 已实现。当前可依次运行 `npm ci` 和 `npm run check
 M5 可通过 `--semantic local --semantic-input-output <path>` 导出有界脱敏输入，再用 `--semantic-replay <response.json>` 离线复现 provider 输出；claim、edge 与 conflict 均保留为 `SEM-*` candidate，只有 conflict 会额外生成 exploratory finding。`semantic-review` 只追加人工 disposition，不激活 contract、不修改原报告。
 
 本地 UI 依次运行 `npm run build` 与 `node dist/cli/main.js ui --repo <target-repo>`，然后访问输出的 `127.0.0.1` 地址。开发模式可设置 `DECISIONTRACE_UI_REPO=<target-repo>` 后运行 `npm run dev`。UI 提供 Dashboard、扫描历史、finding/semantic filters、append-only disposition 表单和 stable-ID/hash 报告对比；不自动启动扫描、不部署、不开放局域网监听。
+
+首个真实公开 dogfood 固定在 [`Jeffreyliu0131/thinkbud-ai@5a36aac`](examples/dogfood/thinkbud-ai/analysis.md)。该次 local-only diff scan 记录了 3 条配置依赖的 D2 evidence findings，并明确保留无独立 human disposition、无 real-repo precision claim，以及“文件存在不等于 JSON 内容通过”的 detector limitation。
 
 下一步不是继续堆 detector，而是由未参与生成 fixtures 的人独立复核 `EV-001`–`EV-030`，再在 GitHub 托管 runner 上运行 synthetic shadow workflow。完成前，E1 与 M4 exit 均保持未通过。
 

@@ -16,7 +16,8 @@
 
 - 状态：Partially resolved
 - P0 决定：Synthetic fixture repo 是唯一无需额外授权的首个对象，可直接实现；它不算真实 dogfood。
-- 仍 Open：ThinkBud、Stock Portfolio 或其他真实 repo 必须在当前请求分别授权读取范围、敏感排除和模型出境。
+- Observed：用户已授权对 public `Jeffreyliu0131/thinkbud-ai` 做只读 dogfood；exact-revision sample 与 limitations 已记录。它是第一个真实公开 target，但尚无独立 human disposition，因此不计为 E3 完成。
+- 仍 Open：第二个真实 repo；Stock Portfolio 或其他 repo 仍需在当前请求分别授权读取范围、敏感排除和模型出境。
 - 为什么重要：决定 parser 范围、contract 类型和隐私边界。
 - 需要的决定：每个 repo 是否允许读取、是否允许将片段发送到云端模型、哪些内容必须排除。
 - Owner：用户

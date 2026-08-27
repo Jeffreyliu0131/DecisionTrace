@@ -1,0 +1,129 @@
+version: 1
+contracts:
+  - id: CTR-501
+    title: Guard text chat output before browser delivery
+    status: active
+    severity: critical
+    topic: text_output_guard
+    rule:
+      operator: require
+      object: guarded_text_output
+      applies_to: [text_chat]
+    defined_by:
+      - path: docs/ARCHITECTURE.md
+        locator: "| Text output |"
+    implemented_by:
+      - path: functions/_shared/output-guard.ts
+      - path: functions/api/chat.ts
+    verified_by:
+      - path: functions/__tests__/output-guard.test.ts
+        required: true
+        covers: [text_chat]
+      - path: functions/__tests__/chat-output-boundary.test.ts
+        required: true
+        covers: [text_chat]
+    claimed_in:
+      - path: README.md
+    supersedes: []
+
+  - id: CTR-502
+    title: Keep textbook RAG default-off and fail back to non-RAG chat
+    status: active
+    severity: high
+    topic: rag_runtime_fallback
+    rule:
+      operator: require
+      object: rag_default_off_and_fallback
+      applies_to: [disabled_default, missing_service, retrieval_failure]
+    defined_by:
+      - path: docs/TEXTBOOK_RAG.md
+        locator: "## Failure behavior"
+    implemented_by:
+      - path: functions/_shared/rag/runtime.ts
+      - path: functions/api/chat.ts
+    verified_by:
+      - path: functions/__tests__/rag-context-runtime.test.ts
+        required: true
+        covers: [disabled_default, missing_service, retrieval_failure]
+      - path: functions/__tests__/chat-output-boundary.test.ts
+        required: true
+        covers: [missing_service]
+    claimed_in:
+      - path: README.md
+    supersedes: []
+
+  - id: CTR-503
+    title: Require complete provenance before textbook production readiness
+    status: active
+    severity: critical
+    topic: textbook_source_readiness
+    rule:
+      operator: require
+      object: source_license_and_provenance_attestation
+      applies_to: [textbook_source]
+    defined_by:
+      - path: docs/TEXTBOOK_RAG.md
+        locator: "`productionReady` is true only"
+    implemented_by:
+      - path: functions/_shared/rag/contract.ts
+      - path: functions/_shared/rag/ingestion.ts
+    verified_by:
+      - path: functions/__tests__/rag-ingestion.test.ts
+        required: true
+        covers: [textbook_source]
+    claimed_in:
+      - path: README.md
+    supersedes: []
+
+  - id: CTR-504
+    title: Keep managed RTC disabled by default until guarded evidence exists
+    status: active
+    severity: critical
+    topic: rtc_release_safety
+    rule:
+      operator: require
+      object: rtc_disabled_by_default
+      applies_to: [rtc_default_disabled]
+    defined_by:
+      - path: docs/ARCHITECTURE.md
+        locator: "| RTC output |"
+    implemented_by:
+      - path: src/types/chatState.ts
+    verified_by:
+      - path: src/types/chatState.test.ts
+        required: true
+        covers: [rtc_default_disabled]
+    claimed_in:
+      - path: README.md
+    supersedes: []
+
+  - id: CTR-505
+    title: Keep the full release blocked until named evidence exists
+    status: active
+    severity: high
+    topic: full_release_readiness
+    rule:
+      operator: require
+      object: release_blocker_evidence
+      applies_to: [license, assets, privacy, live_model, human_review]
+    defined_by:
+      - path: docs/RELEASE_CHECKLIST.md
+        locator: "The deterministic engineering gate can pass"
+    implemented_by:
+      - path: scripts/check-release-readiness.mjs
+    verified_by:
+      - path: LICENSE
+        required: true
+        covers: [license]
+      - path: provenance/assets.json
+        required: true
+        covers: [assets]
+      - path: release/privacy-approval.json
+        required: true
+        covers: [privacy]
+      - path: evals/live/results/latest.json
+        required: true
+        covers: [live_model, human_review]
+    claimed_in:
+      - path: README.md
+    supersedes: []

@@ -1,0 +1,58 @@
+version: 1
+mode: local-only
+
+sources:
+  requirements:
+    include:
+      - "docs/ARCHITECTURE.md"
+      - "docs/PRIVACY_AND_CHILD_SAFETY.md"
+  decisions:
+    include:
+      - "docs/TEXTBOOK_RAG.md"
+      - "docs/RELEASE_CHECKLIST.md"
+  ai_policies:
+    include:
+      - "docs/ThinkBud对话决策规范v5.md"
+  implementation:
+    include:
+      - "functions/**/!(*.test).ts"
+      - "src/**/!(*.test).{ts,tsx}"
+      - "scripts/**/*.mjs"
+  tests:
+    include:
+      - "functions/**/*.test.ts"
+      - "src/**/*.test.{ts,tsx}"
+      - "evals/**/*.ts"
+  evals:
+    include:
+      - "evals/**/*.json"
+      - "release/**/*.json"
+      - "provenance/**/*.json"
+  public_claims:
+    include:
+      - "README.md"
+      - "CHANGELOG.md"
+      - "docs/CASE_STUDY.md"
+      - "docs/AUDIT_2026-08-27.md"
+
+exclude:
+  - ".git/**"
+  - "node_modules/**"
+  - "dist/**"
+  - "coverage/**"
+  - "artifacts/**"
+  - ".decisiontrace/cache/**"
+  - ".decisiontrace/reports/**"
+  - "**/.env*"
+  - "**/*secret*"
+
+contracts: ".decisiontrace/contracts.yml"
+reports: ".decisiontrace/reports"
+
+limits:
+  max_file_bytes: 1048576
+  max_total_text_bytes: 26214400
+
+gates:
+  enabled: false
+  deterministic_only: true

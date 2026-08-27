@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+  <title>DecisionTrace SCAN-20260827T133420362Z-ead1089d</title>
+  <style>body{max-width:960px;margin:0 auto;padding:2rem;font:16px/1.5 system-ui;color:#1f2937}code{background:#f3f4f6;padding:.1rem .3rem}article{border-top:1px solid #d1d5db;padding:1rem 0}dl{display:grid;grid-template-columns:max-content 1fr;gap:.25rem 1rem}dt{font-weight:700}h1,h2,h3{line-height:1.2}.warning{color:#92400e}</style>
+</head>
+<body>
+  <h1>DecisionTrace Scan Report</h1>
+  <dl><dt>Scan</dt><dd><code>SCAN-20260827T133420362Z-ead1089d</code></dd><dt>Result</dt><dd>complete</dd><dt>Mode</dt><dd>diff</dd><dt>Head</dt><dd><code>5a36aac88c5d2377105ab224b7e518e99b177c5c</code></dd><dt>Semantic stage</dt><dd>off via off</dd><dt>Semantic candidates</dt><dd>0</dd><dt>Findings</dt><dd>3 (3 formal, 0 exploratory, 0 abstained)</dd></dl>
+  <h2>Diagnostics</h2><p>None</p>
+  <h2>Semantic Candidates</h2><p>No semantic candidates.</p>
+  <h2>Findings</h2><article>
+  <h3>FND-468fd01826a9 · D2 · formal</h3>
+  <dl><dt>Severity</dt><dd>critical</dd><dt>Confidence</dt><dd>1.00</dd><dt>Contracts</dt><dd>CTR-504</dd></dl>
+  <h4>Facts</h4><ul><li>Required evidence &#039;src/types/chatState.test.ts&#039; matched no safe artifact.</li></ul>
+  <h4>Inferences</h4><p>None</p>
+  <h4>Sources</h4><ul><li><code>docs/ARCHITECTURE.md:25-35</code> (| RTC output |)</li></ul>
+  <h4>Suggested human review</h4><p>Add or correctly register the required evidence, or explicitly revise the contract&#039;s evidence requirement.</p>
+</article>
+<article>
+  <h3>FND-6a3e0981e61b · D2 · formal</h3>
+  <dl><dt>Severity</dt><dd>high</dd><dt>Confidence</dt><dd>1.00</dd><dt>Contracts</dt><dd>CTR-505</dd></dl>
+  <h4>Facts</h4><ul><li>Required evidence &#039;evals/live/results/latest.json&#039; matched no safe artifact.</li></ul>
+  <h4>Inferences</h4><p>None</p>
+  <h4>Sources</h4><ul><li><code>docs/RELEASE_CHECKLIST.md:5</code> (The deterministic engineering gate can pass)</li></ul>
+  <h4>Suggested human review</h4><p>Add or correctly register the required evidence, or explicitly revise the contract&#039;s evidence requirement.</p>
+</article>
+<article>
+  <h3>FND-957f7d38f463 · D2 · formal</h3>
+  <dl><dt>Severity</dt><dd>high</dd><dt>Confidence</dt><dd>1.00</dd><dt>Contracts</dt><dd>CTR-505</dd></dl>
+  <h4>Facts</h4><ul><li>Required evidence &#039;LICENSE&#039; matched no safe artifact.</li></ul>
+  <h4>Inferences</h4><p>None</p>
+  <h4>Sources</h4><ul><li><code>docs/RELEASE_CHECKLIST.md:5</code> (The deterministic engineering gate can pass)</li></ul>
+  <h4>Suggested human review</h4><p>Add or correctly register the required evidence, or explicitly revise the contract&#039;s evidence requirement.</p>
+</article>
+  <p class="warning">DecisionTrace findings are candidates. A human reviewer owns disposition and release decisions.</p>
+</body>
+</html>
