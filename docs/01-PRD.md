@@ -1,8 +1,8 @@
 ---
 artifact: prd
-version: "0.6"
+version: "0.7"
 created: 2026-08-27
-status: first-public-dogfood-recorded-independent-validation-pending
+status: byok-contract-implemented-independent-validation-and-live-calibration-pending
 ---
 
 # PRD：DecisionTrace P0
@@ -149,6 +149,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 - 仅监听 loopback 的单用户 Review UI：Dashboard、历史、详情筛选、finding/semantic disposition 与双报告对比。
 - Offline benchmark、historical backtest 与 shadow-mode GitHub Action。
 - 无模型或模型失败时的确定性降级。
+- 显式 opt-in 的 provider-agnostic BYOK HTTP-JSON transport：环境变量 key、endpoint/mode boundary、redacted request、timeout、response/cost limits 与 abstention。
 
 ### 5.2 Out of Scope for P0
 
@@ -230,6 +231,12 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 - `FR-032`：公开 dogfood sample 必须绑定 target URL、exact base/head、DecisionTrace commit、config/contracts 与 artifact hashes；不得复制目标源码正文、伪装独立 human disposition，或从一次配置依赖扫描推出真实 precision。
 
+### 6.10 BYOK Semantic Transport
+
+- `FR-033`：BYOK provider 只能在用户同时显式选择 semantic mode、传入 repo 内 schema-valid config，并提供 config 指定的非空 `DECISIONTRACE_*` 专用环境变量 key 时调用；不得复用 `GITHUB_TOKEN` 等 ambient credential，config/report/diagnostic 不得保存 key，local endpoint 仅限 loopback HTTP(S)，cloud endpoint 仅限 HTTPS，offline replay 与 BYOK 必须互斥。
+- `FR-034`：BYOK request 只能包含本地构造的 redacted semantic protocol input、精确 model ID 与 output-token limit；调用前必须按显式价格和单请求预算做保守 preflight，调用时执行 timeout/no-redirect/no-retry/response-byte limit，调用后记录 reported 或估算 cost。客户端预算不得被描述为 provider billing guarantee。
+- `FR-035`：BYOK response 必须按现有 semantic schema/source/input binding 作为不可信输入整批验证；credential echo、invalid/stale reference、超 output-token limit 或 reported cost 超预算必须丢弃 output 并 abstain，Deterministic Core 继续，所有接受的结果仍为 candidate-only、永不自动改 contract 或 gate。
+
 ## 7. Core User Flow
 
 1. 用户在目标 repo 中添加配置并运行初始化扫描。
@@ -279,7 +286,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 | Ground-truth drift cases | 用户 + Engineering | 30 synthetic cases authored；independent review pending | 不阻塞实现；继续阻塞 E1 ground-truth readiness |
 | Synthetic fixture repo | Engineering | Built；local baseline recorded | 不阻塞本地实现；真实有效性仍需独立 review 与 field evidence |
 | Real dogfood repo boundaries | 用户 | Public thinkbud-ai exact-revision sample recorded；second repo unconfirmed | 不阻塞首个 sample；继续阻塞 two-repo shadow evidence |
-| Semantic model/data egress | 用户 | Offline M5 implemented；live provider deferred | 不阻塞 fake/replay 与 Local UI；继续阻塞真实 provider calibration |
+| Semantic model/data egress | 用户 | Offline + BYOK transport implemented；未执行 live call | 不阻塞 fake/replay/adapter；继续阻塞真实 provider、数据出境与 calibration |
 | Open-source license | 用户 | Open | 不能正式开源发布 |
 
 ### Risks
@@ -302,13 +309,13 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 | M2 Inventory & Contract Graph | Safe ingestion、Git adapter、parsers、contract registry 与 graph 在 fixtures 上运行 | Unscheduled |
 | M3 Deterministic Detectors & Reports | D1/D2/D3、finding engine 与 JSON/Markdown/HTML reporters 通过验收 | Unscheduled |
 | M4 Review, Eval & Shadow Action | Review log、30+ seeded cases、baseline 与 GitHub Action shadow mode 完成 | Unscheduled |
-| M5 Semantic Candidate Layer | Provider-agnostic schema、redaction、fake/replay、candidate-only report 与 review 可复现；真实 provider calibration 继续独立等待 | Unscheduled |
+| M5 Semantic Candidate Layer | Provider-agnostic schema、redaction、fake/replay、budgeted BYOK transport、candidate-only report 与 review 可复现；真实 provider calibration 继续独立等待 | Unscheduled |
 | M5.5 Local Review UI | Loopback server、Dashboard、history、filters、append-only review、comparison 与 production build 通过验收 | Unscheduled |
 | M6 Dogfood / External Validation / OSS | 经授权 repo、外部 pilot、provenance、license 与 release readiness 如实完成 | Unscheduled |
 
 日期只有在完成 scope/effort spike 后确定，不用虚假排期制造确定性。
 
-具体工程 task 与 milestone exit 由 [`07-IMPLEMENTATION-PLAN.md`](07-IMPLEMENTATION-PLAN.md) 维护。当前不应重做 M1–M5 已实现 slice；下一步需要独立 review、hosted Action 证据，或在用户明确 provider 后接真实 analyzer。
+具体工程 task 与 milestone exit 由 [`07-IMPLEMENTATION-PLAN.md`](07-IMPLEMENTATION-PLAN.md) 维护。当前不应重做已实现 slice；hosted Action 已有 public green evidence，下一步是独立 review、recruiter-first public proof，或在用户明确 provider/key/budget/发送范围后做真实 calibration。
 
 ## 12. Open Questions
 
@@ -318,6 +325,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 0.7 | 2026-08-27 | Codex（BYOK transport） | 增加 FR-033–FR-035；实现显式 key/budget、redacted v1 request、endpoint/timeout/response/cost guards 与 candidate-only abstention；未执行或宣称真实 provider calibration |
 | 0.6 | 2026-08-27 | Codex（Public dogfood） | 增加 FR-032；固定 thinkbud-ai exact revision/config/contracts/report/provenance 与 analyst triage，保留无 human disposition/precision claim 的边界 |
 | 0.5 | 2026-08-27 | Codex（Local Review UI） | 增加 US-008、FR-027–FR-031，实现 loopback API、React/Vite routes、Dashboard/history/filter/review/comparison；不扩展为 hosted SaaS |
 | 0.4 | 2026-08-27 | Codex（M5 offline slice） | 增加 FR-023–FR-026，实现有界脱敏 semantic input、runtime-validated candidates、fake/offline replay、abstention 与 semantic review；真实 provider/calibration 未宣称完成 |

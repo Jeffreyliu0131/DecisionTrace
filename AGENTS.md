@@ -64,6 +64,8 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 - Drift 类型：`D1` / `D2` / `D3`
 - Eval case：`EV-###`
 - Finding：`FND-<stable 12 hex>`；由 drift type、contracts、sources 与 normalized reason 确定性派生
+- Semantic input/source/candidate：`SIN-*` / `SRC-*` / `SEM-*`
+- Review UI report instance：`RPT-<stable 12 hex>`；由 repo-relative report path 与 scan ID 派生
 - 技术决定：未来需要时使用 `ADR-###`
 
 统一使用以下事实标签：
@@ -84,7 +86,7 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 4. 先检查已有实现、测试、Issue 和决定，避免重复功能。
 5. 若需要模型/API，先定义无密钥降级、成本边界和测试替身。
 
-M1–M4 已有本地实现后，默认只执行 [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) 中下一个明确标记的 vertical slice。M5 可以在 synthetic fixtures、fake provider 或离线 replay 上继续开发，不等待产品实际投用或数据出境方案；真实 cloud 调用、付费 API、真实 repo 扫描、Web UI、MCP、部署与外部发布仍不得顺手扩 scope。
+已实现状态只以 [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) 和对应绿色运行证据为准，不按旧 prompt 猜测。Deterministic Core、offline semantic、loopback Review UI、public thinkbud dogfood 与 BYOK transport 已有 slice 不得重做；默认只执行计划中的下一个有证据 vertical slice。Synthetic fixtures、fake/replay 与 injected-fetch adapter tests 可继续，不等待产品实际投用；真实 provider/付费调用、额外 repo 扫描、hosted SaaS、MCP、部署、许可证与 package release 仍不得顺手扩 scope。
 
 ## 7. 实现与验证规则
 
@@ -100,7 +102,8 @@ M1–M4 已有本地实现后，默认只执行 [`docs/07-IMPLEMENTATION-PLAN.md
 ## 8. 数据与安全
 
 - P0 fixtures 使用合成或明确授权并去标识化的数据。
-- Deterministic Core 固定 `local-only`。仅使用 synthetic 内容的 provider-agnostic interface、fake provider、redaction、离线 replay 与失败降级可以直接开发；实现这些边界不等于授权真实数据出境。
+- Deterministic Core 固定 `local-only`。仅使用 synthetic 内容的 provider-agnostic interface、fake provider、redaction、离线 replay、injected fetch 与失败降级可以直接开发；实现这些边界不等于授权真实数据出境。
+- BYOK live call 必须同时有显式 semantic mode、repo 内 schema-valid endpoint/model/价格/单请求预算 config、config 指定的非空 `DECISIONTRACE_*` 专用环境变量 key，以及当前请求对 provider/发送范围/费用的授权。不得引用 `GITHUB_TOKEN` 等 ambient credential；缺任一项必须在 fetch 前 abstain。不得自动 retry、跟随 redirect、保存 key 或把 client estimate 称为账单保证。
 - 只有真正发起 network/cloud 请求、调用付费 API 或发送真实/私有 repo 片段时，才必须在当前请求中明确 provider、发送范围、成本/API key 与授权。未实际投用不能作为泄露真实数据的例外。
 - 不提交 `.env`、tokens、credentials、真实用户内容、私有 repo 文本或绝对个人路径。
 - GitHub Action 默认最小权限：读取内容；只有明确启用 PR comment 时才申请相应写权限。
@@ -126,5 +129,7 @@ M1–M4 已有本地实现后，默认只执行 [`docs/07-IMPLEMENTATION-PLAN.md
 - 等待用户决定的外部动作。
 
 不得用文件数、代码行数、测试数量或 agent 使用时长冒充产品进展。
+
+若当前请求明确授权公开 Git 里程碑：先完成 secret/个人路径/生成物边界审计与全量门禁，再 commit；只允许 fast-forward push，不 force push；push 后核对 remote SHA，并等待所有 required CI/shadow workflow 绿色。失败必须继续修复，不能把红色或半成品留在 public `main`。
 
 修改本文件后提醒用户：新的 Codex 任务或会话才保证重新加载更新后的协议。

@@ -24,9 +24,10 @@
 
 ## OQ-003｜P0 是否允许源内容离开本机？
 
-- 状态：Resolved for M1–M4 and M5 development；真实 cloud egress 仍 Open
-- P0 决定：Deterministic Core 固定 `local-only`，不发送网络请求。M5 的 provider-agnostic interface、fake provider、redaction 与离线 replay 可使用 synthetic fixtures 直接开发，不等待产品投入使用或真实 egress 方案。
-- 仍 Open：真正连接 local/cloud model 前再决定 provider；任何真实/私有片段离机、付费 API 或 API key 使用仍需明确发送范围与当前授权。
+- 状态：Transport contract resolved；真实 cloud egress/provider calibration 仍 Open
+- P0 决定：Deterministic Core 固定 `local-only`，不发送网络请求。M5 的 provider-agnostic interface、fake provider、redaction、离线 replay 与 BYOK HTTP-JSON adapter 已实现；adapter 只有在显式 semantic mode + repo 内 config/预算 + 环境变量 key 同时存在时才发送一次请求，且 candidate-only/no-retry。
+- Observed：当前自动化只使用 fake/replay/injected fetch；没有真实 key、付费调用或真实源片段出境 evidence。
+- 仍 Open：具体 local/cloud provider、实际 endpoint/model、发送范围、官方价格/预算、密钥授权与独立 human-labeled calibration。任何真实/私有片段离机或付费 API 调用仍需当前明确授权。
 - 为什么重要：改变技术架构、可用模型、成本、安全说明和企业可接受度。
 - 最小原则：无论最终选择什么，都必须显示 egress 范围并提供无密钥降级；fake/replay 结果不得冒充真实模型质量。
 - Owner：用户

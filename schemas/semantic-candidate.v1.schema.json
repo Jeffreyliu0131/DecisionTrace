@@ -9,7 +9,7 @@
         "basis": { "type": "string", "const": "model_candidate" },
         "reviewStatus": { "type": "string", "const": "candidate" },
         "status": { "type": "string", "const": "exploratory" },
-        "provider": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "provider": { "type": "string", "minLength": 1, "maxLength": 256 },
         "statement": { "type": "string", "minLength": 1, "maxLength": 4000 },
         "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
         "sourceIds": {
@@ -100,7 +100,7 @@
         "basis": { "type": "string", "const": "model_candidate" },
         "reviewStatus": { "type": "string", "const": "candidate" },
         "status": { "type": "string", "const": "exploratory" },
-        "provider": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "provider": { "type": "string", "minLength": 1, "maxLength": 256 },
         "statement": { "type": "string", "minLength": 1, "maxLength": 4000 },
         "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
         "sourceIds": {
@@ -181,7 +181,7 @@
         "basis": { "type": "string", "const": "model_candidate" },
         "reviewStatus": { "type": "string", "const": "candidate" },
         "status": { "type": "string", "const": "exploratory" },
-        "provider": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "provider": { "type": "string", "minLength": 1, "maxLength": 256 },
         "statement": { "type": "string", "minLength": 1, "maxLength": 4000 },
         "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
         "sourceIds": {

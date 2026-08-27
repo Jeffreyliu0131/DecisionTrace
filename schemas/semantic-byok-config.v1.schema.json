@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": { "type": "number", "const": 1 },
+    "transport": { "type": "string", "const": "http-json" },
+    "endpoint": { "type": "string", "maxLength": 2000, "format": "uri" },
+    "model": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "apiKeyEnv": {
+      "type": "string",
+      "pattern": "^DECISIONTRACE_[A-Z][A-Z0-9_]{0,113}$"
+    },
+    "authHeader": {
+      "default": "Authorization",
+      "type": "string",
+      "enum": ["Authorization", "api-key", "x-api-key", "x-goog-api-key"]
+    },
+    "authPrefix": {
+      "default": "Bearer ",
+      "type": "string",
+      "pattern": "^[^\\r\\n]{0,100}$"
+    },
+    "responseMaxBytes": {
+      "default": 1048576,
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "maximum": 4194304
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "maxRequestUsd": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "inputUsdPerMillionTokens": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "outputUsdPerMillionTokens": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "maxOutputTokens": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 32768
+        }
+      },
+      "required": [
+        "maxRequestUsd",
+        "inputUsdPerMillionTokens",
+        "outputUsdPerMillionTokens",
+        "maxOutputTokens"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "transport",
+    "endpoint",
+    "model",
+    "apiKeyEnv",
+    "authHeader",
+    "authPrefix",
+    "responseMaxBytes",
+    "budget"
+  ],
+  "additionalProperties": false,
+  "title": "DecisionTraceSemanticByokConfigV1"
+}

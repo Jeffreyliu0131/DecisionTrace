@@ -252,6 +252,50 @@ export const redactedSemanticInputSchema = z
   })
   .strict();
 
+export const byokSemanticConfigSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    transport: z.literal("http-json"),
+    endpoint: z.url().max(2000),
+    model: z.string().trim().min(1).max(200),
+    apiKeyEnv: z.string().regex(/^DECISIONTRACE_[A-Z][A-Z0-9_]{0,113}$/u),
+    authHeader: z
+      .enum(["Authorization", "api-key", "x-api-key", "x-goog-api-key"])
+      .default("Authorization"),
+    authPrefix: z
+      .string()
+      .regex(/^[^\r\n]{0,100}$/u, "authPrefix cannot contain CR/LF")
+      .default("Bearer "),
+    responseMaxBytes: z
+      .number()
+      .int()
+      .positive()
+      .max(4_194_304)
+      .default(1_048_576),
+    budget: z
+      .object({
+        maxRequestUsd: z.number().positive().max(100),
+        inputUsdPerMillionTokens: z.number().nonnegative().max(10_000),
+        outputUsdPerMillionTokens: z.number().nonnegative().max(10_000),
+        maxOutputTokens: z.number().int().positive().max(32_768),
+      })
+      .strict(),
+  })
+  .strict();
+
+export const byokSemanticRequestSchema = z
+  .object({
+    protocol: z.literal("decisiontrace.semantic.v1"),
+    model: z.string().min(1).max(200),
+    limits: z
+      .object({
+        maxOutputTokens: z.number().int().positive().max(32_768),
+      })
+      .strict(),
+    input: redactedSemanticInputSchema,
+  })
+  .strict();
+
 const semanticProviderCommonShape = {
   statement: z.string().min(1).max(4000),
   confidence: z.number().min(0).max(1),
@@ -301,12 +345,25 @@ export const semanticProviderCandidateSchema = z.discriminatedUnion("kind", [
     .strict(),
 ]);
 
+const semanticProviderUsageSchema = z
+  .object({
+    inputTokens: z.number().int().nonnegative(),
+    outputTokens: z.number().int().nonnegative(),
+    costUsd: z.number().nonnegative().optional(),
+  })
+  .strict();
+
 export const semanticProviderResponseSchema = z
   .object({
     schemaVersion: z.literal(1),
     inputId: semanticInputIdSchema,
     candidates: z.array(semanticProviderCandidateSchema).max(100),
+    usage: semanticProviderUsageSchema.optional(),
   })
+  .strict();
+
+export const byokSemanticProviderResponseSchema = semanticProviderResponseSchema
+  .extend({ usage: semanticProviderUsageSchema })
   .strict();
 
 const normalizedSemanticCommonShape = {
@@ -314,7 +371,7 @@ const normalizedSemanticCommonShape = {
   basis: z.literal("model_candidate"),
   reviewStatus: z.literal("candidate"),
   status: z.literal("exploratory"),
-  provider: z.string().min(1).max(200),
+  provider: z.string().min(1).max(256),
   statement: z.string().min(1).max(4000),
   confidence: z.number().min(0).max(1),
   sourceIds: z.array(semanticSourceIdSchema).min(1).max(20),
@@ -367,7 +424,7 @@ export const semanticCandidateSchema = z.discriminatedUnion("kind", [
 export const semanticStageSchema = z
   .object({
     status: z.enum(["off", "complete", "abstained"]),
-    provider: z.string().min(1).max(200),
+    provider: z.string().min(1).max(256),
     input: z
       .object({
         inputId: semanticInputIdSchema.optional(),
@@ -379,6 +436,37 @@ export const semanticStageSchema = z
       })
       .strict(),
     candidates: z.array(semanticCandidateSchema),
+    cost: z
+      .discriminatedUnion("status", [
+        z
+          .object({
+            status: z.literal("not_applicable"),
+            currency: z.literal("USD"),
+          })
+          .strict(),
+        z
+          .object({
+            status: z.literal("estimated"),
+            currency: z.literal("USD"),
+            estimatedInputTokens: z.number().int().nonnegative(),
+            maxOutputTokens: z.number().int().positive(),
+            estimatedMaxUsd: z.number().nonnegative(),
+          })
+          .strict(),
+        z
+          .object({
+            status: z.literal("reported"),
+            currency: z.literal("USD"),
+            estimatedInputTokens: z.number().int().nonnegative(),
+            maxOutputTokens: z.number().int().positive(),
+            estimatedMaxUsd: z.number().nonnegative(),
+            reportedInputTokens: z.number().int().nonnegative(),
+            reportedOutputTokens: z.number().int().nonnegative(),
+            reportedUsd: z.number().nonnegative(),
+          })
+          .strict(),
+      ])
+      .default({ status: "not_applicable", currency: "USD" }),
   })
   .strict();
 
@@ -493,6 +581,7 @@ export const scanReportSchema = z
         truncatedSourceCount: 0,
       },
       candidates: [],
+      cost: { status: "not_applicable", currency: "USD" },
     }),
     startedAt: z.iso.datetime({ offset: true }),
     completedAt: z.iso.datetime({ offset: true }),
@@ -705,14 +794,20 @@ export type RedactedSemanticSource = z.infer<
   typeof redactedSemanticSourceSchema
 >;
 export type RedactedSemanticInput = z.infer<typeof redactedSemanticInputSchema>;
+export type ByokSemanticConfig = z.infer<typeof byokSemanticConfigSchema>;
+export type ByokSemanticRequest = z.infer<typeof byokSemanticRequestSchema>;
 export type SemanticProviderCandidate = z.infer<
   typeof semanticProviderCandidateSchema
 >;
 export type SemanticProviderResponse = z.infer<
   typeof semanticProviderResponseSchema
 >;
+export type ByokSemanticProviderResponse = z.infer<
+  typeof byokSemanticProviderResponseSchema
+>;
 export type SemanticCandidate = z.infer<typeof semanticCandidateSchema>;
 export type SemanticStage = z.infer<typeof semanticStageSchema>;
+export type SemanticCost = SemanticStage["cost"];
 export type EvidenceStatement = z.infer<typeof evidenceStatementSchema>;
 export type Finding = z.infer<typeof findingSchema>;
 export type SkippedArtifact = z.infer<typeof skippedArtifactSchema>;

@@ -1,8 +1,8 @@
 # DecisionTrace
 
-- 状态：`first-public-dogfood-recorded; independent-validation-pending`
+- 状态：`byok-contract-implemented; independent-validation-and-live-calibration-pending`
 - 创建日期：2026-08-27
-- 当前阶段：M1–M5 offline slice、本地 Review UI、hosted CI/shadow Action 与首个 public thinkbud-ai dogfood sample 已完成；独立人工复核与真实 provider calibration 仍待完成
+- 当前阶段：Deterministic Core、本地 Review UI、hosted CI/shadow Action、首个 public thinkbud-ai dogfood sample，以及受预算约束的 provider-agnostic BYOK transport 已完成；独立人工复核与真实 provider calibration 仍待完成
 - 项目负责人：用户（产品判断、ground truth 与发布决定）
 - AI 角色：研究、实现、测试与审查协作者；不能替用户确认需求、误报和用户价值
 - 开源状态：计划开源；许可证尚未选择，当前不授予任何复用权利
@@ -78,7 +78,7 @@ P0 只检测三类漂移：
 - P0 采用 Node.js/TypeScript Local CLI + React/Vite loopback Review UI + GitHub Action + JSON/Markdown/HTML report + 人工反馈。
 - Markdown/JSON/YAML 结构化解析；代码文件 P0 只作路径、line span、hash 和 diff，不声称 AST/行为理解。
 - Synthetic fixture repo 是首个实现与评测对象；ThinkBud、Stock Portfolio 只有在当前请求明确授权后才 dogfood。
-- Deterministic Core 默认 local-only、禁网、无模型密钥可完整运行；Semantic Candidate Layer 默认关闭，现支持有界脱敏输入、fake provider 与离线 replay，所有输出只可 exploratory。
+- Deterministic Core 默认 local-only、禁网、无模型密钥可完整运行；Semantic Candidate Layer 默认关闭，支持有界脱敏输入、fake/offline replay 与显式 BYOK HTTP-JSON adapter，所有输出只可 exploratory。
 
 ### 仍未知
 
@@ -93,17 +93,19 @@ Deterministic Core 已实现。当前可依次运行 `npm ci` 和 `npm run check
 
 M5 可通过 `--semantic local --semantic-input-output <path>` 导出有界脱敏输入，再用 `--semantic-replay <response.json>` 离线复现 provider 输出；claim、edge 与 conflict 均保留为 `SEM-*` candidate，只有 conflict 会额外生成 exploratory finding。`semantic-review` 只追加人工 disposition，不激活 contract、不修改原报告。
 
+真实 provider 只通过显式 `--semantic-byok <config.json>` 接入。一次 live call 同时要求：调用者选择 `local|cloud` semantic mode、提供含 endpoint/model/价格与单请求预算的 schema-valid config，以及在 config 指定的 `DECISIONTRACE_*` 专用环境变量中提供 key。缺任一项即不发请求并 abstain；local endpoint 只能是 loopback，cloud endpoint 必须 HTTPS。示例与精确协议见 [`examples/semantic/`](examples/semantic/)。示例价格只是占位值，实际运行前必须按 provider 官方价格替换。DecisionTrace 不自动重试付费请求；preflight/postflight cost 会进入 JSON/Markdown/HTML 与 Review UI，但客户端预算不能撤销 provider 已产生的账单。
+
 本地 UI 依次运行 `npm run build` 与 `node dist/cli/main.js ui --repo <target-repo>`，然后访问输出的 `127.0.0.1` 地址。开发模式可设置 `DECISIONTRACE_UI_REPO=<target-repo>` 后运行 `npm run dev`。UI 提供 Dashboard、扫描历史、finding/semantic filters、append-only disposition 表单和 stable-ID/hash 报告对比；不自动启动扫描、不部署、不开放局域网监听。
 
 首个真实公开 dogfood 固定在 [`Jeffreyliu0131/thinkbud-ai@5a36aac`](examples/dogfood/thinkbud-ai/analysis.md)。该次 local-only diff scan 记录了 3 条配置依赖的 D2 evidence findings，并明确保留无独立 human disposition、无 real-repo precision claim，以及“文件存在不等于 JSON 内容通过”的 detector limitation。
 
-下一步不是继续堆 detector，而是由未参与生成 fixtures 的人独立复核 `EV-001`–`EV-030`，再在 GitHub 托管 runner 上运行 synthetic shadow workflow。完成前，E1 与 M4 exit 均保持未通过。
+hosted CI 与 synthetic shadow workflow 已在 public `main` 实际绿色，但这不替代 ground truth。下一步证据缺口仍是：由未参与生成 fixtures 的人独立复核 `EV-001`–`EV-030`，以及在明确 provider、key、预算和发送范围后做真实 semantic calibration。完成前，E1、真实模型质量与外部采用均保持未通过。
 
 以下事项**不阻塞 M1–M4 Deterministic Core**，但继续阻塞相应外部动作：
 
 - 30+ cases 是 M4 Evaluation Gate，不是写第一行代码的前置条件。
-- 真实 dogfood repo 需要用户对每个 repo 明确授权。
-- 真实 semantic provider、付费 API 与真实数据出境仍需要独立决定；fake/replay 开发不再被这些决定阻塞。
+- 新增 dogfood repo 需要用户对每个 repo 明确授权；已发布的 thinkbud-ai sample 仍不等于 second-repo evidence。
+- BYOK transport 已实现，但真实 semantic provider、付费 API 与真实数据出境仍需要逐次明确授权；fake/replay 与 adapter tests 没有发起 live call。
 - 确认许可证后才增加 `LICENSE` 并正式称为 open source。
 - Push、release、package publish、部署和联系用户仍需当前请求明确授权。
 

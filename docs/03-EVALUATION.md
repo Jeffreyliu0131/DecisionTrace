@@ -211,7 +211,7 @@ Reviewer 不能只给“有用/没用”；必须选择 disposition 并写简短
 - 更换模型、Prompt 或 rubric 后重新校准；
 - Grader 失败时不默认通过。
 
-M5 的 fake provider 与离线 replay 只验证 redaction、schema、source binding、abstention 和 report/review plumbing；它们不是模型质量 evidence，不能产生 precision/recall，也不能满足本节的人类校准要求。真实 provider 接入后必须新增独立 human-labeled semantic set，并保留 provider/model/prompt/config version。
+M5 的 fake provider、离线 replay 与 injected-fetch BYOK adapter tests 只验证 redaction、transport schema、endpoint/key/budget/timeout/response guards、source binding、abstention 和 report/review plumbing；它们没有发起 live provider call，也不是模型质量 evidence，不能产生 precision/recall，更不能满足本节的人类校准要求。真实 provider 接入后必须新增独立 human-labeled semantic set，并保留 provider/model/prompt/config/pricing version 与 observed cost。
 
 ## 9. Bad Cases to Preserve
 

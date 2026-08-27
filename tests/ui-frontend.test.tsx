@@ -198,6 +198,16 @@ function reportWithSemanticCandidate(): ScanReport {
           },
         },
       ],
+      cost: {
+        status: "reported",
+        currency: "USD",
+        estimatedInputTokens: 140,
+        maxOutputTokens: 500,
+        estimatedMaxUsd: 0.00114,
+        reportedInputTokens: 120,
+        reportedOutputTokens: 40,
+        reportedUsd: 0.0002,
+      },
     },
   });
 }
@@ -380,7 +390,7 @@ describe("React review console", () => {
     expect(screen.getByText("src/service.ts")).not.toBeNull();
   });
 
-  it("[AC-047] submits semantic candidate disposition from its dedicated tab", async () => {
+  it("[AC-047, AC-053] shows semantic cost and submits candidate disposition", async () => {
     window.history.pushState({}, "", "/scans/RPT-111111111111");
     vi.mocked(getSession).mockResolvedValue({
       csrfToken: "token",
@@ -402,6 +412,9 @@ describe("React review console", () => {
     const user = userEvent.setup();
     render(<App />);
     await user.click(await screen.findByRole("tab", { name: "Semantic 1" }));
+    expect(
+      screen.getByText("Reported 0.0002 USD · 120 input / 40 output tokens"),
+    ).not.toBeNull();
     expect(screen.getByText("SEM-111111111111")).not.toBeNull();
     await user.selectOptions(screen.getByLabelText("Decision"), "confirmed");
     await user.type(

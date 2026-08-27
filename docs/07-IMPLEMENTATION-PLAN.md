@@ -1,6 +1,6 @@
 # DecisionTrace P0 Implementation Plan
 
-- 状态：`first-public-dogfood-recorded; independent-validation-and-live-provider-pending`
+- 状态：`byok-contract-implemented; independent-validation-and-live-calibration-pending`
 - 日期：2026-08-27
 - 原则：一次只实现一个可验证 vertical slice；Local UI 必须保持 loopback/single-user，不得扩成 hosted dashboard、MCP 或 cloud LLM
 
@@ -33,7 +33,7 @@ M5.5 Local Review UI (loopback only)
 M6 Dogfood / External Validation / OSS Release
 ```
 
-`observed 2026-08-27`：`I-001`–`I-015`、`I-017`、M5 offline `I-018`–`I-021`、Local UI `I-023`–`I-028` 与 public dogfood `I-029` 已实现；hosted CI 与 Synthetic Shadow Scan 已在 public main 绿色。`I-016` independent reviewer、second dogfood repo、live provider/calibration 与其余 M6 外部动作保持未完成。
+`observed 2026-08-27`：`I-001`–`I-015`、`I-017`、M5 offline `I-018`–`I-021`、Local UI `I-023`–`I-028`、public dogfood `I-029` 与 BYOK transport `I-030` 已实现；hosted CI 与 Synthetic Shadow Scan 已在 public main 绿色。`I-016` independent reviewer、second dogfood repo、live provider/calibration 与其余 M6 外部动作保持未完成。
 
 ## 3. M1｜Scaffold & Schemas
 
@@ -220,7 +220,16 @@ Coverage：FR-026；AC-038。
 
 只有用户明确 provider、发送范围、成本/API key，并取得独立 human-labeled set 后才开始。不得用 fake/replay 自证真实模型 precision。
 
-M5 Offline Exit：I-018–I-021 与 AC-033–AC-038 本地通过；I-022 继续 pending，不宣称真实 provider quality。
+### I-030｜Budgeted provider-agnostic BYOK transport
+
+- Repo-contained v1 config 指定 HTTP-JSON endpoint/model、key 环境变量、认证头、response bound、显式价格与单请求预算；local 只允许 loopback，cloud 只允许 HTTPS。
+- Request 只含 redacted semantic input 与 output-token limit；missing key/preflight over-budget 不 fetch，timeout/redirect/HTTP/stream/schema/secret echo/postflight over-limit 全部 abstain 且不 retry。
+- Semantic cost 进入 canonical report/renderers/Review UI；所有 provider output 继续 candidate-only，不改 contract、不 gate。
+- Tests 仅使用 injected fetch；没有真实 key、付费调用、provider quality 或 billing guarantee 声明。
+
+Coverage：FR-033–FR-035；AC-050–AC-054。
+
+M5 Controlled Exit：I-018–I-021、I-030 与 AC-033–AC-038、AC-050–AC-054 本地通过；I-022 继续 pending，不宣称真实 provider quality。
 
 ## 8. M5.5｜Local Review UI
 
@@ -289,14 +298,14 @@ Coverage：FR-032；AC-049。
 
 ## 10. Next Coding Task Boundary
 
-新的 coding agent 不应重做 M1–M5.5 已实现 slice。默认下一步只能选择一个有证据的缺口：协助独立 reviewer 处理 `EV-*` / `SEM-*` feedback、修复已知 bad case、验证 hosted shadow Action，或在用户明确 provider 与调用边界后实现 `I-022`。Hosted UI、MCP、真实 repo、部署、license、push/release 仍需当前请求授权。
+新的 coding agent 不应重做 M1–M5.5、I-029 或 I-030 已实现 slice。默认下一步只能选择一个有证据的缺口：制作 recruiter-first public proof/真实 sample 导航、协助独立 reviewer 处理 `EV-*` / `SEM-*` feedback、修复已知 bad case，或在用户明确 provider/key/budget/发送范围后执行 I-022 calibration。Hosted SaaS、MCP、额外真实 repo、部署、license 与 package release 仍需当前请求授权。
 
 ## 11. Definition of P0 Complete
 
 P0 只有在以下全部满足时完成：
 
-- FR-001–FR-032 均有实现与 AC 映射；
-- AC-001–AC-049 全部有自动化或明确人工验证记录；
+- FR-001–FR-035 均有实现与 AC 映射；
+- AC-001–AC-054 全部有自动化或明确人工验证记录；
 - 30+ seeded cases 的真实 baseline 已记录；
 - JSON/Markdown/HTML 一致；
 - local-only 禁网验证通过；

@@ -7,6 +7,9 @@ import { z } from "zod";
 
 import {
   artifactSchema,
+  byokSemanticConfigSchema,
+  byokSemanticProviderResponseSchema,
+  byokSemanticRequestSchema,
   configSchema,
   contractRegistrySchema,
   evalCaseSchema,
@@ -37,6 +40,21 @@ const schemas = [
   ["artifact.v1.schema.json", "DecisionTraceArtifactV1", artifactSchema],
   ["trace-edge.v1.schema.json", "DecisionTraceTraceEdgeV1", traceEdgeSchema],
   ["finding.v1.schema.json", "DecisionTraceFindingV1", findingSchema],
+  [
+    "semantic-byok-config.v1.schema.json",
+    "DecisionTraceSemanticByokConfigV1",
+    byokSemanticConfigSchema,
+  ],
+  [
+    "semantic-byok-request.v1.schema.json",
+    "DecisionTraceSemanticByokRequestV1",
+    byokSemanticRequestSchema,
+  ],
+  [
+    "semantic-byok-response.v1.schema.json",
+    "DecisionTraceSemanticByokResponseV1",
+    byokSemanticProviderResponseSchema,
+  ],
   [
     "semantic-input.v1.schema.json",
     "DecisionTraceSemanticInputV1",

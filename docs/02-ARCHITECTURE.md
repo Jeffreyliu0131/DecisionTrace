@@ -1,6 +1,6 @@
 # DecisionTrace P0 Architecture
 
-- 状态：`local-review-ui-implemented; independent-validation-pending`
+- 状态：`local-review-ui-and-byok-transport-implemented; independent-validation-pending`
 - 日期：2026-08-27
 - 边界：说明系统怎样嵌入 repo/PR/release 流程；不锁定最终语言、框架或云服务
 
@@ -69,7 +69,13 @@ P0 Action 执行 diff scan 并上传 Markdown/JSON/HTML artifact。若未来启�
 
 P0 提供静态 HTML、terminal review 与只监听 `127.0.0.1` 的单用户 React Review UI。UI 读取 runtime-validated canonical reports，提供 Dashboard、history、filters、stable-ID/hash comparison，并通过带本地 CSRF token 的 same-origin API 追加 finding/semantic disposition。它不修改原报告、不自动扫描、不开放 LAN、不构建多用户 Web SaaS。
 
-### 3.5 Deferred Integrations
+### 3.5 Optional Semantic BYOK Adapter
+
+BYOK 是 CLI 的显式 outbound transport，不是 Deterministic Core 或 Review UI 的隐式依赖。只有 `--semantic local|cloud`、`--semantic-byok <repo-contained-config>`、schema-valid 价格/预算与 config 指定的环境变量 key 同时存在时才发一个 HTTP-JSON request。Local endpoint 仅限 loopback；cloud endpoint 必须 HTTPS；redirect 与自动 retry 被禁用。
+
+Adapter 接收的 body 只有稳定 `decisiontrace.semantic.v1`、精确 model ID、output-token limit 与已脱敏/限量的 semantic input。API key 只进入受限认证 header。Response 按字节流硬限额读取，再做 credential-echo、schema、input/source/contract binding、usage/token/cost 校验；失败即丢弃整批 semantic output 并 abstain。客户端 preflight/postflight cost guard 不是 provider billing guarantee。
+
+### 3.6 Deferred Integrations
 
 - MCP server；
 - Jira/Linear/Notion/Figma/Slack；
@@ -181,9 +187,10 @@ reason, reviewer, timestamp
 4. Graph builder 连接直接证据与候选语义关系。
 5. Impact analyzer 计算本次 diff 可能影响的 contracts。
 6. Detectors 产生候选 findings。
-7. Evidence engine 校验来源完整性并输出报告。
-8. Reviewer 记录 disposition。
-9. Evaluation harness 使用 disposition 更新指标；不会覆盖原始报告。
+7. 若用户显式启用 semantic，redaction/bounds 先构造 stable input；fake/replay 或 BYOK adapter 返回的 untrusted output 再经本地 validation，任何失败都只让 semantic stage abstain。
+8. Evidence engine 校验来源完整性并输出报告。
+9. Reviewer 记录 disposition。
+10. Evaluation harness 使用 disposition 更新指标；不会覆盖原始报告。
 
 ## 7. Deterministic vs Model Boundary
 
@@ -213,7 +220,7 @@ reason, reviewer, timestamp
 
 ## 8. Trust & Security Boundary
 
-- P0 默认 local-only；若配置 cloud model，必须在执行前显示发送范围。
+- P0 默认 local-only；仅显式 BYOK CLI path 可以 outbound，且 config/报告必须显示 mode、模型、发送统计、预算与 cost，不保存 endpoint credential 或 key。
 - 不读取 `.env`、credentials、用户数据库、生产日志或目标 repo 之外路径，除非显式 include。
 - 报告默认引用 path、line/span 和 hash，不复制不必要的完整私有内容。
 - GitHub Action 使用 ephemeral workspace，artifact retention 可配置。
@@ -226,6 +233,8 @@ reason, reviewer, timestamp
 |---|---|
 | Parser failure | 标明 affected artifact；其他检查继续 |
 | Model timeout/error | 语义检查 abstain；确定性检查继续 |
+| Missing BYOK key / preflight over budget | 不发请求；semantic stage abstain；确定性检查继续 |
+| Oversized、credential-echo 或 postflight over-limit response | 丢弃整批 provider output；记录不含正文/密钥的 diagnostic |
 | Conflicting canonical sources | 报告冲突；不自动选择 |
 | Missing Git history | 当前状态检查继续；时间漂移标为 unavailable |
 | Excessive context | diff-first、分区扫描；说明未扫描范围 |
@@ -243,5 +252,6 @@ reason, reviewer, timestamp
 - Deterministic Core local-only、禁网、无模型依赖；
 - GitHub Action 初始只运行 shadow mode；
 - Semantic Candidate Layer 后置、默认 off、永不生成 P0 Hard Gate。
+- BYOK transport provider-agnostic、显式 opt-in、单请求预算/no-retry；真实 provider quality 仍需独立 calibration。
 
-目录、schemas、detector 算法与安全要求见 [`05-TECHNICAL-SPEC.md`](05-TECHNICAL-SPEC.md)，实施顺序见 [`07-IMPLEMENTATION-PLAN.md`](07-IMPLEMENTATION-PLAN.md)。仍未决定的外部发布、许可证、真实 dogfood 和 semantic provider 继续由 [`04-OPEN-QUESTIONS.md`](04-OPEN-QUESTIONS.md) 管理。
+目录、schemas、detector 算法与安全要求见 [`05-TECHNICAL-SPEC.md`](05-TECHNICAL-SPEC.md)，实施顺序见 [`07-IMPLEMENTATION-PLAN.md`](07-IMPLEMENTATION-PLAN.md)。仍未决定的许可证、额外 dogfood、真实 provider/egress 与 calibration 继续由 [`04-OPEN-QUESTIONS.md`](04-OPEN-QUESTIONS.md) 管理。

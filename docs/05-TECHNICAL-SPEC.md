@@ -1,7 +1,7 @@
 # DecisionTrace P0 Technical Specification
 
-- 状态：`local-review-ui-implemented`
-- 版本：0.3
+- 状态：`local-review-ui-and-byok-transport-implemented`
+- 版本：0.4
 - 日期：2026-08-27
 - 作用：锁定 coding agent 可以直接实现的 P0 技术合同；产品范围仍以 [`01-PRD.md`](01-PRD.md) 为准
 
@@ -10,7 +10,7 @@
 P0 分成两个清晰层次：
 
 1. **Deterministic Core（M1–M4 必须完成）**：配置、Artifact inventory、contract registry、trace graph、Git diff、D1/D2/D3 规则、报告、review feedback 和 fixture eval。无网络、无模型密钥也必须完整运行。
-2. **Semantic Candidate Layer（M5，受控可选）**：模型只生成候选 claim、edge 或 conflict；默认关闭，只能输出 `exploratory` finding，不能成为 gate。
+2. **Semantic Candidate Layer（M5，受控可选）**：模型只生成候选 claim、edge 或 conflict；默认关闭，支持 fake/replay 与显式 budgeted BYOK transport，只能输出 `exploratory` finding，不能成为 gate。
 3. **Local Review UI（M5.5）**：单用户 React UI + loopback Node API，只读取 canonical reports，并通过现有 review services 追加 disposition；不自动 scan、不修改报告、不提供远程账号或 hosted service。
 
 因此工程可以立即从 Deterministic Core 开始，不等待外部用户、许可证或云模型决定。外部发布、真实 repo dogfood 和模型数据出境仍受独立闸门约束。
@@ -31,7 +31,7 @@ P0 分成两个清晰层次：
 | Build | `tsc` 生成 server ESM + Vite 生成 browser assets | CLI/API 与 browser runtime 分开构建；无 CDN/runtime 外部依赖 |
 | Persistence | Repo-tracked YAML + generated JSON/Markdown/HTML；无数据库 | 可审查、可 diff、无需服务 |
 | Git access | `execFile("git", args)`，禁止拼 shell string | 使用现有 Git 真源并降低命令注入风险 |
-| Network | Deterministic Core 禁止 outbound；UI 仅绑定 `127.0.0.1` | 保持 local-only，不开放 LAN/public listener |
+| Network | Deterministic Core 禁止 outbound；UI 仅绑定 `127.0.0.1`；只有显式 BYOK CLI path 可发 bounded request | 保持 local-only 默认，不开放 LAN/public listener，不隐式调用 provider |
 
 依赖的精确版本在首次 scaffold 时选择兼容的稳定版本并写入 lockfile；本文不固定会过期的版本号。
 
@@ -101,7 +101,8 @@ decisiontrace scan [--repo <path>] [--base <git-ref>] [--head <git-ref>]
                    [--format json|markdown|html|all] [--output <dir>]
                    [--semantic off|local|cloud]
                    [--semantic-input-output <json>]
-                   [--semantic-replay <json>] [--semantic-timeout-ms <n>]
+                   [--semantic-replay <json>] [--semantic-byok <json>]
+                   [--semantic-timeout-ms <n>]
 decisiontrace review <report.json> --finding <id>
                    --decision <true_drift|intentional_change|false_positive|accepted_risk|insufficient_evidence>
                    --reason <text>
@@ -121,7 +122,8 @@ decisiontrace ui [--repo <path>] [--port <1..65535>] [--api-only]
 - `--output`：`<repo>/.decisiontrace/reports/<scan-id>/`。
 - `--semantic`：`off`。
 - `--semantic-timeout-ms`：`5000`；允许范围 1–600000。
-- `--semantic-input-output` / `--semantic-replay`：默认不写出、不加载；必须显式启用 semantic mode。
+- `--semantic-input-output` / `--semantic-replay` / `--semantic-byok`：默认不写出、不加载、不调用；必须显式启用 semantic mode。Replay 与 BYOK 互斥。
+- `--semantic-byok` config 必须位于 target repo 内、是 32 KiB 以内的 schema-valid JSON；它只引用 key 环境变量名，不包含 key 值。
 - `ui --repo`：当前目录或 `DECISIONTRACE_UI_REPO`；`--port` 默认 `4173`；host 固定为 `127.0.0.1`，不能通过 CLI 改为 LAN/public bind。
 
 只提供一个 Git ref 时属于配置错误；不得猜另一个 ref。
@@ -374,6 +376,7 @@ M5 provider-agnostic boundary：
 interface SemanticAnalyzer {
   readonly name: string;
   analyze(input: RedactedSemanticInput, signal: AbortSignal): Promise<unknown>;
+  costSnapshot?(): SemanticCost;
 }
 ```
 
@@ -387,7 +390,13 @@ Rules：
 - 只有 conflict 可派生 exploratory `FND-*`；provider statement 只进入 `inferences`，deterministic fact 仅陈述引用经过本地校验。Severity 不得超过被引用 contract 的 severity。
 - Provider error、abort、timeout 或 invalid output 导致 semantic stage abstain；Deterministic Core 继续，semantic output 永不 gate。
 - `--semantic-input-output` 与 `--semantic-replay` 提供离线两步闭环；replay 文件上限 1 MiB，并绑定精确 `SIN-*`，不会隐式调用模型。
-- Fake/replay 开发不需要真实 egress 决定；真正连接 local/cloud provider、发送真实片段、使用 API key 或付费 API 前仍需当前授权。
+- `--semantic-byok` 使用以下 v1 config 核心字段：`transport: "http-json"`、`endpoint`、`model`、`apiKeyEnv`、受限 `authHeader/authPrefix`、`responseMaxBytes`，以及 `budget.{maxRequestUsd,inputUsdPerMillionTokens,outputUsdPerMillionTokens,maxOutputTokens}`。Cloud endpoint 必须 HTTPS；local endpoint 必须是 `localhost` / `127.0.0.1` / `::1` loopback HTTP(S)。认证 header 只允许 `Authorization`、`api-key`、`x-api-key` 或 `x-goog-api-key`。
+- 一次 BYOK fetch 需要显式 semantic mode、显式 config/预算和 config 指定的非空 `DECISIONTRACE_*` 专用环境变量 key；schema 拒绝 `GITHUB_TOKEN` 等 ambient credential 名。Key 只进入认证 header；config、request body、report 与 diagnostic 不保存 key。缺 key 或 preflight 超预算时 fetch count 必须为 0。
+- BYOK request 固定为 `{protocol:"decisiontrace.semantic.v1", model, limits:{maxOutputTokens}, input: RedactedSemanticInput}`。Preflight 使用完整序列化 request 的 UTF-8 bytes 作为保守的 transport-side input estimate，再按 config price 计算最大成本；它不是 provider tokenizer/额外 prompt framing 的账单上界。未向 provider 发送原始 path 或未脱敏 source。
+- Fetch 禁止 redirect 和自动 retry，并复用 `AbortSignal` timeout。Response 按 `responseMaxBytes` 流式硬限额读取，不接受 HTTP error body；credential echo、invalid JSON/schema、stale/unknown references、reported output tokens 超 limit 或 reported/computed cost 超预算时丢弃整批 output 并 abstain。
+- Offline replay 的通用 response 可不含 usage；BYOK v1 response 必须提供 `usage:{inputTokens,outputTokens,costUsd?}`，否则按 invalid schema abstain。Report 的 semantic cost 是 `not_applicable | estimated | reported`，进入 canonical JSON 与 Markdown/HTML/UI。若 adapter 不报 `costUsd`，按显式价格计算；reported/computed cost 是运行证据而非账单真源。
+- 客户端 preflight 只能决定是否发起请求，postflight 只能拒绝输出；它们不能撤销 provider 已产生的费用。Adapter endpoint 必须实际执行 `limits.maxOutputTokens`，真实账单仍以 provider 为准。
+- Fake/replay/adapter tests 不需要真实 egress 决定；真正连接 local/cloud provider、发送真实片段、使用 API key 或付费 API 前仍需当前授权。任何接受的 BYOK candidate 继续满足 `model_candidate` / `candidate` / `exploratory`，不自动改 contract、不 gate。
 
 ## 13. Local Review UI Contract
 
@@ -408,6 +417,7 @@ Rules：
 - Local-only 测试必须在禁网条件下通过。
 - Logs 不输出完整私有内容；diagnostics 使用 path、span、hash 和短摘录。
 - Local UI 的 loopback HTTP 不改变 Deterministic Core 的禁网合同；它没有 outbound provider/network 调用。
+- BYOK 是唯一显式 outbound exception；其 config 不能越出 target repo、不能跟随 redirect、不能自动 retry，也不能把 provider error body 或 credential 写进 artifact。
 
 ## 15. Definition of Technical Done
 

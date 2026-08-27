@@ -20,6 +20,17 @@ function htmlEscape(value: string): string {
     .replaceAll("'", "&#039;");
 }
 
+function semanticCostText(report: ScanReport): string {
+  const cost = report.semantic.cost;
+  if (cost.status === "reported") {
+    return `${cost.reportedUsd} USD reported (${cost.reportedInputTokens} input / ${cost.reportedOutputTokens} output tokens)`;
+  }
+  if (cost.status === "estimated") {
+    return `${cost.estimatedMaxUsd} USD preflight maximum (${cost.estimatedInputTokens} estimated input / ${cost.maxOutputTokens} max output tokens)`;
+  }
+  return "not applicable";
+}
+
 function markdownFinding(finding: Finding): string {
   const sourceLines = finding.sources.length
     ? finding.sources
@@ -119,6 +130,7 @@ export function renderMarkdown(report: ScanReport): string {
 | Semantic mode | \`${report.semanticMode}\` |
 | Semantic stage | \`${report.semantic.status}\` via \`${markdownEscape(report.semantic.provider)}\` |
 | Semantic candidates | ${report.semantic.candidates.length} |
+| Semantic cost | ${markdownEscape(semanticCostText(report))} |
 | Included artifacts | ${report.artifacts.length} |
 | Skipped artifacts | ${report.coverage.skipped.length} |
 | Findings | ${report.summary.total} (${report.summary.formal} formal, ${report.summary.exploratory} exploratory, ${report.summary.abstained} abstained) |
@@ -204,7 +216,7 @@ export function renderHtml(report: ScanReport): string {
 </head>
 <body>
   <h1>DecisionTrace Scan Report</h1>
-  <dl><dt>Scan</dt><dd><code>${htmlEscape(report.scanId)}</code></dd><dt>Result</dt><dd>${report.result}</dd><dt>Mode</dt><dd>${report.mode}</dd><dt>Head</dt><dd><code>${htmlEscape(report.repository.head)}</code></dd><dt>Semantic stage</dt><dd>${report.semantic.status} via ${htmlEscape(report.semantic.provider)}</dd><dt>Semantic candidates</dt><dd>${report.semantic.candidates.length}</dd><dt>Findings</dt><dd>${report.summary.total} (${report.summary.formal} formal, ${report.summary.exploratory} exploratory, ${report.summary.abstained} abstained)</dd></dl>
+  <dl><dt>Scan</dt><dd><code>${htmlEscape(report.scanId)}</code></dd><dt>Result</dt><dd>${report.result}</dd><dt>Mode</dt><dd>${report.mode}</dd><dt>Head</dt><dd><code>${htmlEscape(report.repository.head)}</code></dd><dt>Semantic stage</dt><dd>${report.semantic.status} via ${htmlEscape(report.semantic.provider)}</dd><dt>Semantic candidates</dt><dd>${report.semantic.candidates.length}</dd><dt>Semantic cost</dt><dd>${htmlEscape(semanticCostText(report))}</dd><dt>Findings</dt><dd>${report.summary.total} (${report.summary.formal} formal, ${report.summary.exploratory} exploratory, ${report.summary.abstained} abstained)</dd></dl>
   <h2>Diagnostics</h2>${diagnostics}
   <h2>Semantic Candidates</h2>${semanticCandidates}
   <h2>Findings</h2>${findings}

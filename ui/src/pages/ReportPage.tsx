@@ -239,23 +239,29 @@ export function ReportPage() {
       )}
 
       {tab === "semantic" && (
-        <section className="card-stack">
-          {report.semantic.candidates.length === 0 ? (
-            <EmptyState
-              title="没有 semantic candidate"
-              body={`Semantic stage: ${report.semantic.status} via ${report.semantic.provider}.`}
-            />
-          ) : (
-            report.semantic.candidates.map((candidate) => (
-              <CandidateCard
-                key={candidate.id}
-                candidate={candidate}
-                reportKey={detail.key}
-                review={detail.reviews.semanticCandidates[candidate.id]}
-                submitReview={reviewSemantic}
+        <section>
+          <div className="notice semantic-cost-notice">
+            <strong>{report.semantic.provider}</strong>
+            <span>{semanticCostLabel(report)}</span>
+          </div>
+          <div className="card-stack">
+            {report.semantic.candidates.length === 0 ? (
+              <EmptyState
+                title="没有 semantic candidate"
+                body={`Semantic stage: ${report.semantic.status} via ${report.semantic.provider}.`}
               />
-            ))
-          )}
+            ) : (
+              report.semantic.candidates.map((candidate) => (
+                <CandidateCard
+                  key={candidate.id}
+                  candidate={candidate}
+                  reportKey={detail.key}
+                  review={detail.reviews.semanticCandidates[candidate.id]}
+                  submitReview={reviewSemantic}
+                />
+              ))
+            )}
+          </div>
         </section>
       )}
 
@@ -386,4 +392,15 @@ function Filter({
       </select>
     </label>
   );
+}
+
+function semanticCostLabel(detail: ReportDetail["report"]): string {
+  const cost = detail.semantic.cost;
+  if (cost.status === "reported") {
+    return `Reported ${cost.reportedUsd} USD · ${cost.reportedInputTokens} input / ${cost.reportedOutputTokens} output tokens`;
+  }
+  if (cost.status === "estimated") {
+    return `Preflight max ${cost.estimatedMaxUsd} USD · ${cost.estimatedInputTokens} estimated input / ${cost.maxOutputTokens} max output tokens`;
+  }
+  return "No paid provider cost applies to this scan.";
 }

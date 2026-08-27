@@ -5,13 +5,13 @@ created: 2026-08-27
 status: implementation-contract
 ---
 
-# Acceptance Criteria：DecisionTrace P0 Core, Offline Semantic Layer & Local Review UI
+# Acceptance Criteria：DecisionTrace P0 Core, Semantic Transport & Local Review UI
 
 ## Story Context
 
-本合同覆盖 PRD 中 `US-001`–`US-006`、`US-008` 与 `FR-001`–`FR-031`。P0 让用户在本地 repo 配置 product contracts、执行 full/diff scan、获得有来源的 D1/D2/D3 findings、记录 disposition，并在 GitHub Action shadow mode 中复现相同结果；M5 offline slice 另外验证有界脱敏输入、fake/replay provider 与 candidate-only feedback；M5.5 验证 loopback Review UI。
+本合同覆盖 PRD 中 `US-001`–`US-006`、`US-008` 与 `FR-001`–`FR-035`。P0 让用户在本地 repo 配置 product contracts、执行 full/diff scan、获得有来源的 D1/D2/D3 findings、记录 disposition，并在 GitHub Action shadow mode 中复现相同结果；M5 验证有界脱敏输入、fake/replay、显式 budgeted BYOK transport 与 candidate-only feedback；M5.5 验证 loopback Review UI。
 
-真实 local/cloud provider 质量、真实数据出境、真实用户价值和开源发布不属于本验收合同。
+真实 local/cloud provider 质量、真实付费调用/数据出境、真实用户价值和许可证选择不属于本验收合同；BYOK 自动化使用 injected fetch，不冒充 live provider evidence。
 
 ## A. Initialization & Configuration
 
@@ -425,6 +425,48 @@ status: implementation-contract
 
 **Then** config/contracts/report/renderings/manifest/provenance hashes 可复现，artifact 不含本机绝对路径或目标源码正文；analyst triage 区分 observed/inferred/proposed，并明确没有独立 human disposition 或 real-repo precision claim。
 
+## K. BYOK Semantic Transport
+
+### AC-050｜Config、endpoint 与认证头边界
+
+**Given** 用户提供 BYOK v1 config
+
+**When** runtime validation 与 endpoint validation 运行
+
+**Then** config 必须包含精确 model、`DECISIONTRACE_*` 专用环境变量名、显式价格/单请求预算/output-token limit；`GITHUB_TOKEN` 等 ambient credential 名被拒绝，cloud 只接受 HTTPS，local 只接受 loopback HTTP(S)，URL credential/fragment 与非 allowlist 认证头被拒绝；tracked example 无真实 key 且 schema-valid。
+
+### AC-051｜无隐式 live call
+
+**Given** semantic mode、BYOK config 或 config 指定的环境变量 key 任一缺失，或 replay 与 BYOK 同时出现
+
+**When** CLI scan 运行
+
+**Then** 不发 provider request；缺 provider/key 时 semantic stage 明确 abstain、Deterministic Core/report 保留且 exit 0，互斥/invalid config 则在 scan 前以明确配置错误退出。
+
+### AC-052｜Preflight 与 postflight budget enforcement
+
+**Given** config 提供价格、`maxRequestUsd` 与 `maxOutputTokens`
+
+**When** preflight 最大成本超预算，或 response usage 报告 output tokens/cost 超限
+
+**Then** preflight case 的 fetch count 为 0；postflight case 丢弃整批 output 并 abstain。Canonical report 保存不含 key 的 estimated/reported USD 与 token evidence，但不得把 client estimate 表述为 provider billing guarantee。
+
+### AC-053｜Redacted v1 request 与 candidate-only result
+
+**Given** source 含 synthetic secret、email 或本机路径，BYOK fetch 由测试注入合法 response
+
+**When** adapter 发送 `decisiontrace.semantic.v1`
+
+**Then** body 只含 model、`limits.maxOutputTokens` 与 bounded redacted input，不含 API key、原始 secret/path；合法 response 记录 usage/cost，semantic result 与派生 finding 继续是 exploratory 且永不 gate。
+
+### AC-054｜Timeout、response 与 secret failure containment
+
+**Given** provider timeout、HTTP error、redirect、oversized stream、缺失 usage、invalid JSON/schema 或回显 credential
+
+**When** BYOK adapter 运行
+
+**Then** 每次显式执行最多一次 request、timeout 会 abort、response body/credential 不进入 diagnostic/report，整批 semantic output 被拒绝，Deterministic Core 继续。
+
 ## Requirements Coverage
 
 | Requirement | Acceptance Criteria |
@@ -461,5 +503,8 @@ status: implementation-contract
 | FR-030 | AC-040–AC-044 |
 | FR-031 | AC-041, AC-045–AC-048 |
 | FR-032 | AC-049 |
+| FR-033 | AC-050–AC-051 |
+| FR-034 | AC-051–AC-054 |
+| FR-035 | AC-035–AC-036, AC-052–AC-054 |
 
 每个实现 PR 必须列出覆盖的 `FR-*` 与 `AC-*`，没有验收映射的代码不算 P0 完成。

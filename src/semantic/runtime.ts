@@ -13,7 +13,10 @@ import {
 } from "../schemas/index.js";
 import { validationMessage } from "../schemas/validation.js";
 import { stableHash } from "../utils/hash.js";
-import type { SemanticAnalyzer } from "./analyzer.js";
+import {
+  SemanticAnalyzerAbstentionError,
+  type SemanticAnalyzer,
+} from "./analyzer.js";
 import type { SemanticInputContext } from "./redaction.js";
 
 const SEVERITY_RANK: Record<Severity, number> = {
@@ -59,6 +62,7 @@ function abstainedResult(
   provider: string,
   context: SemanticInputContext,
   diagnostic: Diagnostic,
+  analyzer?: SemanticAnalyzer,
 ): SemanticRunResult {
   return {
     stage: semanticStageSchema.parse({
@@ -66,6 +70,10 @@ function abstainedResult(
       provider,
       input: stageInput(context),
       candidates: [],
+      cost: analyzer?.costSnapshot?.() ?? {
+        status: "not_applicable",
+        currency: "USD",
+      },
     }),
     findingDrafts: [],
     diagnostics: [diagnostic],
@@ -260,13 +268,18 @@ export async function runSemanticStage(input: {
       response,
     });
     if ("error" in normalized) {
-      return abstainedResult(input.analyzer.name, input.context, {
-        code: "SEMANTIC_OUTPUT_INVALID",
-        severity: "warning",
-        message: `Semantic provider output was rejected: ${normalized.error}`,
-        recovery:
-          "Return schemaVersion 1, echo the current inputId, and reference only supplied source and contract IDs.",
-      });
+      return abstainedResult(
+        input.analyzer.name,
+        input.context,
+        {
+          code: "SEMANTIC_OUTPUT_INVALID",
+          severity: "warning",
+          message: `Semantic provider output was rejected: ${normalized.error}`,
+          recovery:
+            "Return schemaVersion 1, echo the current inputId, and reference only supplied source and contract IDs.",
+        },
+        input.analyzer,
+      );
     }
     return {
       stage: semanticStageSchema.parse({
@@ -274,22 +287,44 @@ export async function runSemanticStage(input: {
         provider: input.analyzer.name,
         input: stageInput(input.context),
         candidates: normalized.candidates,
+        cost: input.analyzer.costSnapshot?.() ?? {
+          status: "not_applicable",
+          currency: "USD",
+        },
       }),
       findingDrafts: normalized.findingDrafts,
       diagnostics: [],
     };
   } catch (error) {
+    if (error instanceof SemanticAnalyzerAbstentionError) {
+      return abstainedResult(
+        input.analyzer.name,
+        input.context,
+        {
+          code: error.code,
+          severity: "warning",
+          message: error.message,
+          recovery: error.recovery,
+        },
+        input.analyzer,
+      );
+    }
     const timeout =
       error instanceof Error && error.message === "SEMANTIC_TIMEOUT";
-    return abstainedResult(input.analyzer.name, input.context, {
-      code: timeout ? "SEMANTIC_PROVIDER_TIMEOUT" : "SEMANTIC_PROVIDER_ERROR",
-      severity: "warning",
-      message: timeout
-        ? `Semantic provider exceeded ${timeoutMilliseconds}ms and was aborted; deterministic checks continued.`
-        : "Semantic provider failed; deterministic checks continued without accepting provider output.",
-      recovery: timeout
-        ? "Increase the explicit timeout only after checking provider latency and input bounds."
-        : "Inspect the provider locally; provider errors do not become formal findings.",
-    });
+    return abstainedResult(
+      input.analyzer.name,
+      input.context,
+      {
+        code: timeout ? "SEMANTIC_PROVIDER_TIMEOUT" : "SEMANTIC_PROVIDER_ERROR",
+        severity: "warning",
+        message: timeout
+          ? `Semantic provider exceeded ${timeoutMilliseconds}ms and was aborted; deterministic checks continued.`
+          : "Semantic provider failed; deterministic checks continued without accepting provider output.",
+        recovery: timeout
+          ? "Increase the explicit timeout only after checking provider latency and input bounds."
+          : "Inspect the provider locally; provider errors do not become formal findings.",
+      },
+      input.analyzer,
+    );
   }
 }

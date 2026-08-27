@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "transport": "http-json",
+  "endpoint": "https://semantic-bridge.example/v1/analyze",
+  "model": "replace-with-exact-provider-model-id",
+  "apiKeyEnv": "DECISIONTRACE_SEMANTIC_API_KEY",
+  "authHeader": "Authorization",
+  "authPrefix": "Bearer ",
+  "responseMaxBytes": 1048576,
+  "budget": {
+    "maxRequestUsd": 0.05,
+    "inputUsdPerMillionTokens": 1,
+    "outputUsdPerMillionTokens": 3,
+    "maxOutputTokens": 1000
+  }
+}

@@ -193,7 +193,7 @@
       "additionalProperties": false
     }
   },
-  "required": ["schemaVersion", "inputId", "candidates"],
+  "required": ["schemaVersion", "inputId", "candidates", "usage"],
   "additionalProperties": false,
-  "title": "DecisionTraceSemanticProviderResponseV1"
+  "title": "DecisionTraceSemanticByokResponseV1"
 }

@@ -19,6 +19,8 @@ import {
   type SemanticReviewDecision,
 } from "../schemas/index.js";
 import { scanRepository } from "../scan/service.js";
+import type { SemanticAnalyzer } from "../semantic/analyzer.js";
+import { HttpJsonByokSemanticAnalyzer } from "../semantic/byok.js";
 import { ReplaySemanticAnalyzer } from "../semantic/fake.js";
 import { startUiServer } from "../ui/server.js";
 import {
@@ -100,6 +102,10 @@ export async function main(
       "offline provider response JSON; never calls a model",
     )
     .option(
+      "--semantic-byok <json>",
+      "explicit local/cloud HTTP-JSON BYOK adapter config",
+    )
+    .option(
       "--semantic-input-output <json>",
       "write the bounded, redacted provider input for offline analysis",
     )
@@ -117,6 +123,7 @@ export async function main(
         output?: string;
         semantic: "off" | "local" | "cloud";
         semanticReplay?: string;
+        semanticByok?: string;
         semanticInputOutput?: string;
         semanticTimeoutMs: string;
       }) => {
@@ -129,11 +136,21 @@ export async function main(
         if (
           options.semantic === "off" &&
           (options.semanticReplay !== undefined ||
+            options.semanticByok !== undefined ||
             options.semanticInputOutput !== undefined)
         ) {
           throw new DecisionTraceError(
-            "--semantic-replay and --semantic-input-output require --semantic local or --semantic cloud.",
+            "--semantic-replay, --semantic-byok, and --semantic-input-output require --semantic local or --semantic cloud.",
             { code: "SEMANTIC_MODE_REQUIRED" },
+          );
+        }
+        if (
+          options.semanticReplay !== undefined &&
+          options.semanticByok !== undefined
+        ) {
+          throw new DecisionTraceError(
+            "--semantic-replay and --semantic-byok are mutually exclusive.",
+            { code: "SEMANTIC_PROVIDER_CONFLICT" },
           );
         }
         const semanticTimeoutMilliseconds = Number(options.semanticTimeoutMs);
@@ -149,7 +166,7 @@ export async function main(
         }
         const requestedRepository = path.resolve(options.repo);
         const repositoryRoot = await findRepositoryRoot(requestedRepository);
-        let semanticAnalyzer: ReplaySemanticAnalyzer | undefined;
+        let semanticAnalyzer: SemanticAnalyzer | undefined;
         if (options.semanticReplay !== undefined) {
           const replayCandidate = path.isAbsolute(options.semanticReplay)
             ? resolveInsideRoot(
@@ -187,6 +204,43 @@ export async function main(
             replay,
             `offline-replay:${path.basename(replayPath).slice(0, 160)}`,
           );
+        }
+        if (options.semanticByok !== undefined) {
+          const configCandidate = path.isAbsolute(options.semanticByok)
+            ? resolveInsideRoot(
+                repositoryRoot,
+                path.relative(repositoryRoot, options.semanticByok),
+                "semantic BYOK config",
+              )
+            : resolveInsideRoot(
+                repositoryRoot,
+                options.semanticByok,
+                "semantic BYOK config",
+              );
+          const configPath = await resolveExistingInsideRoot(
+            repositoryRoot,
+            configCandidate,
+            "semantic BYOK config",
+          );
+          if ((await stat(configPath)).size > 32_768) {
+            throw new DecisionTraceError(
+              `Semantic BYOK config exceeds the 32768-byte limit: ${options.semanticByok}`,
+              { code: "SEMANTIC_BYOK_CONFIG_TOO_LARGE" },
+            );
+          }
+          let byokConfig: unknown;
+          try {
+            byokConfig = JSON.parse(await readFile(configPath, "utf8"));
+          } catch {
+            throw new DecisionTraceError(
+              `Semantic BYOK config is not valid JSON: ${options.semanticByok}`,
+              { code: "SEMANTIC_BYOK_CONFIG_INVALID_JSON" },
+            );
+          }
+          semanticAnalyzer = new HttpJsonByokSemanticAnalyzer({
+            config: byokConfig,
+            mode: options.semantic as "local" | "cloud",
+          });
         }
         const execution = await scanRepository({
           repo: requestedRepository,
