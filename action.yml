@@ -18,6 +18,36 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Validate local boundaries
+      id: boundary
+      shell: bash
+      env:
+        DECISIONTRACE_REPOSITORY: ${{ inputs.repository }}
+        DECISIONTRACE_OUTPUT: ${{ inputs.output }}
+        DECISIONTRACE_BASE: ${{ inputs.base }}
+        DECISIONTRACE_HEAD: ${{ inputs.head }}
+      run: |
+        if [[ -z "$DECISIONTRACE_REPOSITORY" || -z "$DECISIONTRACE_OUTPUT" ]]; then
+          echo "repository and output must be non-empty" >&2
+          exit 2
+        fi
+        if [[ -n "$DECISIONTRACE_BASE" && -z "$DECISIONTRACE_HEAD" ]] || [[ -z "$DECISIONTRACE_BASE" && -n "$DECISIONTRACE_HEAD" ]]; then
+          echo "base and head must be provided together" >&2
+          exit 2
+        fi
+        workspace="$(realpath "$GITHUB_WORKSPACE")"
+        target_repository="$(realpath "$workspace/$DECISIONTRACE_REPOSITORY")"
+        report_path="$(realpath -m "$target_repository/$DECISIONTRACE_OUTPUT")"
+        if [[ "$target_repository" != "$workspace" && "$target_repository" != "$workspace/"* ]]; then
+          echo "repository resolves outside the GitHub workspace" >&2
+          exit 2
+        fi
+        if [[ "$report_path" != "$target_repository/"* ]]; then
+          echo "output resolves outside the target repository" >&2
+          exit 2
+        fi
+        echo "target_repository=$target_repository" >> "$GITHUB_OUTPUT"
+        echo "report_path=$report_path" >> "$GITHUB_OUTPUT"
     - name: Install DecisionTrace
       shell: bash
       working-directory: ${{ github.action_path }}
@@ -30,13 +60,12 @@ runs:
       id: scan
       shell: bash
       env:
-        DECISIONTRACE_REPOSITORY: ${{ inputs.repository }}
+        DECISIONTRACE_REPOSITORY: ${{ steps.boundary.outputs.target_repository }}
         DECISIONTRACE_BASE: ${{ inputs.base }}
         DECISIONTRACE_HEAD: ${{ inputs.head }}
         DECISIONTRACE_OUTPUT: ${{ inputs.output }}
       run: |
-        target_repository="$GITHUB_WORKSPACE/$DECISIONTRACE_REPOSITORY"
-        args=(scan --repo "$target_repository" --semantic off --output "$DECISIONTRACE_OUTPUT")
+        args=(scan --repo "$DECISIONTRACE_REPOSITORY" --semantic off --output "$DECISIONTRACE_OUTPUT")
         if [[ -n "$DECISIONTRACE_BASE" || -n "$DECISIONTRACE_HEAD" ]]; then
           args+=(--base "$DECISIONTRACE_BASE" --head "$DECISIONTRACE_HEAD")
         fi
@@ -46,10 +75,10 @@ runs:
         set -e
         echo "exit_code=$status" >> "$GITHUB_OUTPUT"
     - name: Upload DecisionTrace reports
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: decisiontrace-report
-        path: ${{ github.workspace }}/${{ inputs.repository }}/${{ inputs.output }}
+        path: ${{ steps.boundary.outputs.report_path }}
         if-no-files-found: error
     - name: Preserve trusted scan status
       shell: bash

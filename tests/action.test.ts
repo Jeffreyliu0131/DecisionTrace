@@ -16,11 +16,20 @@ describe("GitHub shadow integration", () => {
       runs: { steps: { name: string; uses?: string }[] };
     };
     const stepNames = action.runs.steps.map((step) => step.name);
+    expect(stepNames[0]).toBe("Validate local boundaries");
     expect(stepNames.indexOf("Upload DecisionTrace reports")).toBeLessThan(
       stepNames.indexOf("Preserve trusted scan status"),
     );
     expect(actionRaw).not.toContain("pull-requests: write");
     expect(actionRaw).not.toContain("issues: write");
+    expect(actionRaw).toContain('realpath "$GITHUB_WORKSPACE"');
+
+    const actionUses = [...actionRaw.matchAll(/uses:\s+([^\s#]+)/gu)].map(
+      (match) => match[1],
+    );
+    expect(actionUses.every((value) => /@[a-f0-9]{40}$/u.test(value!))).toBe(
+      true,
+    );
 
     for (const workflow of ["ci.yml", "shadow.yml"]) {
       const raw = await readFile(
@@ -29,6 +38,19 @@ describe("GitHub shadow integration", () => {
       );
       const parsed = parse(raw) as { permissions: { contents: string } };
       expect(parsed.permissions).toEqual({ contents: "read" });
+      const uses = [...raw.matchAll(/uses:\s+([^\s#]+)/gu)].map(
+        (match) => match[1],
+      );
+      expect(
+        uses.every((value) => value === "./" || /@[a-f0-9]{40}$/u.test(value!)),
+      ).toBe(true);
+      expect(raw).toContain("persist-credentials: false");
     }
+
+    const shadowRaw = await readFile(
+      path.join(PROJECT_ROOT, ".github/workflows/shadow.yml"),
+      "utf8",
+    );
+    expect(shadowRaw).toContain("branches: [main]");
   });
 });
