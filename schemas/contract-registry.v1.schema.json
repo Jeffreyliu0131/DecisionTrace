@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": { "type": "number", "const": 1 },
+    "contracts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "pattern": "^CTR-\\d{3}$" },
+          "title": { "type": "string", "minLength": 1 },
+          "status": {
+            "type": "string",
+            "enum": ["candidate", "active", "superseded", "retired"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["critical", "high", "medium", "low", "info"]
+          },
+          "topic": { "type": "string", "minLength": 1 },
+          "rule": {
+            "type": "object",
+            "properties": {
+              "operator": {
+                "type": "string",
+                "enum": ["require", "forbid", "allow", "limit"]
+              },
+              "object": { "type": "string", "minLength": 1 },
+              "applies_to": {
+                "minItems": 1,
+                "type": "array",
+                "items": { "type": "string", "minLength": 1 }
+              }
+            },
+            "required": ["operator", "object", "applies_to"],
+            "additionalProperties": false
+          },
+          "defined_by": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "glob": { "type": "string", "minLength": 1 },
+                "locator": { "type": "string", "minLength": 1 },
+                "required": { "type": "boolean" },
+                "covers": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "implemented_by": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "glob": { "type": "string", "minLength": 1 },
+                "locator": { "type": "string", "minLength": 1 },
+                "required": { "type": "boolean" },
+                "covers": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "enforced_by": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "glob": { "type": "string", "minLength": 1 },
+                "locator": { "type": "string", "minLength": 1 },
+                "required": { "type": "boolean" },
+                "covers": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "verified_by": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "glob": { "type": "string", "minLength": 1 },
+                "locator": { "type": "string", "minLength": 1 },
+                "required": { "type": "boolean" },
+                "covers": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "claimed_in": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "glob": { "type": "string", "minLength": 1 },
+                "locator": { "type": "string", "minLength": 1 },
+                "required": { "type": "boolean" },
+                "covers": {
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "supersedes": {
+            "default": [],
+            "type": "array",
+            "items": { "type": "string", "pattern": "^CTR-\\d{3}$" }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "status",
+          "severity",
+          "topic",
+          "rule",
+          "defined_by",
+          "implemented_by",
+          "enforced_by",
+          "verified_by",
+          "claimed_in",
+          "supersedes"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["version", "contracts"],
+  "additionalProperties": false,
+  "title": "DecisionTraceContractRegistryV1"
+}

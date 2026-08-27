@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "pattern": "^ART-[a-f0-9]{12}$" },
+    "category": {
+      "type": "string",
+      "enum": [
+        "requirements",
+        "decisions",
+        "ai_policies",
+        "implementation",
+        "tests",
+        "evals",
+        "public_claims"
+      ]
+    },
+    "path": { "type": "string", "minLength": 1 },
+    "revision": { "type": "string", "minLength": 1 },
+    "contentHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "byteSize": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "parserStatus": {
+      "type": "string",
+      "enum": ["parsed", "text_only", "skipped", "error"]
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string", "minLength": 1 },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warning", "error"]
+          },
+          "message": { "type": "string", "minLength": 1 },
+          "path": { "type": "string", "minLength": 1 },
+          "field": { "type": "string", "minLength": 1 },
+          "recovery": { "type": "string", "minLength": 1 },
+          "details": {
+            "type": "object",
+            "propertyNames": { "type": "string" },
+            "additionalProperties": {}
+          }
+        },
+        "required": ["code", "severity", "message"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "id",
+    "category",
+    "path",
+    "revision",
+    "contentHash",
+    "byteSize",
+    "parserStatus",
+    "diagnostics"
+  ],
+  "additionalProperties": false,
+  "title": "DecisionTraceArtifactV1"
+}

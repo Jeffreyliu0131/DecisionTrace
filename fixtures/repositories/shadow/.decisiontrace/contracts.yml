@@ -1,0 +1,74 @@
+version: 1
+contracts:
+  - id: CTR-001
+    title: Audit chat output
+    status: active
+    severity: high
+    topic: output_audit
+    rule:
+      operator: require
+      object: audit
+      applies_to: [chat]
+    defined_by:
+      - path: docs/requirements.md
+        locator: CTR-001
+    implemented_by:
+      - glob: src/**/*.ts
+    verified_by:
+      - path: tests/service.test.ts
+        required: true
+        covers: [chat]
+    claimed_in:
+      - path: README.md
+    supersedes: []
+  - id: CTR-002
+    title: Bypass chat output audit
+    status: active
+    severity: high
+    topic: output_audit
+    rule:
+      operator: forbid
+      object: audit
+      applies_to: [chat]
+    defined_by:
+      - path: docs/adr/decision.md
+        locator: CTR-002
+    supersedes: []
+  - id: CTR-003
+    title: Verify RTC output
+    status: active
+    severity: medium
+    topic: rtc_evidence
+    rule:
+      operator: require
+      object: output_audit
+      applies_to: [rtc]
+    defined_by:
+      - path: docs/policies/ai.md
+        locator: CTR-003
+    verified_by:
+      - path: evals/rtc.yml
+        required: true
+        covers: [rtc]
+    supersedes: []
+  - id: CTR-004
+    title: Keep service behavior traced
+    status: active
+    severity: medium
+    topic: service_trace
+    rule:
+      operator: require
+      object: trace
+      applies_to: [service]
+    defined_by:
+      - path: docs/requirements.md
+        locator: CTR-004
+    implemented_by:
+      - path: src/service.ts
+    verified_by:
+      - path: tests/service.test.ts
+        required: true
+        covers: [service]
+    claimed_in:
+      - path: README.md
+    supersedes: []

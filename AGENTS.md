@@ -21,7 +21,10 @@
    - `docs/01-PRD.md`：产品需求与范围；
    - `docs/02-ARCHITECTURE.md`：系统边界与模块；
    - `docs/03-EVALUATION.md`：评测与 release gates；
-   - `docs/04-OPEN-QUESTIONS.md`：尚未决定的问题。
+   - `docs/04-OPEN-QUESTIONS.md`：尚未决定的问题；
+   - `docs/05-TECHNICAL-SPEC.md`：技术栈、CLI、schema、detector 与安全合同；
+   - `docs/06-ACCEPTANCE-CRITERIA.md`：可观察的 Given/When/Then 验收；
+   - `docs/07-IMPLEMENTATION-PLAN.md`：实施顺序与 milestone exit gates。
 4. README、Issue、讨论稿和 agent 生成草稿。
 
 AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源。来源冲突时不得静默选择，必须报告冲突及依据。
@@ -35,6 +38,9 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 | `docs/02-ARCHITECTURE.md` | 系统怎样接入、模块如何分工、信任边界是什么 |
 | `docs/03-EVALUATION.md` | 怎样建立 ground truth、评测系统并决定是否发布 |
 | `docs/04-OPEN-QUESTIONS.md` | 哪些关键决定仍未知、需要什么证据 |
+| `docs/05-TECHNICAL-SPEC.md` | 具体用什么技术合同实现 P0 |
+| `docs/06-ACCEPTANCE-CRITERIA.md` | 怎样不靠解释直接判定功能通过或失败 |
+| `docs/07-IMPLEMENTATION-PLAN.md` | Coding agent 先做什么、后做什么、何时停止 |
 | `AGENTS.md` | 协作者如何安全、诚实地完成工作 |
 
 不要创建 `final-v2`、平行 PRD、重复架构说明或新的总览真源。能更新 canonical owner 就不新建同主题文件。
@@ -57,7 +63,7 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 - 功能需求：`FR-###`
 - Drift 类型：`D1` / `D2` / `D3`
 - Eval case：`EV-###`
-- Finding：`FND-YYYYMMDD-###`
+- Finding：`FND-<stable 12 hex>`；由 drift type、contracts、sources 与 normalized reason 确定性派生
 - 技术决定：未来需要时使用 `ADR-###`
 
 统一使用以下事实标签：
@@ -72,15 +78,18 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 
 ## 6. 每次实现前
 
-1. 读取本文件及与改动直接相关的 canonical 文档。
+1. 读取本文件及与改动直接相关的 canonical 文档。任何代码实现至少读取 `01-PRD`、`05-TECHNICAL-SPEC`、`06-ACCEPTANCE-CRITERIA` 与 `07-IMPLEMENTATION-PLAN`。
 2. 检查 Git status、当前分支、worktree 和用户未提交内容；不得覆盖。
 3. 明确本轮问题、目标用户、范围、非范围和验收条件。
 4. 先检查已有实现、测试、Issue 和决定，避免重复功能。
 5. 若需要模型/API，先定义无密钥降级、成本边界和测试替身。
 
+M1–M4 已有本地实现后，默认只执行 [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) 中下一个明确标记的 vertical slice。M5 可以在 synthetic fixtures、fake provider 或离线 replay 上继续开发，不等待产品实际投用或数据出境方案；真实 cloud 调用、付费 API、真实 repo 扫描、Web UI、MCP、部署与外部发布仍不得顺手扩 scope。
+
 ## 7. 实现与验证规则
 
 - 任何 `FR-*` 必须能关联至少一个验收或 eval case。
+- 每个实现 PR/变更摘要必须列出覆盖的 `FR-*`、`AC-*` 与 `I-*`；没有映射的代码不计入 P0 完成。
 - 任何产品行为声明必须明确由规则、代码、Test、Eval、Telemetry 或用户研究中的哪一种证据支持。
 - 新增 drift detector 时必须同时增加：正例、反例、边界例和至少一个已知误报例。
 - Model grader 必须在人类标注样本上校准；不能用同一模型同时生成 case、评分并宣布通过。
@@ -91,6 +100,8 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 ## 8. 数据与安全
 
 - P0 fixtures 使用合成或明确授权并去标识化的数据。
+- Deterministic Core 固定 `local-only`。仅使用 synthetic 内容的 provider-agnostic interface、fake provider、redaction、离线 replay 与失败降级可以直接开发；实现这些边界不等于授权真实数据出境。
+- 只有真正发起 network/cloud 请求、调用付费 API 或发送真实/私有 repo 片段时，才必须在当前请求中明确 provider、发送范围、成本/API key 与授权。未实际投用不能作为泄露真实数据的例外。
 - 不提交 `.env`、tokens、credentials、真实用户内容、私有 repo 文本或绝对个人路径。
 - GitHub Action 默认最小权限：读取内容；只有明确启用 PR comment 时才申请相应写权限。
 - 日志不得保存完整源代码、Prompt 或秘密；诊断输出应可配置脱敏。
@@ -117,4 +128,3 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 不得用文件数、代码行数、测试数量或 agent 使用时长冒充产品进展。
 
 修改本文件后提醒用户：新的 Codex 任务或会话才保证重新加载更新后的协议。
-

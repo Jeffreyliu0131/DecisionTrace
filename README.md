@@ -1,15 +1,16 @@
 # DecisionTrace
 
-- 状态：`framing`
+- 状态：`local-review-ui-implemented; independent-validation-pending`
 - 创建日期：2026-08-27
-- 当前阶段：P0 产品定义与验证设计
+- 当前阶段：M1–M5 offline slice 与本地 Review UI 已实现；独立人工复核、hosted Action 与真实 provider calibration 仍待完成
 - 项目负责人：用户（产品判断、ground truth 与发布决定）
 - AI 角色：研究、实现、测试与审查协作者；不能替用户确认需求、误报和用户价值
 - 开源状态：计划开源；许可证尚未选择，当前不授予任何复用权利
+- Public repository：https://github.com/Jeffreyliu0131/DecisionTrace
 
 DecisionTrace 是一个面向 AI-native 产品团队的**产品契约可追溯与漂移检测系统**。它检查同一个产品承诺在 PRD、ADR、AI 行为规范、代码、Prompt、Tests、Evals、README 和 Release Claims 中是否仍然一致，并把潜在失配转成有来源、可审查的候选问题。
 
-它不是通用 AI Code Review、项目管理工具或自动改文档机器人。P0 以本地 CLI 和 GitHub Action 的形式旁路接入仓库，不进入目标产品的用户请求链路，不自动修改目标文件，也不把 LLM 判断当作真相。
+它不是通用 AI Code Review、项目管理工具或自动改文档机器人。P0 以本地 CLI、loopback Review UI 和 GitHub Action 的形式旁路接入仓库，不进入目标产品的用户请求链路，不自动修改目标文件，也不把 LLM 判断当作真相。
 
 ## P0 要回答的问题
 
@@ -55,6 +56,9 @@ P0 只检测三类漂移：
 | [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md) | 定义集成形态、模块、数据流与信任边界 |
 | [`docs/03-EVALUATION.md`](docs/03-EVALUATION.md) | 定义 ground truth、评测阶段、指标与 release gates |
 | [`docs/04-OPEN-QUESTIONS.md`](docs/04-OPEN-QUESTIONS.md) | 保存尚未确认、会改变方案的重要问题 |
+| [`docs/05-TECHNICAL-SPEC.md`](docs/05-TECHNICAL-SPEC.md) | 锁定技术栈、目录、CLI、schema、detector 与安全合同 |
+| [`docs/06-ACCEPTANCE-CRITERIA.md`](docs/06-ACCEPTANCE-CRITERIA.md) | 用 Given/When/Then 定义 P0 可观察完成条件 |
+| [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) | 定义 I-001 起的实施顺序、每阶段 exit gate 与首个 agent prompt |
 
 同一内容只在一个 owner 文件中维护；其他文件使用相对链接引用，不复制完整正文。
 
@@ -65,31 +69,41 @@ P0 只检测三类漂移：
 - DecisionTrace 值得作为候选 AI 产品继续定义。
 - 它的本质不是岗位管理，而是对齐同一产品承诺在不同产物中的表示。
 - 它应以可嵌入其他产品研发与发布流程的形式工作。
-- 本轮先创建本地项目文件夹与 Markdown 真源，不开始编码。
+- 已创建本地 Git 项目和 public GitHub repository；当前公开源码尚无开源许可证。
+- 本轮要求把文档补齐到 coding agent 可直接开始实现的程度。
 
 ### 当前工作假设
 
-- Primary user 是使用 AI coding agents、高频修改产品的 Technical PM、AI Product Owner、Engineering Manager 或 Tech Lead。
-- P0 采用 Local CLI + GitHub Action + 静态报告 + 人工反馈。
-- Markdown/JSON/YAML 与 Git diff 是首批输入；具体编程语言支持范围待技术 spike。
-- ThinkBud、Stock Portfolio 与合成 fixture repo 可作为首批 dogfood 候选，但使用前仍需分别确认授权与边界。
+- P0 primary user 锁定为使用 AI coding agents、高频修改产品的 Technical PM / AI Product Owner；Engineering Manager、Tech Lead 和 release reviewer 是协作用户。
+- P0 采用 Node.js/TypeScript Local CLI + React/Vite loopback Review UI + GitHub Action + JSON/Markdown/HTML report + 人工反馈。
+- Markdown/JSON/YAML 结构化解析；代码文件 P0 只作路径、line span、hash 和 diff，不声称 AST/行为理解。
+- Synthetic fixture repo 是首个实现与评测对象；ThinkBud、Stock Portfolio 只有在当前请求明确授权后才 dogfood。
+- Deterministic Core 默认 local-only、禁网、无模型密钥可完整运行；Semantic Candidate Layer 默认关闭，现支持有界脱敏输入、fake provider 与离线 replay，所有输出只可 exploratory。
 
 ### 仍未知
 
 - 首批真实外部用户是谁，以及他们是否愿意在第二个仓库重复使用。
-- 哪些 artifact 应成为默认 source of truth，哪些只能由用户显式指定。
-- P0 使用本地模型、云端模型还是二者兼容。
-- 最终开源许可证、仓库地址、技术栈、预算、开发周期和发布方式。
+- 首批真实 repo dogfood 的精确读取、隐私与数据出境授权。
+- Semantic Candidate Layer 最终使用本地模型、云端模型还是二者兼容；当前没有绑定真实 provider。
+- 最终开源许可证、预算、开发周期、package 分发和公开发布方式。
 
-## 开始构建前的闸门
+## 可以直接开始什么
 
-正式实现前至少完成：
+Deterministic Core 已实现。当前可依次运行 `npm ci` 和 `npm run check`，或用 `node dist/cli/main.js --help` 查看 CLI。30-case synthetic baseline 保存在 [`fixtures/baseline/eval-report.json`](fixtures/baseline/eval-report.json)：D1/D2 在当前结构化 cases 上无记录失败，D3 保留 `EV-029` 这一条已知纯重命名误报；这只是合成基线，不是外部有效性证明。
 
-1. 人工建立不少于 30 条候选 contract claims 与 ground truth cases；数量是测试设计目标，不是当前完成事实。
-2. 用无产品化脚本或人工流程验证三类 drift 是否能被可靠区分。
-3. 确认至少两个 dogfood 仓库的读取边界和敏感信息策略。
-4. 决定 P0 是否允许任何源代码离开本机。
-5. 确认许可证后才增加 `LICENSE` 并公开称为 open source。
+M5 可通过 `--semantic local --semantic-input-output <path>` 导出有界脱敏输入，再用 `--semantic-replay <response.json>` 离线复现 provider 输出；claim、edge 与 conflict 均保留为 `SEM-*` candidate，只有 conflict 会额外生成 exploratory finding。`semantic-review` 只追加人工 disposition，不激活 contract、不修改原报告。
+
+本地 UI 依次运行 `npm run build` 与 `node dist/cli/main.js ui --repo <target-repo>`，然后访问输出的 `127.0.0.1` 地址。开发模式可设置 `DECISIONTRACE_UI_REPO=<target-repo>` 后运行 `npm run dev`。UI 提供 Dashboard、扫描历史、finding/semantic filters、append-only disposition 表单和 stable-ID/hash 报告对比；不自动启动扫描、不部署、不开放局域网监听。
+
+下一步不是继续堆 detector，而是由未参与生成 fixtures 的人独立复核 `EV-001`–`EV-030`，再在 GitHub 托管 runner 上运行 synthetic shadow workflow。完成前，E1 与 M4 exit 均保持未通过。
+
+以下事项**不阻塞 M1–M4 Deterministic Core**，但继续阻塞相应外部动作：
+
+- 30+ cases 是 M4 Evaluation Gate，不是写第一行代码的前置条件。
+- 真实 dogfood repo 需要用户对每个 repo 明确授权。
+- 真实 semantic provider、付费 API 与真实数据出境仍需要独立决定；fake/replay 开发不再被这些决定阻塞。
+- 确认许可证后才增加 `LICENSE` 并正式称为 open source。
+- Push、release、package publish、部署和联系用户仍需当前请求明确授权。
 
 ## 非目标
 
@@ -98,4 +112,3 @@ P0 只检测三类漂移：
 - 不证明目标产品有用户价值、学习效果或商业结果。
 - 不在 P0 连接 Jira、Slack、Notion、Figma 等全量企业系统。
 - 不把所有语义差异作为错误，更不让 LLM 推断直接阻断发布。
-

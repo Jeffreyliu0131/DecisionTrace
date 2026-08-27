@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": { "type": "number", "const": 1 },
+    "inputId": { "type": "string", "pattern": "^SIN-[a-f0-9]{12}$" },
+    "candidates": {
+      "maxItems": 100,
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "kind": { "type": "string", "const": "claim" },
+              "statement": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              },
+              "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+              "sourceIds": {
+                "minItems": 1,
+                "maxItems": 20,
+                "type": "array",
+                "items": { "type": "string", "pattern": "^SRC-[a-f0-9]{12}$" }
+              },
+              "suggestedReview": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "proposedContract": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  },
+                  "topic": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "rule": {
+                    "type": "object",
+                    "properties": {
+                      "operator": {
+                        "type": "string",
+                        "enum": ["require", "forbid", "allow", "limit"]
+                      },
+                      "object": { "type": "string", "minLength": 1 },
+                      "applies_to": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": { "type": "string", "minLength": 1 }
+                      }
+                    },
+                    "required": ["operator", "object", "applies_to"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["title", "topic"],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "kind",
+              "statement",
+              "confidence",
+              "sourceIds",
+              "suggestedReview",
+              "proposedContract"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": { "type": "string", "const": "edge" },
+              "statement": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              },
+              "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+              "sourceIds": {
+                "minItems": 1,
+                "maxItems": 20,
+                "type": "array",
+                "items": { "type": "string", "pattern": "^SRC-[a-f0-9]{12}$" }
+              },
+              "suggestedReview": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "fromContractId": { "type": "string", "pattern": "^CTR-\\d{3}$" },
+              "relation": {
+                "type": "string",
+                "enum": [
+                  "defined_by",
+                  "implemented_by",
+                  "enforced_by",
+                  "verified_by",
+                  "claimed_in",
+                  "supersedes",
+                  "affects"
+                ]
+              },
+              "toSourceId": {
+                "type": "string",
+                "pattern": "^SRC-[a-f0-9]{12}$"
+              }
+            },
+            "required": [
+              "kind",
+              "statement",
+              "confidence",
+              "sourceIds",
+              "suggestedReview",
+              "fromContractId",
+              "relation",
+              "toSourceId"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": { "type": "string", "const": "conflict" },
+              "statement": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              },
+              "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+              "sourceIds": {
+                "minItems": 1,
+                "maxItems": 20,
+                "type": "array",
+                "items": { "type": "string", "pattern": "^SRC-[a-f0-9]{12}$" }
+              },
+              "suggestedReview": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "driftType": { "type": "string", "enum": ["D1", "D2", "D3"] },
+              "contractIds": {
+                "minItems": 1,
+                "maxItems": 20,
+                "type": "array",
+                "items": { "type": "string", "pattern": "^CTR-\\d{3}$" }
+              },
+              "severity": {
+                "type": "string",
+                "enum": ["critical", "high", "medium", "low", "info"]
+              }
+            },
+            "required": [
+              "kind",
+              "statement",
+              "confidence",
+              "sourceIds",
+              "suggestedReview",
+              "driftType",
+              "contractIds",
+              "severity"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  },
+  "required": ["schemaVersion", "inputId", "candidates"],
+  "additionalProperties": false,
+  "title": "DecisionTraceSemanticProviderResponseV1"
+}

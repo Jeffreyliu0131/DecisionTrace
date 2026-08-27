@@ -1,0 +1,10 @@
+node_modules/
+dist/
+coverage/
+.decisiontrace/cache/
+.decisiontrace/reports/
+.decisiontrace/eval/
+.decisiontrace/reviews.jsonl
+.decisiontrace/semantic-reviews.jsonl
+*.log
+.DS_Store

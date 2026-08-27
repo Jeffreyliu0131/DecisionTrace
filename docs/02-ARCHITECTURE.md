@@ -1,6 +1,6 @@
 # DecisionTrace P0 Architecture
 
-- 状态：`candidate`
+- 状态：`local-review-ui-implemented; independent-validation-pending`
 - 日期：2026-08-27
 - 边界：说明系统怎样嵌入 repo/PR/release 流程；不锁定最终语言、框架或云服务
 
@@ -50,17 +50,16 @@ Local CLI + GitHub Action + Static Report + Human Feedback
 
 ### 3.2 Local CLI
 
-候选命令形态：
+P0 命令 contract：
 
 ```text
 decisiontrace init
-decisiontrace scan
-decisiontrace scan --diff main...HEAD
-decisiontrace review <report>
-decisiontrace eval <dataset>
+decisiontrace scan [--repo <path>] [--base <ref>] [--head <ref>]
+decisiontrace review <report.json> --finding <id> --decision <value> --reason <text>
+decisiontrace eval --dataset <path>
 ```
 
-命令名是候选接口，正式实现前通过 spike 确认。
+完整参数、默认值和 exit codes 由 [`05-TECHNICAL-SPEC.md`](05-TECHNICAL-SPEC.md) 维护。
 
 ### 3.3 GitHub Action
 
@@ -68,7 +67,7 @@ P0 Action 执行 diff scan 并上传 Markdown/JSON/HTML artifact。若未来启�
 
 ### 3.4 Review UI
 
-P0 可使用静态 HTML 或 terminal review；不先构建多用户 Web SaaS。Review 必须支持 finding disposition 与理由导出。
+P0 提供静态 HTML、terminal review 与只监听 `127.0.0.1` 的单用户 React Review UI。UI 读取 runtime-validated canonical reports，提供 Dashboard、history、filters、stable-ID/hash comparison，并通过带本地 CSRF token 的 same-origin API 追加 finding/semantic disposition。它不修改原报告、不自动扫描、不开放 LAN、不构建多用户 Web SaaS。
 
 ### 3.5 Deferred Integrations
 
@@ -172,7 +171,7 @@ decision: true_drift | intentional_change | false_positive |
 reason, reviewer, timestamp
 ```
 
-字段只是逻辑 contract；具体 schema 在实现 spike 后定义并版本化。
+字段的可执行 TypeScript/YAML/JSON contract 已在 [`05-TECHNICAL-SPEC.md`](05-TECHNICAL-SPEC.md) 定义；实现必须版本化并通过 runtime validation。
 
 ## 6. Data Flow
 
@@ -233,7 +232,16 @@ reason, reviewer, timestamp
 | Invalid model output | schema reject；不生成 formal finding |
 | Report write failure | 非零退出并保留诊断；不声称检查完成 |
 
-## 10. Architecture Decisions Still Open
+## 10. P0 Implementation Decisions
 
-技术栈、graph persistence、parser languages、local model/provider、GitHub comment 方式、report UI 和 package distribution 均未决定，见 [`04-OPEN-QUESTIONS.md`](04-OPEN-QUESTIONS.md)。真实 spike 前不得伪装成既定架构。
+为允许 coding agent 直接开工，P0 已锁定：
 
+- Node.js 22 + strict TypeScript ESM + npm lockfile；
+- Repo-tracked YAML contracts，无数据库；
+- Canonical JSON report，再渲染 Markdown/HTML；
+- Markdown/JSON/YAML 结构解析；代码只处理 path/span/hash/diff；
+- Deterministic Core local-only、禁网、无模型依赖；
+- GitHub Action 初始只运行 shadow mode；
+- Semantic Candidate Layer 后置、默认 off、永不生成 P0 Hard Gate。
+
+目录、schemas、detector 算法与安全要求见 [`05-TECHNICAL-SPEC.md`](05-TECHNICAL-SPEC.md)，实施顺序见 [`07-IMPLEMENTATION-PLAN.md`](07-IMPLEMENTATION-PLAN.md)。仍未决定的外部发布、许可证、真实 dogfood 和 semantic provider 继续由 [`04-OPEN-QUESTIONS.md`](04-OPEN-QUESTIONS.md) 管理。

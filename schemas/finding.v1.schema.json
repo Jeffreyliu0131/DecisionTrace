@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "pattern": "^FND-[a-f0-9]{12}$" },
+    "scanId": { "type": "string", "minLength": 1 },
+    "driftType": { "type": "string", "enum": ["D1", "D2", "D3"] },
+    "status": {
+      "type": "string",
+      "enum": ["formal", "exploratory", "abstained"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "info"]
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "contractIds": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^CTR-\\d{3}$" }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": { "type": "string", "minLength": 1 },
+          "sourceRefs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        },
+        "required": ["statement", "sourceRefs"],
+        "additionalProperties": false
+      }
+    },
+    "inferences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "statement": { "type": "string", "minLength": 1 },
+          "sourceRefs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        },
+        "required": ["statement", "sourceRefs"],
+        "additionalProperties": false
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "startLine": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "endLine": {
+            "type": "integer",
+            "exclusiveMinimum": 0,
+            "maximum": 9007199254740991
+          },
+          "locator": { "type": "string", "minLength": 1 },
+          "pointer": { "type": "string", "minLength": 1 },
+          "contentHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        },
+        "required": ["path"],
+        "additionalProperties": false
+      }
+    },
+    "affectedPaths": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "suggestedReview": { "type": "string", "minLength": 1 },
+    "reasonKey": { "type": "string", "minLength": 1 }
+  },
+  "required": [
+    "id",
+    "scanId",
+    "driftType",
+    "status",
+    "severity",
+    "confidence",
+    "contractIds",
+    "facts",
+    "inferences",
+    "sources",
+    "affectedPaths",
+    "suggestedReview",
+    "reasonKey"
+  ],
+  "additionalProperties": false,
+  "title": "DecisionTraceFindingV1"
+}

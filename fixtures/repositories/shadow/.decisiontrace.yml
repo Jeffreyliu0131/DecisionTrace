@@ -1,0 +1,38 @@
+version: 1
+mode: local-only
+
+sources:
+  requirements:
+    include: ["docs/requirements.md"]
+  decisions:
+    include: ["docs/adr/decision.md"]
+  ai_policies:
+    include: ["docs/policies/ai.md"]
+  implementation:
+    include: ["src/**/*.ts"]
+  tests:
+    include: ["tests/**/*.test.ts"]
+  evals:
+    include: ["evals/**/*.yml"]
+  public_claims:
+    include: ["README.md"]
+
+exclude:
+  - ".git/**"
+  - "node_modules/**"
+  - "dist/**"
+  - "coverage/**"
+  - ".decisiontrace/reports/**"
+  - "**/.env*"
+  - "**/*secret*"
+
+contracts: ".decisiontrace/contracts.yml"
+reports: ".decisiontrace/reports"
+
+limits:
+  max_file_bytes: 1048576
+  max_total_text_bytes: 26214400
+
+gates:
+  enabled: false
+  deterministic_only: true

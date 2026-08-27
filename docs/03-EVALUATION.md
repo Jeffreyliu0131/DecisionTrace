@@ -1,10 +1,12 @@
 # DecisionTrace Evaluation & Release Gates
 
-- 状态：`candidate`
+- 状态：`implementation-contract`
 - 日期：2026-08-27
 - 原则：DecisionTrace 评测“是否正确发现契约漂移”，不评测目标产品本身是否成功
 
 ## 1. Two Validation Objects
+
+本文件不阻止工程 scaffold。`I-001`–`I-004` 可立即开始；E0/E1 分别阻止 detector 被称为 ready 和 P0 被称为 validated。可观察功能验收见 [`06-ACCEPTANCE-CRITERIA.md`](06-ACCEPTANCE-CRITERIA.md)。
 
 必须区分：
 
@@ -144,6 +146,8 @@ Recall    = TP / (TP + FN)
 
 数量是测试设计目标，未完成前不得写成已有成绩。
 
+`observed 2026-08-27`：本地 synthetic baseline 已覆盖 D1/D2/D3 各 10 cases，citation completeness 为 100%；D1/D2 当前未记录失败，D3 记录 `EV-029` 纯重命名误报，precision 0.8、recall 1.0。完整 artifact 见 [`../fixtures/baseline/eval-report.json`](../fixtures/baseline/eval-report.json)。由于 30 条 cases 均尚无独立人工 reviewer，E1 **未达到**；这些数字不能推出真实 repo precision、用户价值或发布 readiness。
+
 ### Gate E2｜Historical Backtest
 
 在经授权 repo 的已知历史问题上运行：
@@ -205,6 +209,8 @@ Reviewer 不能只给“有用/没用”；必须选择 disposition 并写简短
 - 更换模型、Prompt 或 rubric 后重新校准；
 - Grader 失败时不默认通过。
 
+M5 的 fake provider 与离线 replay 只验证 redaction、schema、source binding、abstention 和 report/review plumbing；它们不是模型质量 evidence，不能产生 precision/recall，也不能满足本节的人类校准要求。真实 provider 接入后必须新增独立 human-labeled semantic set，并保留 provider/model/prompt/config version。
+
 ## 9. Bad Cases to Preserve
 
 - 文件名相似导致错误关联；
@@ -228,4 +234,3 @@ Reviewer 不能只给“有用/没用”；必须选择 disposition 并写简短
 - Known limitations；
 - 是否达到哪个 Gate；
 - 哪些结论仍不能推出。
-

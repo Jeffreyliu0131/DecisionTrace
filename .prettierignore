@@ -1,0 +1,8 @@
+dist
+node_modules
+.decisiontrace
+fixtures/repositories
+package-lock.json
+docs
+AGENTS.md
+README.md

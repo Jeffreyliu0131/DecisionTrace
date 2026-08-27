@@ -1,8 +1,8 @@
 ---
 artifact: prd
-version: "0.1"
+version: "0.5"
 created: 2026-08-27
-status: candidate
+status: local-review-ui-implemented-independent-validation-pending
 ---
 
 # PRD：DecisionTrace P0
@@ -34,6 +34,39 @@ Secondary user（P1 候选）：
 - QA / Eval engineer；
 - Security / Privacy reviewer；
 - 维护多个 AI 产品仓库的平台团队。
+
+### 1.4 User Job and Workflow Pain
+
+Primary user 的 Job to be Done：
+
+> 当团队或 coding agent 修改 AI 产品时，我需要在合并或发布前快速知道哪些既有产品承诺、验证和公开声明可能被影响，以便把有限 review 时间集中在真正可能失配的地方，而不是重新通读整个仓库。
+
+当前替代方式包括人工记忆、全文搜索、PR checklist、代码 review、测试全绿和零散 ADR 链接。它们分别有价值，但缺少一个跨“决定—实现—证据—声明”的稳定 trace，也无法系统记录哪些警告是真问题或误报。
+
+### 1.5 Value Proposition
+
+- 对 Technical PM / AI Product Owner：把抽象产品承诺压缩成可追溯、可 review 的变更影响。
+- 对 engineer / reviewer：用具体 source span 和 linked evidence 降低重新建立产品上下文的成本。
+- 对 release owner：在不让 LLM 自动决策的情况下，提前看到声明无验证和决定冲突。
+- 对隐私敏感团队：Deterministic Core 可完全本地运行，不要求上传代码或用户数据。
+
+核心价值不是“找到更多问题”，而是提高高价值 finding 的可行动性并减少 review 盲区；若误报造成的额外 review 成本高于避免的失配，本产品失败。
+
+### 1.6 User, Buyer and Adoption Hypotheses
+
+以下均为待验证商业假设，不是已确认市场事实：
+
+| Role | Candidate |
+|---|---|
+| Daily user | Technical PM、AI Product Owner、Tech Lead、PR reviewer |
+| Internal champion | 对 AI release quality 负责的 Engineering/Product lead |
+| Potential buyer | 需要跨 repo policy、审计和自托管的 AI 平台或工程组织 |
+| Initial adoption motion | 开源/公开 CLI → 单 repo shadow mode → second-repo repeat use → team policy packs |
+| Current monetization stance | P0 不定价；先验证 workflow blocker、误报成本和重复使用 |
+
+### 1.7 Why Now
+
+Coding agents 显著降低了修改代码和文档的成本，却没有自动建立跨 Artifact 的真实 product contract。变更速度越快，人工上下文重建和陈旧声明的风险越容易成为 release bottleneck。DecisionTrace 的机会假设是：团队愿意为低噪音、证据绑定、默认只读的契约漂移提示改变 review 行为。
 
 ## 2. Goals & Success Metrics
 
@@ -99,6 +132,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 | US-005 | 作为 release owner，我希望先以 shadow mode 观察报告质量，以便在低误报得到证明前不阻断发布。 | P0 |
 | US-006 | 作为 privacy-sensitive maintainer，我希望完全在本地运行，并知道哪些数据会离开机器。 | P0 |
 | US-007 | 作为 coding agent 用户，我希望 agent 在修改前查询受影响的契约与证据。 | P1 / MCP |
+| US-008 | 作为 reviewer，我希望在本地页面筛选 findings、查看历史、比较两次扫描并追加 disposition，以便不依赖手工编辑 JSONL 完成 review。 | P0 |
 
 ## 5. Scope
 
@@ -106,12 +140,13 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 - `.decisiontrace.yml` source registry。
 - Local repository 与 Git diff 输入。
-- Markdown、JSON、YAML 的结构化读取；代码和测试支持范围通过 spike 确认。
+- Markdown、JSON、YAML 的结构化读取；代码和测试文件 P0 只作 path、line span、hash 与 Git diff，不声明 AST 或行为理解。
 - Candidate claim 抽取与用户确认。
 - Artifact–Claim–Implementation–Evidence trace graph。
 - `D1`、`D2`、`D3` 三类 drift detector。
 - Markdown/JSON/静态 HTML report。
 - Human disposition 与反馈 artifact。
+- 仅监听 loopback 的单用户 Review UI：Dashboard、历史、详情筛选、finding/semantic disposition 与双报告对比。
 - Offline benchmark、historical backtest 与 shadow-mode GitHub Action。
 - 无模型或模型失败时的确定性降级。
 
@@ -122,6 +157,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 - Jira、Slack、Notion、Figma、Linear 等连接器。
 - Production runtime SDK 与用户内容采集。
 - 多租户账号、计费、团队权限和托管 SaaS。
+- LAN/public 监听、远程登录、账号系统与 hosted Web dashboard。
 - 通用代码 bug、安全漏洞或依赖漏洞扫描。
 - 自动决定 canonical source。
 
@@ -175,6 +211,21 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 - `FR-021`：确定性配置或 required-eval 缺失可在用户明确启用后成为 Soft Gate。
 - `FR-022`：任何 Hard Gate 都必须满足 [`03-EVALUATION.md`](03-EVALUATION.md) 的 release 条件。
 
+### 6.7 Semantic Candidate Layer
+
+- `FR-023`：启用 semantic mode 时，provider 只能接收 source registry 允许、经过 secret/path redaction 且受单片段/总量限制的输入；默认不包含原始 repo path。
+- `FR-024`：provider response 必须回显当前稳定 input ID，并且只能引用本次提供的 `SRC-*` 与现有 `CTR-*`；unknown/stale references 必须整批拒绝。
+- `FR-025`：candidate claim、edge 与 conflict 必须固定为 `model_candidate` / `candidate` / `exploratory`；model statement 只能进入 inference，永不成为 formal finding 或 gate。
+- `FR-026`：系统必须支持 fake provider、离线 replay、timeout/error/invalid-output abstention，以及不修改原报告的 semantic candidate disposition。
+
+### 6.8 Local Review UI
+
+- `FR-027`：系统必须提供只绑定 `127.0.0.1` 的本地 UI 与 API，展示 Dashboard、runtime-validated report history、report detail 和 invalid artifact diagnostics。
+- `FR-028`：UI 必须支持按 stable finding/candidate ID 与 artifact path/hash 比较两份 canonical reports，区分 added、removed、changed 与 unchanged。
+- `FR-029`：UI 必须支持 finding 与 semantic candidate 的筛选、搜索和 append-only disposition；不得修改原报告或自动激活 contract。
+- `FR-030`：所有 mutation API 必须要求不可由 cross-site form 构造的本地 token，并拒绝 unexpected Host/cross-site 请求；静态资源不得依赖 CDN 或外部运行时内容。
+- `FR-031`：SPA routes、production build 与 Vite development server 必须可复现；UI 不自动运行 scan、不开放 LAN，也不改变 CLI/Action 默认行为。
+
 ## 7. Core User Flow
 
 1. 用户在目标 repo 中添加配置并运行初始化扫描。
@@ -206,6 +257,8 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 - GitHub Action 使用最小权限，P0 不需要 write token 即可产出 artifact。
 - LLM provider 必须可替换，不能把产品契约绑定到单一厂商。
 - 完整模块边界见 [`02-ARCHITECTURE.md`](02-ARCHITECTURE.md)。
+- 具体技术栈、CLI、schema、detector 和安全合同见 [`05-TECHNICAL-SPEC.md`](05-TECHNICAL-SPEC.md)。
+- 所有 P0 功能必须满足 [`06-ACCEPTANCE-CRITERIA.md`](06-ACCEPTANCE-CRITERIA.md)。
 
 ### Data Requirements
 
@@ -219,10 +272,10 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 | Dependency | Owner | Status | Impact if Delayed |
 |---|---|---|---|
-| Ground-truth drift cases | 用户 | Not started | 无法判断 detector 是否有效 |
-| Two dogfood repo boundaries | 用户 | Unconfirmed | 无法进行真实 backtest/shadow test |
-| Code/test parser scope | Engineering | Unknown | 影响 P0 language coverage |
-| Model/data egress decision | 用户 | Open | 影响架构与 provider 选择 |
+| Ground-truth drift cases | 用户 + Engineering | 30 synthetic cases authored；independent review pending | 不阻塞实现；继续阻塞 E1 ground-truth readiness |
+| Synthetic fixture repo | Engineering | Built；local baseline recorded | 不阻塞本地实现；真实有效性仍需独立 review 与 field evidence |
+| Real dogfood repo boundaries | 用户 | Unconfirmed | 不阻塞 fixtures；阻塞真实 backtest/shadow test |
+| Semantic model/data egress | 用户 | Offline M5 implemented；live provider deferred | 不阻塞 fake/replay 与 Local UI；继续阻塞真实 provider calibration |
 | Open-source license | 用户 | Open | 不能正式开源发布 |
 
 ### Risks
@@ -240,14 +293,18 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 | Milestone | Exit Criterion | Target Date |
 |---|---|---|
-| M0 Problem Validation | 至少 3 名目标用户审阅手工报告，问题与工作流得到证据；当前未完成 | Unscheduled |
-| M1 Offline Contract Scanner | Local config、claim registry、三类 detector 与报告在 fixtures 上运行 | Unscheduled |
-| M2 Evaluation Baseline | Seeded benchmark、human rubric 与首轮 baseline 完成 | Unscheduled |
-| M3 Dogfood Shadow Mode | 至少两个经授权 repo 运行，不阻断 PR，收集 dispositions | Unscheduled |
-| M4 External Pilot | 5 名目标用户试用；是否达到 second-repo gate 如实报告 | Unscheduled |
-| M5 OSS Release Candidate | Provenance、license、docs、CI、security 和 release gates 完成 | Unscheduled |
+| M0 Problem Validation | 至少 3 名目标用户审阅手工报告；与 M1–M3 并行，不得被代码完成冒充 | Unscheduled |
+| M1 Scaffold & Schemas | Node/TypeScript scaffold、runtime schemas、CLI shell、首批 fixtures 与本项目 CI | Unscheduled |
+| M2 Inventory & Contract Graph | Safe ingestion、Git adapter、parsers、contract registry 与 graph 在 fixtures 上运行 | Unscheduled |
+| M3 Deterministic Detectors & Reports | D1/D2/D3、finding engine 与 JSON/Markdown/HTML reporters 通过验收 | Unscheduled |
+| M4 Review, Eval & Shadow Action | Review log、30+ seeded cases、baseline 与 GitHub Action shadow mode 完成 | Unscheduled |
+| M5 Semantic Candidate Layer | Provider-agnostic schema、redaction、fake/replay、candidate-only report 与 review 可复现；真实 provider calibration 继续独立等待 | Unscheduled |
+| M5.5 Local Review UI | Loopback server、Dashboard、history、filters、append-only review、comparison 与 production build 通过验收 | Unscheduled |
+| M6 Dogfood / External Validation / OSS | 经授权 repo、外部 pilot、provenance、license 与 release readiness 如实完成 | Unscheduled |
 
 日期只有在完成 scope/effort spike 后确定，不用虚假排期制造确定性。
+
+具体工程 task 与 milestone exit 由 [`07-IMPLEMENTATION-PLAN.md`](07-IMPLEMENTATION-PLAN.md) 维护。当前不应重做 M1–M5 已实现 slice；下一步需要独立 review、hosted Action 证据，或在用户明确 provider 后接真实 analyzer。
 
 ## 12. Open Questions
 
@@ -257,5 +314,8 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 0.5 | 2026-08-27 | Codex（Local Review UI） | 增加 US-008、FR-027–FR-031，实现 loopback API、React/Vite routes、Dashboard/history/filter/review/comparison；不扩展为 hosted SaaS |
+| 0.4 | 2026-08-27 | Codex（M5 offline slice） | 增加 FR-023–FR-026，实现有界脱敏 semantic input、runtime-validated candidates、fake/offline replay、abstention 与 semantic review；真实 provider/calibration 未宣称完成 |
+| 0.3 | 2026-08-27 | Codex（实现与本地验证） | 实现 M1–M4 Deterministic Core tasks 并保存 synthetic baseline；M4 exit/E1 仍等待独立人工复核与 hosted Action 运行 |
+| 0.2 | 2026-08-27 | Codex（P0 工程合同） | 锁定 deterministic-first P0、技术/验收/实施引用与非阻塞依赖 |
 | 0.1 | 2026-08-27 | Codex（候选方案，待用户确认） | 建立 P0 problem、contracts、scope、requirements 与 gates |
-

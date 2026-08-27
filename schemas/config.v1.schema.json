@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": { "type": "number", "const": 1 },
+    "mode": { "type": "string", "const": "local-only" },
+    "sources": {
+      "type": "object",
+      "properties": {
+        "requirements": {
+          "type": "object",
+          "properties": {
+            "include": {
+              "minItems": 1,
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "required": ["include"],
+          "additionalProperties": false
+        },
+        "decisions": {
+          "type": "object",
+          "properties": {
+            "include": {
+              "minItems": 1,
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "required": ["include"],
+          "additionalProperties": false
+        },
+        "ai_policies": {
+          "type": "object",
+          "properties": {
+            "include": {
+              "minItems": 1,
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "required": ["include"],
+          "additionalProperties": false
+        },
+        "implementation": {
+          "type": "object",
+          "properties": {
+            "include": {
+              "minItems": 1,
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "required": ["include"],
+          "additionalProperties": false
+        },
+        "tests": {
+          "type": "object",
+          "properties": {
+            "include": {
+              "minItems": 1,
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "required": ["include"],
+          "additionalProperties": false
+        },
+        "evals": {
+          "type": "object",
+          "properties": {
+            "include": {
+              "minItems": 1,
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "required": ["include"],
+          "additionalProperties": false
+        },
+        "public_claims": {
+          "type": "object",
+          "properties": {
+            "include": {
+              "minItems": 1,
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "required": ["include"],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "requirements",
+        "decisions",
+        "ai_policies",
+        "implementation",
+        "tests",
+        "evals",
+        "public_claims"
+      ],
+      "additionalProperties": false
+    },
+    "exclude": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "contracts": { "type": "string", "minLength": 1 },
+    "reports": { "type": "string", "minLength": 1 },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "max_file_bytes": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        },
+        "max_total_text_bytes": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": ["max_file_bytes", "max_total_text_bytes"],
+      "additionalProperties": false
+    },
+    "gates": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "deterministic_only": { "type": "boolean", "const": true }
+      },
+      "required": ["enabled", "deterministic_only"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "mode",
+    "sources",
+    "exclude",
+    "contracts",
+    "reports",
+    "limits",
+    "gates"
+  ],
+  "additionalProperties": false,
+  "title": "DecisionTraceConfigV1"
+}

@@ -1,0 +1,871 @@
+version: 1
+dataset: decisiontrace-deterministic-seed-v1
+cases:
+  - id: EV-001
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-structured-overlap
+    artifacts:
+      - { path: docs/a.md, category: decisions }
+      - { path: docs/b.md, category: decisions }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-101
+          title: Require audit
+          status: active
+          severity: high
+          topic: output_audit
+          rule: { operator: require, object: audit, applies_to: [chat] }
+          defined_by: [{ path: docs/a.md, locator: CTR-101 }]
+        - id: CTR-102
+          title: Forbid audit
+          status: active
+          severity: high
+          topic: output_audit
+          rule: { operator: forbid, object: audit, applies_to: [chat] }
+          defined_by: [{ path: docs/b.md, locator: CTR-102 }]
+    change_set: []
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/a.md, docs/b.md]
+    severity_rationale: Two active structured rules cannot both hold for chat.
+    known_ambiguity: null
+    author: &fixture_author Codex synthetic fixture author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-002
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-active-supersedes-active
+    artifacts:
+      - { path: docs/new.md, category: decisions }
+      - { path: docs/old.md, category: decisions }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-103
+          title: New rule
+          status: active
+          severity: high
+          topic: retention
+          rule: { operator: limit, object: days, applies_to: [logs] }
+          defined_by: [{ path: docs/new.md, locator: CTR-103 }]
+          supersedes: [CTR-104]
+        - id: CTR-104
+          title: Old rule
+          status: active
+          severity: medium
+          topic: retention
+          rule: { operator: limit, object: days, applies_to: [logs] }
+          defined_by: [{ path: docs/old.md, locator: CTR-104 }]
+    change_set: []
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/new.md, docs/old.md]
+    severity_rationale: The superseded target remains active.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-003
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-partial-scope-overlap
+    artifacts:
+      - { path: docs/rules.md, category: requirements }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-105
+          title: Require scan
+          status: active
+          severity: medium
+          topic: input_scan
+          rule: { operator: require, object: scan, applies_to: [chat, rtc] }
+          defined_by: [{ path: docs/rules.md, locator: CTR-105 }]
+        - id: CTR-106
+          title: Forbid scan for RTC
+          status: active
+          severity: medium
+          topic: input_scan
+          rule: { operator: forbid, object: scan, applies_to: [rtc, batch] }
+          defined_by: [{ path: docs/rules.md, locator: CTR-106 }]
+    change_set: []
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/rules.md]
+    severity_rationale: RTC is in the intersection of mutually exclusive rules.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-004
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-reversed-operators
+    artifacts:
+      - { path: docs/privacy-a.md, category: ai_policies }
+      - { path: docs/privacy-b.md, category: ai_policies }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-107
+          title: Forbid raw storage
+          status: active
+          severity: critical
+          topic: raw_storage
+          rule:
+            { operator: forbid, object: raw_prompt, applies_to: [telemetry] }
+          defined_by: [{ path: docs/privacy-a.md, locator: CTR-107 }]
+        - id: CTR-108
+          title: Require raw storage
+          status: active
+          severity: critical
+          topic: raw_storage
+          rule:
+            { operator: require, object: raw_prompt, applies_to: [telemetry] }
+          defined_by: [{ path: docs/privacy-b.md, locator: CTR-108 }]
+    change_set: []
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/privacy-a.md, docs/privacy-b.md]
+    severity_rationale: Raw prompt storage has mutually exclusive active rules.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-005
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-disjoint-scopes
+    artifacts:
+      - { path: docs/scopes.md, category: decisions }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-109
+          title: Require chat audit
+          status: active
+          severity: high
+          topic: audit
+          rule: { operator: require, object: audit, applies_to: [chat] }
+          defined_by: [{ path: docs/scopes.md, locator: CTR-109 }]
+        - id: CTR-110
+          title: Forbid batch audit
+          status: active
+          severity: high
+          topic: audit
+          rule: { operator: forbid, object: audit, applies_to: [batch] }
+          defined_by: [{ path: docs/scopes.md, locator: CTR-110 }]
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Disjoint scopes can both be valid.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-006
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-history-superseded
+    artifacts:
+      - { path: docs/history.md, category: decisions }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-111
+          title: Active current rule
+          status: active
+          severity: high
+          topic: moderation
+          rule: { operator: require, object: audit, applies_to: [chat] }
+          defined_by: [{ path: docs/history.md, locator: CTR-111 }]
+        - id: CTR-112
+          title: Historical rule
+          status: superseded
+          severity: high
+          topic: moderation
+          rule: { operator: forbid, object: audit, applies_to: [chat] }
+          defined_by: [{ path: docs/history.md, locator: CTR-112 }]
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Superseded history does not enter formal detection.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-007
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-allow-vs-forbid
+    artifacts:
+      - { path: docs/allow.md, category: decisions }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-113
+          title: Allow cache
+          status: active
+          severity: medium
+          topic: cache
+          rule: { operator: allow, object: response, applies_to: [chat] }
+          defined_by: [{ path: docs/allow.md, locator: CTR-113 }]
+        - id: CTR-114
+          title: Forbid cache
+          status: active
+          severity: medium
+          topic: cache
+          rule: { operator: forbid, object: response, applies_to: [chat] }
+          defined_by: [{ path: docs/allow.md, locator: CTR-114 }]
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Allow versus forbid remains exploratory under the P0 contract.
+    known_ambiguity: The natural-language semantics may conflict, but P0 abstains from a formal D1.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: boundary
+
+  - id: EV-008
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-same-operator
+    artifacts:
+      - { path: docs/detail.md, category: requirements }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-115
+          title: Require audit generally
+          status: active
+          severity: medium
+          topic: audit_detail
+          rule: { operator: require, object: audit, applies_to: [chat] }
+          defined_by: [{ path: docs/detail.md, locator: CTR-115 }]
+        - id: CTR-116
+          title: Require audit before output
+          status: active
+          severity: medium
+          topic: audit_detail
+          rule: { operator: require, object: audit, applies_to: [chat] }
+          defined_by: [{ path: docs/detail.md, locator: CTR-116 }]
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Different detail with the same operator is not a conflict.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-009
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-different-objects
+    artifacts:
+      - { path: docs/objects.md, category: ai_policies }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-117
+          title: Require input audit
+          status: active
+          severity: medium
+          topic: audit
+          rule: { operator: require, object: input, applies_to: [chat] }
+          defined_by: [{ path: docs/objects.md, locator: CTR-117 }]
+        - id: CTR-118
+          title: Forbid output audit
+          status: active
+          severity: medium
+          topic: audit
+          rule: { operator: forbid, object: output, applies_to: [chat] }
+          defined_by: [{ path: docs/objects.md, locator: CTR-118 }]
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Different structured objects do not satisfy the formal conflict rule.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-010
+    drift_type: D1
+    repo_fixture_or_revision: synthetic:d1-natural-language-lookalike
+    artifacts:
+      - { path: docs/language.md, category: decisions }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-119
+          title: Always inspect response unless cached
+          status: active
+          severity: low
+          topic: response_inspection
+          rule: { operator: allow, object: cached_response, applies_to: [chat] }
+          defined_by: [{ path: docs/language.md, locator: CTR-119 }]
+        - id: CTR-120
+          title: Cached responses may skip repeated inspection
+          status: active
+          severity: low
+          topic: response_inspection
+          rule: { operator: limit, object: inspection, applies_to: [chat] }
+          defined_by: [{ path: docs/language.md, locator: CTR-120 }]
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Similar language is insufficient for deterministic conflict.
+    known_ambiguity: A semantic detector could over-report this pair without context.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: known_false_positive
+
+  - id: EV-011
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-required-path-missing
+    artifacts:
+      - { path: docs/contract.md, category: requirements }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-201
+          title: Chat has evidence
+          status: active
+          severity: high
+          topic: chat_evidence
+          rule: { operator: require, object: audit, applies_to: [chat] }
+          defined_by: [{ path: docs/contract.md, locator: CTR-201 }]
+          verified_by:
+            - { path: tests/chat.test.ts, required: true, covers: [chat] }
+    change_set: []
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/contract.md]
+    severity_rationale: Required declared evidence is absent.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-012
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-required-glob-missing
+    artifacts:
+      - { path: docs/evals.md, category: requirements }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-202
+          title: RTC eval exists
+          status: active
+          severity: high
+          topic: rtc_eval
+          rule: { operator: require, object: eval, applies_to: [rtc] }
+          defined_by: [{ path: docs/evals.md, locator: CTR-202 }]
+          verified_by:
+            - { glob: evals/rtc/**/*.yml, required: true, covers: [rtc] }
+    change_set: []
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/evals.md]
+    severity_rationale: The required eval glob has no safe match.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-013
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-single-coverage-gap
+    artifacts:
+      - { path: docs/modalities.md, category: public_claims }
+      - { path: tests/chat.test.ts, category: tests }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-203
+          title: All modalities are verified
+          status: active
+          severity: high
+          topic: modality_coverage
+          rule: { operator: require, object: audit, applies_to: [chat, rtc] }
+          defined_by: [{ path: docs/modalities.md, locator: CTR-203 }]
+          verified_by:
+            - { path: tests/chat.test.ts, required: true, covers: [chat] }
+    change_set: []
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/modalities.md]
+    severity_rationale: Declared evidence omits RTC while the contract includes it.
+    known_ambiguity: The detector checks declared coverage, not test behavior.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-014
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-multiple-coverage-gap
+    artifacts:
+      - { path: docs/channels.md, category: requirements }
+      - { path: evals/chat.yml, category: evals }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-204
+          title: Every channel has evals
+          status: active
+          severity: medium
+          topic: channel_coverage
+          rule:
+            { operator: require, object: eval, applies_to: [chat, rtc, voice] }
+          defined_by: [{ path: docs/channels.md, locator: CTR-204 }]
+          verified_by:
+            - { path: evals/chat.yml, required: true, covers: [chat] }
+    change_set: []
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/channels.md]
+    severity_rationale: RTC and voice have no declared coverage.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-015
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-evidence-complete
+    artifacts:
+      - { path: docs/chat.md, category: requirements }
+      - { path: tests/chat.test.ts, category: tests }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-205
+          title: Chat evidence
+          status: active
+          severity: medium
+          topic: chat_coverage
+          rule: { operator: require, object: eval, applies_to: [chat] }
+          defined_by: [{ path: docs/chat.md, locator: CTR-205 }]
+          verified_by:
+            - { path: tests/chat.test.ts, required: true, covers: [chat] }
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Required path exists and covers the full declared scope.
+    known_ambiguity: The fixture does not claim behavioral sufficiency.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-016
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-candidate-contract
+    artifacts:
+      - { path: docs/candidate.md, category: requirements }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-206
+          title: Candidate evidence rule
+          status: candidate
+          severity: medium
+          topic: candidate_coverage
+          rule: { operator: require, object: eval, applies_to: [chat] }
+          defined_by: [{ path: docs/candidate.md, locator: CTR-206 }]
+          verified_by:
+            - { path: tests/missing.test.ts, required: true, covers: [chat] }
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Candidate contracts cannot enter formal detectors.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-017
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-optional-evidence-missing
+    artifacts:
+      - { path: docs/optional.md, category: requirements }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-207
+          title: Optional supporting eval
+          status: active
+          severity: low
+          topic: optional_evidence
+          rule: { operator: require, object: eval, applies_to: [chat] }
+          defined_by: [{ path: docs/optional.md, locator: CTR-207 }]
+          verified_by:
+            - { path: evals/optional.yml, required: false, covers: [chat] }
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: A missing optional path is not a formal required-evidence gap.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: boundary
+
+  - id: EV-018
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-no-declared-evidence
+    artifacts:
+      - { path: docs/hypothesis.md, category: requirements }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-208
+          title: No structured evidence relation yet
+          status: active
+          severity: low
+          topic: undeclared_evidence
+          rule: { operator: require, object: eval, applies_to: [chat] }
+          defined_by: [{ path: docs/hypothesis.md, locator: CTR-208 }]
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: P0 does not infer a required relation that the user never declared.
+    known_ambiguity: This is a deterministic abstention boundary, not proof that evidence exists.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: boundary
+
+  - id: EV-019
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-union-coverage-complete
+    artifacts:
+      - { path: docs/multi.md, category: requirements }
+      - { path: evals/chat.yml, category: evals }
+      - { path: evals/rtc.yml, category: evals }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-209
+          title: Split evidence covers all scopes
+          status: active
+          severity: medium
+          topic: split_coverage
+          rule: { operator: require, object: eval, applies_to: [chat, rtc] }
+          defined_by: [{ path: docs/multi.md, locator: CTR-209 }]
+          verified_by:
+            - { path: evals/chat.yml, required: true, covers: [chat] }
+            - { path: evals/rtc.yml, required: true, covers: [rtc] }
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Unioned declared coverage equals applies_to.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-020
+    drift_type: D2
+    repo_fixture_or_revision: synthetic:d2-test-name-only
+    artifacts:
+      - { path: docs/injection.md, category: public_claims }
+      - { path: tests/all-modalities.test.ts, category: tests }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-210
+          title: All modalities resist injection
+          status: active
+          severity: high
+          topic: injection_coverage
+          rule:
+            {
+              operator: require,
+              object: injection_audit,
+              applies_to: [chat, rtc],
+            }
+          defined_by: [{ path: docs/injection.md, locator: CTR-210 }]
+          verified_by:
+            - {
+                path: tests/all-modalities.test.ts,
+                required: true,
+                covers: [chat, rtc],
+              }
+    change_set: []
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Declared path and coverage are structurally complete.
+    known_ambiguity: A misleading test name may not prove behavior; P0 must not invent semantic sufficiency or a formal gap.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: known_false_positive
+
+  - id: EV-021
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-implementation-only
+    artifacts:
+      - { path: docs/service.md, category: requirements }
+      - { path: src/service.ts, category: implementation }
+      - { path: tests/service.test.ts, category: tests }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-301
+          title: Service remains verified
+          status: active
+          severity: high
+          topic: service_behavior
+          rule:
+            { operator: require, object: verification, applies_to: [service] }
+          defined_by: [{ path: docs/service.md, locator: CTR-301 }]
+          implemented_by: [{ path: src/service.ts }]
+          verified_by:
+            - { path: tests/service.test.ts, required: true, covers: [service] }
+    change_set: [src/service.ts]
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/service.md]
+    severity_rationale: Only the declared implementation changed.
+    known_ambiguity: Unchanged evidence may remain valid, so D3 is exploratory.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-022
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-deleted-implementation
+    artifacts:
+      - { path: docs/adapter.md, category: requirements }
+      - { path: tests/adapter.test.ts, category: tests }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-302
+          title: Adapter remains linked
+          status: active
+          severity: medium
+          topic: adapter_behavior
+          rule: { operator: require, object: adapter, applies_to: [service] }
+          defined_by: [{ path: docs/adapter.md, locator: CTR-302 }]
+          implemented_by: [{ path: src/adapter.ts }]
+          verified_by:
+            - { path: tests/adapter.test.ts, required: true, covers: [service] }
+    change_set: [src/adapter.ts]
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/adapter.md]
+    severity_rationale: A declared implementation path was deleted without linked updates.
+    known_ambiguity: The deletion may be an intentional move.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-023
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-multiple-implementation-paths
+    artifacts:
+      - { path: docs/pipeline.md, category: requirements }
+      - { path: src/input.ts, category: implementation }
+      - { path: src/output.ts, category: implementation }
+      - { path: evals/pipeline.yml, category: evals }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-303
+          title: Pipeline remains evaluated
+          status: active
+          severity: high
+          topic: pipeline
+          rule: { operator: require, object: eval, applies_to: [pipeline] }
+          defined_by: [{ path: docs/pipeline.md, locator: CTR-303 }]
+          implemented_by: [{ glob: src/**/*.ts }]
+          verified_by:
+            - { path: evals/pipeline.yml, required: true, covers: [pipeline] }
+    change_set: [src/input.ts, src/output.ts]
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/pipeline.md]
+    severity_rationale: Multiple declared implementation paths changed alone.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: positive
+
+  - id: EV-024
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-public-claim-synchronized
+    artifacts:
+      - { path: docs/api.md, category: requirements }
+      - { path: src/api.ts, category: implementation }
+      - { path: README.md, category: public_claims }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-304
+          title: Public API claim
+          status: active
+          severity: medium
+          topic: public_api
+          rule: { operator: require, object: claim, applies_to: [api] }
+          defined_by: [{ path: docs/api.md, locator: CTR-304 }]
+          implemented_by: [{ path: src/api.ts }]
+          claimed_in: [{ path: README.md }]
+    change_set: [src/api.ts, README.md]
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: A linked public claim changed in the same diff.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-025
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-evidence-synchronized
+    artifacts:
+      - { path: docs/auth.md, category: requirements }
+      - { path: src/auth.ts, category: implementation }
+      - { path: tests/auth.test.ts, category: tests }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-305
+          title: Auth verification
+          status: active
+          severity: high
+          topic: auth
+          rule: { operator: require, object: test, applies_to: [auth] }
+          defined_by: [{ path: docs/auth.md, locator: CTR-305 }]
+          implemented_by: [{ path: src/auth.ts }]
+          verified_by:
+            - { path: tests/auth.test.ts, required: true, covers: [auth] }
+    change_set: [src/auth.ts, tests/auth.test.ts]
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Linked evidence changed with the implementation.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-026
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-definition-synchronized
+    artifacts:
+      - { path: docs/routing.md, category: requirements }
+      - { path: src/router.ts, category: implementation }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-306
+          title: Routing contract
+          status: active
+          severity: medium
+          topic: routing
+          rule: { operator: require, object: route, applies_to: [chat] }
+          defined_by: [{ path: docs/routing.md, locator: CTR-306 }]
+          implemented_by: [{ path: src/router.ts }]
+    change_set: [src/router.ts, docs/routing.md]
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: The definition changed with the implementation.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-027
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-unrelated-change
+    artifacts:
+      - { path: docs/limits.md, category: requirements }
+      - { path: src/limits.ts, category: implementation }
+      - { path: src/unrelated.ts, category: implementation }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-307
+          title: Limit implementation
+          status: active
+          severity: low
+          topic: limit
+          rule: { operator: limit, object: requests, applies_to: [api] }
+          defined_by: [{ path: docs/limits.md, locator: CTR-307 }]
+          implemented_by: [{ path: src/limits.ts }]
+    change_set: [src/unrelated.ts]
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: The changed path is unrelated to the declared implementation.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: hard_negative
+
+  - id: EV-028
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-candidate-contract
+    artifacts:
+      - { path: docs/candidate-change.md, category: requirements }
+      - { path: src/candidate.ts, category: implementation }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-308
+          title: Candidate change relation
+          status: candidate
+          severity: medium
+          topic: candidate_change
+          rule: { operator: require, object: trace, applies_to: [service] }
+          defined_by: [{ path: docs/candidate-change.md, locator: CTR-308 }]
+          implemented_by: [{ path: src/candidate.ts }]
+    change_set: [src/candidate.ts]
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: Candidate contracts do not enter formal or exploratory P0 detectors.
+    known_ambiguity: null
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: boundary
+
+  - id: EV-029
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-pure-rename-known-false-positive
+    artifacts:
+      - { path: docs/storage.md, category: requirements }
+      - { path: src/new-storage.ts, category: implementation }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-309
+          title: Storage behavior unchanged
+          status: active
+          severity: low
+          topic: storage
+          rule: { operator: require, object: storage, applies_to: [service] }
+          defined_by: [{ path: docs/storage.md, locator: CTR-309 }]
+          implemented_by: [{ glob: src/**/*.ts }]
+    change_set: [src/old-storage.ts, src/new-storage.ts]
+    expected_finding_or_no_finding: no_finding
+    expected_sources: []
+    severity_rationale: A pure rename should not imply semantic mismatch.
+    known_ambiguity: The deterministic path rule cannot know this is behavior-preserving and is expected to record a false positive.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: known_false_positive
+
+  - id: EV-030
+    drift_type: D3
+    repo_fixture_or_revision: synthetic:d3-enforcement-change-boundary
+    artifacts:
+      - { path: docs/policy.md, category: ai_policies }
+      - { path: src/policy.ts, category: implementation }
+      - { path: src/enforcer.ts, category: implementation }
+    contracts:
+      version: 1
+      contracts:
+        - id: CTR-310
+          title: Policy enforcement path
+          status: active
+          severity: high
+          topic: enforcement
+          rule: { operator: require, object: enforcement, applies_to: [chat] }
+          defined_by: [{ path: docs/policy.md, locator: CTR-310 }]
+          implemented_by: [{ path: src/policy.ts }]
+          enforced_by: [{ path: src/enforcer.ts }]
+    change_set: [src/policy.ts, src/enforcer.ts]
+    expected_finding_or_no_finding: finding
+    expected_sources: [docs/policy.md]
+    severity_rationale: The executable D3 contract only treats definition, evidence, and claims as synchronization paths.
+    known_ambiguity: A future contract may decide that enforced_by changes also suppress this candidate.
+    author: *fixture_author
+    independent_reviewer: null
+    case_kind: boundary

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "fromId": { "type": "string", "minLength": 1 },
+    "relation": {
+      "type": "string",
+      "enum": [
+        "defined_by",
+        "implemented_by",
+        "enforced_by",
+        "verified_by",
+        "claimed_in",
+        "supersedes",
+        "affects"
+      ]
+    },
+    "toId": { "type": "string", "minLength": 1 },
+    "basis": {
+      "type": "string",
+      "enum": ["declared", "deterministic", "model_candidate"]
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "reviewStatus": {
+      "type": "string",
+      "enum": ["confirmed", "candidate", "rejected"]
+    }
+  },
+  "required": [
+    "fromId",
+    "relation",
+    "toId",
+    "basis",
+    "confidence",
+    "reviewStatus"
+  ],
+  "additionalProperties": false,
+  "title": "DecisionTraceTraceEdgeV1"
+}

@@ -1,0 +1,36 @@
+name: Synthetic Shadow Scan
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  shadow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare synthetic repository history
+        id: fixture
+        working-directory: fixtures/repositories/shadow
+        run: |
+          git init
+          git config user.name "DecisionTrace Fixture"
+          git config user.email "fixture@invalid.example"
+          git add .
+          git commit -m "Create synthetic target"
+          base="$(git rev-parse HEAD)"
+          printf '\n// Synthetic implementation-only change.\n' >> src/service.ts
+          git add src/service.ts
+          git commit -m "Change synthetic implementation"
+          head="$(git rev-parse HEAD)"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+          echo "head=$head" >> "$GITHUB_OUTPUT"
+      - uses: ./
+        with:
+          repository: fixtures/repositories/shadow
+          base: ${{ steps.fixture.outputs.base }}
+          head: ${{ steps.fixture.outputs.head }}
+          output: .decisiontrace/reports/github-action

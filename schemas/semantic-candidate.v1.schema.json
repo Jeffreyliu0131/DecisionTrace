@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "claim" },
+        "id": { "type": "string", "pattern": "^SEM-[a-f0-9]{12}$" },
+        "basis": { "type": "string", "const": "model_candidate" },
+        "reviewStatus": { "type": "string", "const": "candidate" },
+        "status": { "type": "string", "const": "exploratory" },
+        "provider": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "statement": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "sourceIds": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": { "type": "string", "pattern": "^SRC-[a-f0-9]{12}$" }
+        },
+        "sources": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "startLine": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "endLine": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "locator": { "type": "string", "minLength": 1 },
+              "pointer": { "type": "string", "minLength": 1 },
+              "contentHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            },
+            "required": ["path"],
+            "additionalProperties": false
+          }
+        },
+        "suggestedReview": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "proposedContract": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string", "minLength": 1, "maxLength": 500 },
+            "topic": { "type": "string", "minLength": 1, "maxLength": 200 },
+            "rule": {
+              "type": "object",
+              "properties": {
+                "operator": {
+                  "type": "string",
+                  "enum": ["require", "forbid", "allow", "limit"]
+                },
+                "object": { "type": "string", "minLength": 1 },
+                "applies_to": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": { "type": "string", "minLength": 1 }
+                }
+              },
+              "required": ["operator", "object", "applies_to"],
+              "additionalProperties": false
+            }
+          },
+          "required": ["title", "topic"],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "basis",
+        "reviewStatus",
+        "status",
+        "provider",
+        "statement",
+        "confidence",
+        "sourceIds",
+        "sources",
+        "suggestedReview",
+        "proposedContract"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "edge" },
+        "id": { "type": "string", "pattern": "^SEM-[a-f0-9]{12}$" },
+        "basis": { "type": "string", "const": "model_candidate" },
+        "reviewStatus": { "type": "string", "const": "candidate" },
+        "status": { "type": "string", "const": "exploratory" },
+        "provider": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "statement": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "sourceIds": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": { "type": "string", "pattern": "^SRC-[a-f0-9]{12}$" }
+        },
+        "sources": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "startLine": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "endLine": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "locator": { "type": "string", "minLength": 1 },
+              "pointer": { "type": "string", "minLength": 1 },
+              "contentHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            },
+            "required": ["path"],
+            "additionalProperties": false
+          }
+        },
+        "suggestedReview": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "fromContractId": { "type": "string", "pattern": "^CTR-\\d{3}$" },
+        "relation": {
+          "type": "string",
+          "enum": [
+            "defined_by",
+            "implemented_by",
+            "enforced_by",
+            "verified_by",
+            "claimed_in",
+            "supersedes",
+            "affects"
+          ]
+        },
+        "toSourceId": { "type": "string", "pattern": "^SRC-[a-f0-9]{12}$" }
+      },
+      "required": [
+        "kind",
+        "id",
+        "basis",
+        "reviewStatus",
+        "status",
+        "provider",
+        "statement",
+        "confidence",
+        "sourceIds",
+        "sources",
+        "suggestedReview",
+        "fromContractId",
+        "relation",
+        "toSourceId"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string", "const": "conflict" },
+        "id": { "type": "string", "pattern": "^SEM-[a-f0-9]{12}$" },
+        "basis": { "type": "string", "const": "model_candidate" },
+        "reviewStatus": { "type": "string", "const": "candidate" },
+        "status": { "type": "string", "const": "exploratory" },
+        "provider": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "statement": { "type": "string", "minLength": 1, "maxLength": 4000 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "sourceIds": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": { "type": "string", "pattern": "^SRC-[a-f0-9]{12}$" }
+        },
+        "sources": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "startLine": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "endLine": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "locator": { "type": "string", "minLength": 1 },
+              "pointer": { "type": "string", "minLength": 1 },
+              "contentHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            },
+            "required": ["path"],
+            "additionalProperties": false
+          }
+        },
+        "suggestedReview": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "driftType": { "type": "string", "enum": ["D1", "D2", "D3"] },
+        "contractIds": {
+          "minItems": 1,
+          "maxItems": 20,
+          "type": "array",
+          "items": { "type": "string", "pattern": "^CTR-\\d{3}$" }
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low", "info"]
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "basis",
+        "reviewStatus",
+        "status",
+        "provider",
+        "statement",
+        "confidence",
+        "sourceIds",
+        "sources",
+        "suggestedReview",
+        "driftType",
+        "contractIds",
+        "severity"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "title": "DecisionTraceSemanticCandidateV1"
+}

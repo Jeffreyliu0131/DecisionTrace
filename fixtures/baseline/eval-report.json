@@ -1,0 +1,98 @@
+{
+  "caseCounts": {
+    "D1": 10,
+    "D2": 10,
+    "D3": 10,
+    "total": 30
+  },
+  "citationCompleteness": 1,
+  "dataset": {
+    "hash": "f164de2ef36c4820012c95e4cfb5bb98cc97704d2a7285d249aa928ec6b74e3f",
+    "name": "decisiontrace-deterministic-seed-v1",
+    "version": 1
+  },
+  "failures": [
+    {
+      "caseId": "EV-029",
+      "classification": "false_positive",
+      "details": "Expected no finding, but the detector emitted one or more findings.",
+      "findingIds": ["FND-85e77181ac20"],
+      "stage": "detector"
+    }
+  ],
+  "gateE1": {
+    "achieved": false,
+    "reasons": [
+      "One or more cases still lack an independent human reviewer; the synthetic author cannot self-certify ground truth."
+    ]
+  },
+  "generatedAt": "2026-08-27T08:38:17.091Z",
+  "limitations": [
+    "Cases are synthetic structural fixtures; they do not establish real-repository usefulness or adoption.",
+    "Path and declared-coverage checks do not prove that tests validate runtime behavior.",
+    "Independent human review remains pending for fixture ground truth."
+  ],
+  "metrics": {
+    "D1": {
+      "cases": 10,
+      "fn": 0,
+      "fp": 0,
+      "precision": 1,
+      "recall": 1,
+      "tn": 6,
+      "tp": 4
+    },
+    "D2": {
+      "cases": 10,
+      "fn": 0,
+      "fp": 0,
+      "precision": 1,
+      "recall": 1,
+      "tn": 6,
+      "tp": 4
+    },
+    "D3": {
+      "cases": 10,
+      "fn": 0,
+      "fp": 1,
+      "precision": 0.8,
+      "recall": 1,
+      "tn": 5,
+      "tp": 4
+    }
+  },
+  "missingIndependentReviewerIds": [
+    "EV-001",
+    "EV-002",
+    "EV-003",
+    "EV-004",
+    "EV-005",
+    "EV-006",
+    "EV-007",
+    "EV-008",
+    "EV-009",
+    "EV-010",
+    "EV-011",
+    "EV-012",
+    "EV-013",
+    "EV-014",
+    "EV-015",
+    "EV-016",
+    "EV-017",
+    "EV-018",
+    "EV-019",
+    "EV-020",
+    "EV-021",
+    "EV-022",
+    "EV-023",
+    "EV-024",
+    "EV-025",
+    "EV-026",
+    "EV-027",
+    "EV-028",
+    "EV-029",
+    "EV-030"
+  ],
+  "schemaVersion": 1,
+  "toolVersion": "0.3.0"
+}
