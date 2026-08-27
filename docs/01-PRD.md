@@ -1,8 +1,8 @@
 ---
 artifact: prd
-version: "0.8"
+version: "0.9"
 created: 2026-08-27
-status: recruiter-public-proof-implemented-independent-validation-pending
+status: git-metadata-implemented-ui-profile-actions-pending
 ---
 
 # PRD：DecisionTrace P0
@@ -244,6 +244,10 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 - `FR-036`：root README 必须在首屏解释目标问题、核心机制与 local-first/candidate-only 差异，并提供 CI/shadow badge、可复制 demo/CLI/Action、可渲染架构图、真实 dogfood report、当前 evidence 和 failure boundaries；不得用代码量、测试数或 synthetic result 冒充用户价值。
 - `FR-037`：public demo 必须从 tracked synthetic fixture 创建临时独立 Git repo，运行 baseline + diff scan、追加明确标为 synthetic 的 disposition并启动 loopback UI；不得执行 target scripts 或 provider call，退出后清理临时 repo。公开 screenshots 必须来自该真实运行路径，记录尺寸/byte/hash/provenance 并明确不等于 adoption 或 real-repo precision。
 
+### 6.12 Repository Metadata
+
+- `FR-038`：Git-tracked metadata 必须声明精确 repository/homepage/issues、描述性 keywords/author、`private: true` 与 `UNLICENSED`，不得暗示 npm release 或开源授权；`.gitattributes` 必须标记 generated schemas/dogfood output 与 binary UI assets。Social-preview 源图必须满足 GitHub 最低尺寸/大小建议并进入 asset manifest；topics、About website、social-preview upload 与 Profile pin 属于 GitHub UI 外部状态，在实际执行前保持明确 pending。
+
 ## 7. Core User Flow
 
 1. 用户在目标 repo 中添加配置并运行初始化扫描。
@@ -334,6 +338,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 0.9 | 2026-08-27 | Codex（Repository metadata） | 增加 FR-038；同步 package repository/homepage/issues/keywords/UNLICENSED、Linguist generated boundaries 与 direct social-preview source；GitHub UI/Profile 动作保持 pending |
 | 0.8 | 2026-08-27 | Codex（Public product proof） | 增加 US-009、FR-036–FR-037；实现一命令 synthetic demo、recruiter-first README、Mermaid architecture、真实 dogfood 导航与 hashed browser screenshots；不把 demo 冒充采用 |
 | 0.7 | 2026-08-27 | Codex（BYOK transport） | 增加 FR-033–FR-035；实现显式 key/budget、redacted v1 request、endpoint/timeout/response/cost guards 与 candidate-only abstention；未执行或宣称真实 provider calibration |
 | 0.6 | 2026-08-27 | Codex（Public dogfood） | 增加 FR-032；固定 thinkbud-ai exact revision/config/contracts/report/provenance 与 analyst triage，保留无 human disposition/precision claim 的边界 |

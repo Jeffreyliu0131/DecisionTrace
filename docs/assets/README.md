@@ -9,6 +9,7 @@ These JPEGs are direct browser screenshots of the loopback Review UI created by 
 | `review-dashboard.jpg` | Dashboard after one baseline and one diff scan; 2 formal + 2 exploratory findings; 1 synthetic disposition |
 | `review-findings.jpg` | Current report with facts, inferences, validated sources, severity/confidence, and append-only review state |
 | `review-compare.jpg` | Baseline/current comparison showing 2 added exploratory D3 findings and the changed implementation artifact |
+| `social-preview.jpg` | Direct 720×360 Dashboard capture prepared for the repository Settings → Social preview upload |
 
 Reproduce with:
 

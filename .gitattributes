@@ -1,0 +1,7 @@
+# Generated contracts and sample outputs are reviewable but should not inflate language stats.
+schemas/*.json linguist-generated
+examples/dogfood/**/sample/* linguist-generated
+fixtures/baseline/*.json linguist-generated
+
+# Browser-captured product assets are binary.
+docs/assets/*.jpg binary

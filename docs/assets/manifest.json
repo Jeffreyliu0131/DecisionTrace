@@ -28,6 +28,14 @@
       "height": 720,
       "byteSize": 38890,
       "sha256": "12cce4a7c7d1ab22bd05ae8c981d30a1da749cdbbd546d6777a88a43baa8c84c"
+    },
+    {
+      "path": "social-preview.jpg",
+      "route": "/",
+      "width": 720,
+      "height": 360,
+      "byteSize": 26338,
+      "sha256": "9e1fe9d4bfe96f0d2b306cc43e4c64eeceea527e90d97b2e7bb534336747834d"
     }
   ],
   "limitations": [

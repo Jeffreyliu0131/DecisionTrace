@@ -1,6 +1,6 @@
 ---
 artifact: acceptance-criteria
-version: "0.4"
+version: "0.5"
 created: 2026-08-27
 status: implementation-contract
 ---
@@ -9,7 +9,7 @@ status: implementation-contract
 
 ## Story Context
 
-本合同覆盖 PRD 中 `US-001`–`US-006`、`US-008`–`US-009` 与 `FR-001`–`FR-037`。P0 让用户在本地 repo 配置 product contracts、执行 full/diff scan、获得有来源的 D1/D2/D3 findings、记录 disposition，并在 GitHub Action shadow mode 中复现相同结果；M5 验证有界脱敏输入、fake/replay、显式 budgeted BYOK transport 与 candidate-only feedback；M5.5 验证 loopback Review UI；M5.6 验证 recruiter-first public proof。
+本合同覆盖 PRD 中 `US-001`–`US-006`、`US-008`–`US-009` 与 `FR-001`–`FR-038`。P0 让用户在本地 repo 配置 product contracts、执行 full/diff scan、获得有来源的 D1/D2/D3 findings、记录 disposition，并在 GitHub Action shadow mode 中复现相同结果；M5 验证有界脱敏输入、fake/replay、显式 budgeted BYOK transport 与 candidate-only feedback；M5.5 验证 loopback Review UI；M5.6 验证 recruiter-first public proof 与 Git-tracked repository metadata。
 
 真实 local/cloud provider 质量、真实付费调用/数据出境、真实用户价值和许可证选择不属于本验收合同；BYOK 自动化使用 injected fetch，不冒充 live provider evidence。
 
@@ -491,7 +491,17 @@ status: implementation-contract
 
 **When** asset test 读取 manifest 与 JPEG bytes
 
-**Then** 三张 screenshot 的 route、尺寸、byteSize、SHA-256 与 README links 一致；manifest 标记 direct browser capture + synthetic-only，并明确不构成 external usage、independent ground truth 或 real-repo precision。
+**Then** Dashboard/finding/compare 与 social-preview 四张 screenshot 的 route、尺寸、byteSize、SHA-256 与 README/asset index links 一致；manifest 标记 direct browser capture + synthetic-only，并明确不构成 external usage、independent ground truth 或 real-repo precision。
+
+## M. Git-tracked Repository Metadata
+
+### AC-058｜Metadata 真源与无许可证边界
+
+**Given** public repository 的 tracked package metadata、`.gitattributes` 与 social-preview source
+
+**When** metadata test 与 staged public audit 运行
+
+**Then** description/repository/homepage/issues/author/keywords 指向 DecisionTrace 真源，package 保持 `private: true` / `license: UNLICENSED` 且根目录无 `LICENSE`；generated schemas/dogfood output 被 Linguist 标记，JPEG 被标记 binary；social-preview 为 manifest-verified 720×360 direct synthetic capture且小于 1 MiB。GitHub topics/About website/upload/Profile pin 仍被报告为 UI-only pending，不伪装为已完成。
 
 ## Requirements Coverage
 
@@ -534,5 +544,6 @@ status: implementation-contract
 | FR-035 | AC-035–AC-036, AC-052–AC-054 |
 | FR-036 | AC-056–AC-057 |
 | FR-037 | AC-055–AC-057 |
+| FR-038 | AC-058 |
 
 每个实现 PR 必须列出覆盖的 `FR-*` 与 `AC-*`，没有验收映射的代码不算 P0 完成。

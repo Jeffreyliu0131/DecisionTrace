@@ -1,6 +1,6 @@
 # DecisionTrace P0 Implementation Plan
 
-- 状态：`recruiter-public-proof-implemented; metadata-and-independent-validation-pending`
+- 状态：`git-metadata-implemented; github-ui-and-independent-validation-pending`
 - 日期：2026-08-27
 - 原则：一次只实现一个可验证 vertical slice；Local UI 必须保持 loopback/single-user，不得扩成 hosted dashboard、MCP 或 cloud LLM
 
@@ -35,7 +35,7 @@ M5.6 Recruiter-first Public Proof
 M6 Dogfood / External Validation / OSS Release
 ```
 
-`observed 2026-08-27`：`I-001`–`I-015`、`I-017`、M5 offline `I-018`–`I-021`、Local UI `I-023`–`I-028`、public dogfood `I-029`、BYOK transport `I-030` 与 recruiter proof `I-031` 已实现；hosted CI 与 Synthetic Shadow Scan 已在 public main 绿色。`I-016` independent reviewer、second dogfood repo、live provider/calibration 与其余 M6 外部动作保持未完成。
+`observed 2026-08-27`：`I-001`–`I-015`、`I-017`、M5 offline `I-018`–`I-021`、Local UI `I-023`–`I-028`、public dogfood `I-029`、BYOK transport `I-030`、recruiter proof `I-031` 与 Git metadata `I-032` 已实现；hosted CI 与 Synthetic Shadow Scan 已在 public main 绿色。`I-016` independent reviewer、GitHub UI metadata/Profile actions、second dogfood repo、live provider/calibration 与其余 M6 外部动作保持未完成。
 
 ## 3. M1｜Scaffold & Schemas
 
@@ -284,12 +284,20 @@ M5.5 Exit：I-023–I-028 与 AC-039–AC-048 通过；UI 仍是本地 review su
 
 - Root README 首屏解释问题/差异/运行，包含 CI/shadow badge、可复制 CLI/Action、可渲染 architecture、真实 dogfood sample 与 evidence/failure-boundary table。
 - `npm run demo` 在 canonical temp realpath 创建独立 synthetic Git target，跑 full + diff、追加 synthetic review、启动 loopback UI并清理；`demo:check` 进入全量门禁。
-- Dashboard/finding/compare screenshots 来自同一真实 browser run；manifest 固定 route/dimensions/bytes/SHA-256，测试验证 README references 与 JPEG integrity。
+- Dashboard/finding/compare screenshots 来自同一真实 browser run；另有满足 GitHub 最低推荐尺寸的 direct Dashboard social-preview capture。Manifest 固定 route/dimensions/bytes/SHA-256，测试验证 README references 与 JPEG integrity。
 - Demo、截图和 GitHub presence 不进入 precision/adoption/E1 claims；README 首屏保留 no-license boundary。
 
 Coverage：FR-036–FR-037；AC-055–AC-057。
 
-M5.6 Exit：一命令 demo、README、Mermaid render、browser routes、assets manifest/tests 与 `npm run check` 通过；公开展示不等于外部 validation。
+### I-032｜Git-tracked repository metadata
+
+- Package metadata 固定 public repository/homepage/issues、description/keywords/author，并保留 `private: true` / `UNLICENSED`；不创建 LICENSE 或 package release。
+- `.gitattributes` 标记 generated schemas/dogfood output 与 binary UI assets，避免生成物扭曲 GitHub language/diff metadata。
+- Direct synthetic Dashboard social-preview source 满足 GitHub 最低尺寸/大小建议并纳入 manifest；实际 upload、topics、About website 与 Profile pin 留给授权 UI action。
+
+Coverage：FR-038；AC-058。
+
+M5.6 Exit：I-031–I-032、一命令 demo、README、Mermaid render、browser routes、assets/metadata tests 与 `npm run check` 通过；公开展示不等于外部 validation。
 
 ## 10. M6｜Dogfood, Field Validation & OSS
 
@@ -313,14 +321,14 @@ Coverage：FR-032；AC-049。
 
 ## 11. Next Coding Task Boundary
 
-新的 coding agent 不应重做 M1–M5.6、I-029–I-031 已实现 slice。当前授权顺序中的下一步是完成 Git 可表达的 repository metadata，再报告只能由 GitHub/Profile UI 完成的 pin/homepage 动作；之后才选择独立 reviewer、已知 bad case 或用户明确 provider/key/budget/发送范围后的 I-022 calibration。Hosted SaaS、MCP、额外真实 repo、部署、license 与 package release 仍需当前请求授权。
+新的 coding agent 不应重做 M1–M5.6、I-029–I-032 已实现 slice。当前技术闭环后的下一步只能是：由主线程/用户完成明确授权的 GitHub topics/About/social-preview 与 Profile pin UI 动作，取得 independent reviewer 或 external user evidence，处理已知 bad case，或在用户明确 provider/key/budget/发送范围后执行 I-022 calibration。Hosted SaaS、MCP、额外真实 repo、部署、license 与 package release 仍需当前请求授权。
 
 ## 12. Definition of P0 Complete
 
 P0 只有在以下全部满足时完成：
 
-- FR-001–FR-037 均有实现与 AC 映射；
-- AC-001–AC-057 全部有自动化或明确人工验证记录；
+- FR-001–FR-038 均有实现与 AC 映射；
+- AC-001–AC-058 全部有自动化或明确人工验证记录；
 - 30+ seeded cases 的真实 baseline 已记录；
 - JSON/Markdown/HTML 一致；
 - local-only 禁网验证通过；

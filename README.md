@@ -135,7 +135,7 @@ steps:
   - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
     with:
       node-version: 22
-  - uses: Jeffreyliu0131/DecisionTrace@1d06df3104fada27d80fe2c4c2937d84e6a0460c
+  - uses: Jeffreyliu0131/DecisionTrace@b7085cde1f96ae7eb0086687d723d64f5e332ee8
     with:
       repository: .
       base: ${{ github.event.pull_request.base.sha }}

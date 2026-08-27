@@ -1,7 +1,7 @@
 # DecisionTrace P0 Technical Specification
 
-- 状态：`recruiter-public-proof-implemented`
-- 版本：0.5
+- 状态：`git-metadata-implemented-ui-actions-pending`
+- 版本：0.6
 - 日期：2026-08-27
 - 作用：锁定 coding agent 可以直接实现的 P0 技术合同；产品范围仍以 [`01-PRD.md`](01-PRD.md) 为准
 
@@ -425,6 +425,8 @@ Rules：
 - Demo 通过真实 `review` CLI 追加一条带 `Demo reviewer` 标签的 synthetic disposition；它不算 human ground truth。Interactive 模式只启动现有 loopback UI，`Ctrl+C`/error 后删除自己创建的精确 temp root。
 - Screenshot manifest 固定 `path/route/width/height/byteSize/sha256`，测试校验 JPEG bytes 与 README references。Asset 只含 synthetic fixture，不得包含 temp path、真实 repo source 或第三方 logo。
 - Root README 必须链接 dynamic CI/shadow badges、exact dogfood artifacts、当前绿色 Action pin、架构图与明确 blockers；public-source/no-license 边界必须在首屏可见。
+- `package.json` repository/homepage/bugs 必须指向 public DecisionTrace 真源，keywords 只描述已实现能力，`private: true` 与 `license: UNLICENSED` 保留 no-publish/no-grant 边界。
+- `.gitattributes` 使用 GitHub Linguist 的 `linguist-generated` 标记 generated schemas/dogfood sample/baseline data，browser JPEG 明确 binary；social preview 源图为 direct synthetic browser capture、至少 640×320 且小于 1 MiB。Git commit 不能宣称它已被上传到 GitHub Settings。
 
 ## 15. Security Requirements
 

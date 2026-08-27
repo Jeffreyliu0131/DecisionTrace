@@ -2,7 +2,27 @@
   "name": "decisiontrace",
   "version": "0.5.0",
   "private": true,
-  "description": "Local-first product contract traceability and deterministic drift detection.",
+  "description": "Evidence-linked product contract drift detection for AI-native teams.",
+  "keywords": [
+    "ai",
+    "product-management",
+    "traceability",
+    "drift-detection",
+    "github-actions",
+    "human-in-the-loop",
+    "local-first",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Jeffreyliu0131/DecisionTrace#readme",
+  "bugs": {
+    "url": "https://github.com/Jeffreyliu0131/DecisionTrace/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jeffreyliu0131/DecisionTrace.git"
+  },
+  "author": "Jeffreyliu0131",
+  "license": "UNLICENSED",
   "type": "module",
   "bin": {
     "decisiontrace": "./dist/cli/main.js"

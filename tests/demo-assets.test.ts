@@ -18,7 +18,7 @@ const assetManifestSchema = z
       .array(
         z
           .object({
-            path: z.string().regex(/^review-[a-z-]+\.jpg$/u),
+            path: z.string().regex(/^(?:review-[a-z-]+|social-preview)\.jpg$/u),
             route: z.string().min(1),
             width: z.number().int().positive(),
             height: z.number().int().positive(),
@@ -27,7 +27,7 @@ const assetManifestSchema = z
           })
           .strict(),
       )
-      .length(3),
+      .length(4),
     limitations: z.array(z.string().min(1)).min(1),
   })
   .strict();
@@ -66,6 +66,10 @@ describe("recruiter demo assets", () => {
       JSON.parse(await readFile(path.join(assetRoot, "manifest.json"), "utf8")),
     );
     const readme = await readFile(path.join(PROJECT_ROOT, "README.md"), "utf8");
+    const assetReadme = await readFile(
+      path.join(PROJECT_ROOT, "docs/assets/README.md"),
+      "utf8",
+    );
 
     for (const asset of manifest.assets) {
       const bytes = await readFile(path.join(assetRoot, asset.path));
@@ -76,7 +80,7 @@ describe("recruiter demo assets", () => {
         height: asset.height,
       });
       expect(bytes.includes(Buffer.from("Exif\0\0", "binary"))).toBe(false);
-      expect(readme).toContain(`docs/assets/${asset.path}`);
+      expect(`${readme}\n${assetReadme}`).toContain(asset.path);
     }
     expect(manifest.capture).toContain("no image-generation");
     expect(readme).toContain("not real-repository precision");
@@ -112,5 +116,68 @@ describe("recruiter demo assets", () => {
     await Promise.all(
       localTargets.map((target) => access(path.join(PROJECT_ROOT, target))),
     );
+  });
+
+  it("[AC-058] keeps Git metadata discoverable without implying a license or release", async () => {
+    const packageMetadata = z
+      .object({
+        private: z.literal(true),
+        description: z.literal(
+          "Evidence-linked product contract drift detection for AI-native teams.",
+        ),
+        keywords: z.array(z.string().regex(/^[a-z0-9-]+$/u)).min(5),
+        homepage: z.literal(
+          "https://github.com/Jeffreyliu0131/DecisionTrace#readme",
+        ),
+        bugs: z
+          .object({
+            url: z.literal(
+              "https://github.com/Jeffreyliu0131/DecisionTrace/issues",
+            ),
+          })
+          .strict(),
+        repository: z
+          .object({
+            type: z.literal("git"),
+            url: z.literal(
+              "git+https://github.com/Jeffreyliu0131/DecisionTrace.git",
+            ),
+          })
+          .strict(),
+        author: z.literal("Jeffreyliu0131"),
+        license: z.literal("UNLICENSED"),
+      })
+      .loose()
+      .parse(
+        JSON.parse(
+          await readFile(path.join(PROJECT_ROOT, "package.json"), "utf8"),
+        ),
+      );
+    expect(packageMetadata.keywords).toContain("human-in-the-loop");
+    await expect(access(path.join(PROJECT_ROOT, "LICENSE"))).rejects.toThrow();
+
+    const attributes = await readFile(
+      path.join(PROJECT_ROOT, ".gitattributes"),
+      "utf8",
+    );
+    expect(attributes).toContain("schemas/*.json linguist-generated");
+    expect(attributes).toContain(
+      "examples/dogfood/**/sample/* linguist-generated",
+    );
+    expect(attributes).toContain("docs/assets/*.jpg binary");
+
+    const manifest = assetManifestSchema.parse(
+      JSON.parse(
+        await readFile(
+          path.join(PROJECT_ROOT, "docs/assets/manifest.json"),
+          "utf8",
+        ),
+      ),
+    );
+    const socialPreview = manifest.assets.find(
+      (asset) => asset.path === "social-preview.jpg",
+    );
+    expect(socialPreview).toMatchObject({ width: 720, height: 360 });
+    expect(socialPreview?.byteSize).toBeLessThan(1_000_000);
   });
 });
