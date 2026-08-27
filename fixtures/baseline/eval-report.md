@@ -2,7 +2,7 @@
 
 - Dataset: `decisiontrace-deterministic-seed-v1` v1
 - Dataset hash: `f164de2ef36c4820012c95e4cfb5bb98cc97704d2a7285d249aa928ec6b74e3f`
-- Tool: `0.4.0`
+- Tool: `0.5.0`
 - Cases: 30
 - Citation completeness: 1
 - Gate E1 achieved: **no**

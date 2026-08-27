@@ -1,8 +1,8 @@
 ---
 artifact: prd
-version: "0.7"
+version: "0.8"
 created: 2026-08-27
-status: byok-contract-implemented-independent-validation-and-live-calibration-pending
+status: recruiter-public-proof-implemented-independent-validation-pending
 ---
 
 # PRD：DecisionTrace P0
@@ -133,6 +133,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 | US-006 | 作为 privacy-sensitive maintainer，我希望完全在本地运行，并知道哪些数据会离开机器。 | P0 |
 | US-007 | 作为 coding agent 用户，我希望 agent 在修改前查询受影响的契约与证据。 | P1 / MCP |
 | US-008 | 作为 reviewer，我希望在本地页面筛选 findings、查看历史、比较两次扫描并追加 disposition，以便不依赖手工编辑 JSONL 完成 review。 | P0 |
+| US-009 | 作为技术招聘方或首次评估者，我希望在 60 秒内理解产品问题、运行方式、真实证据和未证明边界，并能启动一个不联网的 synthetic demo，以便判断它是否值得继续深入。 | P0 public proof |
 
 ## 5. Scope
 
@@ -150,6 +151,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 - Offline benchmark、historical backtest 与 shadow-mode GitHub Action。
 - 无模型或模型失败时的确定性降级。
 - 显式 opt-in 的 provider-agnostic BYOK HTTP-JSON transport：环境变量 key、endpoint/mode boundary、redacted request、timeout、response/cost limits 与 abstention。
+- Recruiter-first public README、可复制的一命令 synthetic demo、架构关系图、public dogfood sample 导航，以及带 hash/provenance 的真实 Review UI screenshots。
 
 ### 5.2 Out of Scope for P0
 
@@ -237,6 +239,11 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 - `FR-034`：BYOK request 只能包含本地构造的 redacted semantic protocol input、精确 model ID 与 output-token limit；调用前必须按显式价格和单请求预算做保守 preflight，调用时执行 timeout/no-redirect/no-retry/response-byte limit，调用后记录 reported 或估算 cost。客户端预算不得被描述为 provider billing guarantee。
 - `FR-035`：BYOK response 必须按现有 semantic schema/source/input binding 作为不可信输入整批验证；credential echo、invalid/stale reference、超 output-token limit 或 reported cost 超预算必须丢弃 output 并 abstain，Deterministic Core 继续，所有接受的结果仍为 candidate-only、永不自动改 contract 或 gate。
 
+### 6.11 Public Product Proof
+
+- `FR-036`：root README 必须在首屏解释目标问题、核心机制与 local-first/candidate-only 差异，并提供 CI/shadow badge、可复制 demo/CLI/Action、可渲染架构图、真实 dogfood report、当前 evidence 和 failure boundaries；不得用代码量、测试数或 synthetic result 冒充用户价值。
+- `FR-037`：public demo 必须从 tracked synthetic fixture 创建临时独立 Git repo，运行 baseline + diff scan、追加明确标为 synthetic 的 disposition并启动 loopback UI；不得执行 target scripts 或 provider call，退出后清理临时 repo。公开 screenshots 必须来自该真实运行路径，记录尺寸/byte/hash/provenance 并明确不等于 adoption 或 real-repo precision。
+
 ## 7. Core User Flow
 
 1. 用户在目标 repo 中添加配置并运行初始化扫描。
@@ -287,6 +294,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 | Synthetic fixture repo | Engineering | Built；local baseline recorded | 不阻塞本地实现；真实有效性仍需独立 review 与 field evidence |
 | Real dogfood repo boundaries | 用户 | Public thinkbud-ai exact-revision sample recorded；second repo unconfirmed | 不阻塞首个 sample；继续阻塞 two-repo shadow evidence |
 | Semantic model/data egress | 用户 | Offline + BYOK transport implemented；未执行 live call | 不阻塞 fake/replay/adapter；继续阻塞真实 provider、数据出境与 calibration |
+| Public product proof | Engineering | Recruiter-first README/demo/screenshots implemented；external reaction unknown | 不阻塞公开技术展示；继续阻塞真实采用与招聘结果声明 |
 | Open-source license | 用户 | Open | 不能正式开源发布 |
 
 ### Risks
@@ -311,11 +319,12 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 | M4 Review, Eval & Shadow Action | Review log、30+ seeded cases、baseline 与 GitHub Action shadow mode 完成 | Unscheduled |
 | M5 Semantic Candidate Layer | Provider-agnostic schema、redaction、fake/replay、budgeted BYOK transport、candidate-only report 与 review 可复现；真实 provider calibration 继续独立等待 | Unscheduled |
 | M5.5 Local Review UI | Loopback server、Dashboard、history、filters、append-only review、comparison 与 production build 通过验收 | Unscheduled |
+| M5.6 Recruiter-first Product Proof | 一命令 synthetic demo、可渲染架构图、真实 dogfood 导航、hashed UI screenshots、CI badges 与 failure boundaries 通过验收 | Unscheduled |
 | M6 Dogfood / External Validation / OSS | 经授权 repo、外部 pilot、provenance、license 与 release readiness 如实完成 | Unscheduled |
 
 日期只有在完成 scope/effort spike 后确定，不用虚假排期制造确定性。
 
-具体工程 task 与 milestone exit 由 [`07-IMPLEMENTATION-PLAN.md`](07-IMPLEMENTATION-PLAN.md) 维护。当前不应重做已实现 slice；hosted Action 已有 public green evidence，下一步是独立 review、recruiter-first public proof，或在用户明确 provider/key/budget/发送范围后做真实 calibration。
+具体工程 task 与 milestone exit 由 [`07-IMPLEMENTATION-PLAN.md`](07-IMPLEMENTATION-PLAN.md) 维护。当前不应重做已实现 slice；hosted Action 与 recruiter-first public proof 已有可复现 evidence。下一步是 Git 可完成的 repository metadata、独立 review，或在用户明确 provider/key/budget/发送范围后做真实 calibration。
 
 ## 12. Open Questions
 
@@ -325,6 +334,7 @@ P0 不自动修改目标仓库，不进入目标产品运行时，不因 LLM 推
 
 | Version | Date | Author | Changes |
 |---|---|---|---|
+| 0.8 | 2026-08-27 | Codex（Public product proof） | 增加 US-009、FR-036–FR-037；实现一命令 synthetic demo、recruiter-first README、Mermaid architecture、真实 dogfood 导航与 hashed browser screenshots；不把 demo 冒充采用 |
 | 0.7 | 2026-08-27 | Codex（BYOK transport） | 增加 FR-033–FR-035；实现显式 key/budget、redacted v1 request、endpoint/timeout/response/cost guards 与 candidate-only abstention；未执行或宣称真实 provider calibration |
 | 0.6 | 2026-08-27 | Codex（Public dogfood） | 增加 FR-032；固定 thinkbud-ai exact revision/config/contracts/report/provenance 与 analyst triage，保留无 human disposition/precision claim 的边界 |
 | 0.5 | 2026-08-27 | Codex（Local Review UI） | 增加 US-008、FR-027–FR-031，实现 loopback API、React/Vite routes、Dashboard/history/filter/review/comparison；不扩展为 hosted SaaS |

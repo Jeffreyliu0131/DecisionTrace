@@ -1,118 +1,178 @@
 # DecisionTrace
 
-- 状态：`byok-contract-implemented; independent-validation-and-live-calibration-pending`
-- 创建日期：2026-08-27
-- 当前阶段：Deterministic Core、本地 Review UI、hosted CI/shadow Action、首个 public thinkbud-ai dogfood sample，以及受预算约束的 provider-agnostic BYOK transport 已完成；独立人工复核与真实 provider calibration 仍待完成
-- 项目负责人：用户（产品判断、ground truth 与发布决定）
-- AI 角色：研究、实现、测试与审查协作者；不能替用户确认需求、误报和用户价值
-- 开源状态：计划开源；许可证尚未选择，当前不授予任何复用权利
-- Public repository：https://github.com/Jeffreyliu0131/DecisionTrace
+[![CI](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/ci.yml?query=branch%3Amain)
+[![Synthetic Shadow Scan](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/shadow.yml/badge.svg?branch=main)](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/shadow.yml?query=branch%3Amain)
 
-DecisionTrace 是一个面向 AI-native 产品团队的**产品契约可追溯与漂移检测系统**。它检查同一个产品承诺在 PRD、ADR、AI 行为规范、代码、Prompt、Tests、Evals、README 和 Release Claims 中是否仍然一致，并把潜在失配转成有来源、可审查的候选问题。
+**Find product-contract drift before it becomes a release surprise.**
 
-它不是通用 AI Code Review、项目管理工具或自动改文档机器人。P0 以本地 CLI、loopback Review UI 和 GitHub Action 的形式旁路接入仓库，不进入目标产品的用户请求链路，不自动修改目标文件，也不把 LLM 判断当作真相。
+DecisionTrace is a local-first AI product for teams that change code, prompts, evals, and product promises in parallel. It connects declared product contracts to implementation and evidence, detects three narrow classes of drift, and turns every result into an evidence-linked review queue. The model-assisted layer is optional and candidate-only: it can suggest, but it cannot silently change the contract or block a release.
 
-## P0 要回答的问题
+![DecisionTrace synthetic Review UI dashboard](docs/assets/review-dashboard.jpg)
 
-当一个产品发生变化时，DecisionTrace 要能回答：
+> Public-source evaluation build. No `LICENSE` has been selected, so this repository does not currently grant reuse, modification, or distribution rights.
 
-1. 这次变更影响了哪些已确认的产品承诺或约束？
-2. 对应实现、Tests、Evals 和对外声明是否仍然完整且一致？
-3. 哪些地方可能存在决定冲突、承诺无验证或变更造成的语义失配？
-4. 每条发现的直接证据在哪里，哪些部分只是 AI 推断？
-5. 人类 reviewer 最终确认它是真漂移、有意变更、误报还是证据不足？
+## Understand it in 60 seconds
 
-## P0 形态
+AI coding increases implementation speed; it does not keep the PRD, ADRs, tests, evals, and release claims synchronized. DecisionTrace adds a read-only control loop beside the delivery path:
 
-```text
-Target repository
-├── PRD / ADR / AI policy
-├── Prompt / Code / Config
-├── Tests / Eval datasets
-└── README / Release claims
-            │
-            ▼
- DecisionTrace CLI / GitHub Action
-            │
-            ▼
- Evidence-linked finding report
-            │
-            ▼
- Human review and disposition
+| Signal | What DecisionTrace proves | Output status |
+|---|---|---|
+| `D1` Decision Conflict | Two active structured contracts contain mutually exclusive rules | Formal when both sources are directly cited |
+| `D2` Claim Without Evidence | Required evidence is missing or declared coverage is incomplete | Formal for file/coverage facts; not proof of test quality |
+| `D3` Change-Induced Mismatch | A linked implementation changed while its requirement, evidence, and claim did not | Exploratory; unchanged evidence may still be valid |
+| Semantic candidate | A redacted provider response suggests a claim, edge, or conflict | Exploratory only; human disposition required, never a gate |
+
+Every finding separates facts from inference, cites validated source spans, preserves a stable ID, and asks for one of five human dispositions: true drift, intentional change, false positive, accepted risk, or insufficient evidence.
+
+## Run the product locally
+
+Requirements: Git and Node.js 22.12+.
+
+```bash
+git clone https://github.com/Jeffreyliu0131/DecisionTrace.git
+cd DecisionTrace
+npm ci --ignore-scripts
+npm run demo
 ```
 
-P0 只检测三类漂移：
+`npm run demo` builds the product, creates a temporary synthetic Git repository, runs a baseline scan and an implementation-only diff scan, records one synthetic review, and starts the Review UI on `127.0.0.1:4173`. It executes no target-repository scripts, makes no provider call, and deletes the temporary target after `Ctrl+C`.
 
-- `D1 Decision Conflict`：多个仍被视为有效的决定或约束互相冲突。
-- `D2 Claim Without Evidence`：产品承诺没有对应 Test/Eval，或证据只覆盖部分路径。
-- `D3 Change-Induced Mismatch`：代码、Prompt、配置或数据流变化后，相关需求、验证或对外声明没有同步。
+For a non-interactive verification:
 
-## 文件导航
+```bash
+npm run build
+npm run demo:check
+```
 
-| 文件 | 唯一职责 |
+The synthetic demo deliberately produces two formal findings (`D1`, `D2`) and two exploratory `D3` candidates so the UI exposes the facts/inference and formal/exploratory boundaries instead of showing a staged empty state.
+
+## Review workflow
+
+| Evidence-linked review | Stable report comparison |
 |---|---|
-| [`AGENTS.md`](AGENTS.md) | 约束人类与 coding agents 如何在本项目工作 |
-| [`docs/01-PRD.md`](docs/01-PRD.md) | 定义为什么做、为谁做、P0 做什么以及怎样验收 |
-| [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md) | 定义集成形态、模块、数据流与信任边界 |
-| [`docs/03-EVALUATION.md`](docs/03-EVALUATION.md) | 定义 ground truth、评测阶段、指标与 release gates |
-| [`docs/04-OPEN-QUESTIONS.md`](docs/04-OPEN-QUESTIONS.md) | 保存尚未确认、会改变方案的重要问题 |
-| [`docs/05-TECHNICAL-SPEC.md`](docs/05-TECHNICAL-SPEC.md) | 锁定技术栈、目录、CLI、schema、detector 与安全合同 |
-| [`docs/06-ACCEPTANCE-CRITERIA.md`](docs/06-ACCEPTANCE-CRITERIA.md) | 用 Given/When/Then 定义 P0 可观察完成条件 |
-| [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) | 定义 I-001 起的实施顺序、每阶段 exit gate 与首个 agent prompt |
+| ![Finding detail with facts, inference, sources, and disposition](docs/assets/review-findings.jpg) | ![Stable-ID and artifact-hash report comparison](docs/assets/review-compare.jpg) |
 
-同一内容只在一个 owner 文件中维护；其他文件使用相对链接引用，不复制完整正文。
+The loopback-only React UI provides Dashboard, scan history, finding/semantic filters, append-only dispositions, and stable-ID/hash comparison. It never starts a scan, rewrites a report, opens a LAN listener, or loads a CDN/runtime asset.
 
-## 当前已确认与未确认
+## Scan a configured repository
 
-### 用户已确认
+```bash
+npm run build
 
-- DecisionTrace 值得作为候选 AI 产品继续定义。
-- 它的本质不是岗位管理，而是对齐同一产品承诺在不同产物中的表示。
-- 它应以可嵌入其他产品研发与发布流程的形式工作。
-- 已创建本地 Git 项目和 public GitHub repository；当前公开源码尚无开源许可证。
-- 本轮要求把文档补齐到 coding agent 可直接开始实现的程度。
+node dist/cli/main.js scan \
+  --repo /path/to/target-repo \
+  --base <base-commit> \
+  --head <checked-out-head-commit> \
+  --semantic off \
+  --output .decisiontrace/reports/review
 
-### 当前工作假设
+node dist/cli/main.js ui --repo /path/to/target-repo
+```
 
-- P0 primary user 锁定为使用 AI coding agents、高频修改产品的 Technical PM / AI Product Owner；Engineering Manager、Tech Lead 和 release reviewer 是协作用户。
-- P0 采用 Node.js/TypeScript Local CLI + React/Vite loopback Review UI + GitHub Action + JSON/Markdown/HTML report + 人工反馈。
-- Markdown/JSON/YAML 结构化解析；代码文件 P0 只作路径、line span、hash 和 diff，不声称 AST/行为理解。
-- Synthetic fixture repo 是首个实现与评测对象；ThinkBud、Stock Portfolio 只有在当前请求明确授权后才 dogfood。
-- Deterministic Core 默认 local-only、禁网、无模型密钥可完整运行；Semantic Candidate Layer 默认关闭，支持有界脱敏输入、fake/offline replay 与显式 BYOK HTTP-JSON adapter，所有输出只可 exploratory。
+The target owns `.decisiontrace.yml` and `.decisiontrace/contracts.yml`; `decisiontrace init` creates minimal local-only starters. Reports are canonical JSON plus Markdown and static HTML.
 
-### 仍未知
+## First real public dogfood
 
-- 首批真实外部用户是谁，以及他们是否愿意在第二个仓库重复使用。
-- 首批真实 repo dogfood 的精确读取、隐私与数据出境授权。
-- Semantic Candidate Layer 最终使用本地模型、云端模型还是二者兼容；当前没有绑定真实 provider。
-- 最终开源许可证、预算、开发周期、package 分发和公开发布方式。
+The first read-only target is [`Jeffreyliu0131/thinkbud-ai`](https://github.com/Jeffreyliu0131/thinkbud-ai), pinned to exact range `43976c4...5a36aac`. DecisionTrace ran local-only with semantic mode off and executed no target scripts.
 
-## 可以直接开始什么
+- [Human-readable sample report](examples/dogfood/thinkbud-ai/sample/report.md)
+- [Analyst triage and detector limitations](examples/dogfood/thinkbud-ai/analysis.md)
+- [Reproduction inputs and provenance](examples/dogfood/thinkbud-ai/README.md)
 
-Deterministic Core 已实现。当前可依次运行 `npm ci` 和 `npm run check`，或用 `node dist/cli/main.js --help` 查看 CLI。30-case synthetic baseline 保存在 [`fixtures/baseline/eval-report.json`](fixtures/baseline/eval-report.json)：D1/D2 在当前结构化 cases 上无记录失败，D3 保留 `EV-029` 这一条已知纯重命名误报；这只是合成基线，不是外部有效性证明。
+Observed result: three formal `D2` evidence findings. One exposes a missing dedicated RTC-default regression evidence mapping; the other two reproduce limitations the target already declares (fresh live/human evidence and licensing). This is a configuration-dependent dogfood result, not real-repository precision: no independent reviewer has dispositioned it, and D2 currently verifies declared file/coverage presence rather than the semantic truth of JSON values.
 
-M5 可通过 `--semantic local --semantic-input-output <path>` 导出有界脱敏输入，再用 `--semantic-replay <response.json>` 离线复现 provider 输出；claim、edge 与 conflict 均保留为 `SEM-*` candidate，只有 conflict 会额外生成 exploratory finding。`semantic-review` 只追加人工 disposition，不激活 contract、不修改原报告。
+## Architecture
 
-真实 provider 只通过显式 `--semantic-byok <config.json>` 接入。一次 live call 同时要求：调用者选择 `local|cloud` semantic mode、提供含 endpoint/model/价格与单请求预算的 schema-valid config，以及在 config 指定的 `DECISIONTRACE_*` 专用环境变量中提供 key。缺任一项即不发请求并 abstain；local endpoint 只能是 loopback，cloud endpoint 必须 HTTPS。示例与精确协议见 [`examples/semantic/`](examples/semantic/)。示例价格只是占位值，实际运行前必须按 provider 官方价格替换。DecisionTrace 不自动重试付费请求；preflight/postflight cost 会进入 JSON/Markdown/HTML 与 Review UI，但客户端预算不能撤销 provider 已产生的账单。
+```mermaid
+%% MEANING: Shows the read-only product path and the optional semantic trust boundary.
+%% Type: flowchart; Direction: left to right for repository-to-review flow.
+flowchart LR
+  Repo["Target repo\nPRD · ADR · prompts · code · tests · evals · claims"]
+  Action["GitHub Action\nread-only shadow mode"]
 
-本地 UI 依次运行 `npm run build` 与 `node dist/cli/main.js ui --repo <target-repo>`，然后访问输出的 `127.0.0.1` 地址。开发模式可设置 `DECISIONTRACE_UI_REPO=<target-repo>` 后运行 `npm run dev`。UI 提供 Dashboard、扫描历史、finding/semantic filters、append-only disposition 表单和 stable-ID/hash 报告对比；不自动启动扫描、不部署、不开放局域网监听。
+  subgraph DT["DecisionTrace"]
+    Ingest["Safe ingest + Git diff"]
+    Graph["Contract trace graph"]
+    Core["Deterministic D1 / D2 / D3"]
+    Redact["Bound + redact semantic input"]
+    Semantic["Explicit opt-in\nfake · replay · BYOK adapter"]
+    Evidence["Evidence gate + stable findings"]
+  end
 
-首个真实公开 dogfood 固定在 [`Jeffreyliu0131/thinkbud-ai@5a36aac`](examples/dogfood/thinkbud-ai/analysis.md)。该次 local-only diff scan 记录了 3 条配置依赖的 D2 evidence findings，并明确保留无独立 human disposition、无 real-repo precision claim，以及“文件存在不等于 JSON 内容通过”的 detector limitation。
+  Reports["Canonical JSON\nMarkdown · static HTML"]
+  UI["Loopback Review UI"]
+  Review["Append-only human disposition"]
 
-hosted CI 与 synthetic shadow workflow 已在 public `main` 实际绿色，但这不替代 ground truth。下一步证据缺口仍是：由未参与生成 fixtures 的人独立复核 `EV-001`–`EV-030`，以及在明确 provider、key、预算和发送范围后做真实 semantic calibration。完成前，E1、真实模型质量与外部采用均保持未通过。
+  Repo --> Ingest
+  Action --> Ingest
+  Ingest --> Graph
+  Graph --> Core
+  Ingest --> Redact
+  Redact -.-> Semantic
+  Core --> Evidence
+  Semantic --> Evidence
+  Evidence --> Reports
+  Reports --> UI
+  UI --> Review
+```
 
-以下事项**不阻塞 M1–M4 Deterministic Core**，但继续阻塞相应外部动作：
+The Deterministic Core is network-free. The only outbound semantic path requires an explicit `local|cloud` mode, a repo-contained config with model/prices/per-request budget, and a dedicated `DECISIONTRACE_*` key. It applies redaction, timeout, no-redirect/no-retry, response-byte, token, cost, schema, and source-binding checks. See the [BYOK protocol and placeholder config](examples/semantic/README.md). No real provider call or provider-quality calibration has been performed.
 
-- 30+ cases 是 M4 Evaluation Gate，不是写第一行代码的前置条件。
-- 新增 dogfood repo 需要用户对每个 repo 明确授权；已发布的 thinkbud-ai sample 仍不等于 second-repo evidence。
-- BYOK transport 已实现，但真实 semantic provider、付费 API 与真实数据出境仍需要逐次明确授权；fake/replay 与 adapter tests 没有发起 live call。
-- 确认许可证后才增加 `LICENSE` 并正式称为 open source。
-- Push、release、package publish、部署和联系用户仍需当前请求明确授权。
+## GitHub Action
 
-## 非目标
+Pin the last green product commit rather than a mutable branch:
 
-- 不自动判断 PM、设计、工程或 QA 谁正确。
-- 不自动覆盖 PRD、ADR、代码、Test 或 Eval。
-- 不证明目标产品有用户价值、学习效果或商业结果。
-- 不在 P0 连接 Jira、Slack、Notion、Figma 等全量企业系统。
-- 不把所有语义差异作为错误，更不让 LLM 推断直接阻断发布。
+```yaml
+permissions:
+  contents: read
+
+steps:
+  - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+    with:
+      persist-credentials: false
+      fetch-depth: 0
+      ref: ${{ github.event.pull_request.head.sha }}
+  - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+    with:
+      node-version: 22
+  - uses: Jeffreyliu0131/DecisionTrace@1d06df3104fada27d80fe2c4c2937d84e6a0460c
+    with:
+      repository: .
+      base: ${{ github.event.pull_request.base.sha }}
+      head: ${{ github.event.pull_request.head.sha }}
+      output: .decisiontrace/reports/github-action
+```
+
+The Action uploads the report and preserves the CLI status. Current main remains shadow-first; semantic findings never gate. Official Actions are SHA-pinned inside this repository.
+
+## Evidence, not claims
+
+| Capability | Public evidence | Boundary still open |
+|---|---|---|
+| CLI, D1/D2/D3, reports, review | [`npm run check`](package.json), generated schemas, fixture tests | Synthetic structures do not prove field usefulness |
+| Deterministic evaluation | [30-case baseline](fixtures/baseline/eval-report.md) | `EV-029` known rename false positive; E1 awaits an independent reviewer |
+| Hosted execution | [CI](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/ci.yml?query=branch%3Amain) and [Synthetic Shadow Scan](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/shadow.yml?query=branch%3Amain) | Synthetic shadow is not external adoption |
+| Local Review UI | Reproducible demo plus the synthetic screenshots above | No multi-user/hosted workflow study |
+| Public dogfood | Exact-revision thinkbud report, hashes, provenance, and analyst triage | No independent disposition or real-repo precision |
+| Semantic layer | Fake/replay and injected-fetch BYOK contract tests | No live provider, billing calibration, or semantic precision |
+
+## Deliberate failure boundaries
+
+- No evidence means abstain or exploratory; model text cannot become a formal fact.
+- D2 proves declared evidence presence/coverage, not that an assertion validates runtime behavior.
+- D3 is a review candidate, not an accusation that documentation is stale.
+- Missing key, timeout, invalid/stale response, credential echo, or budget breach preserves deterministic findings and abstains from semantic output.
+- Reports and review logs do not prove user value, time saved, adoption, or market demand.
+- Public repository does not mean open source; license selection remains an explicit owner decision.
+
+## Engineering contracts
+
+- [`AGENTS.md`](AGENTS.md) — collaboration, evidence, safety, and publication protocol
+- [`docs/01-PRD.md`](docs/01-PRD.md) — users, scope, requirements, and milestones
+- [`docs/02-ARCHITECTURE.md`](docs/02-ARCHITECTURE.md) — modules, trust boundaries, and failure behavior
+- [`docs/03-EVALUATION.md`](docs/03-EVALUATION.md) — ground truth, metrics, bad cases, and release gates
+- [`docs/05-TECHNICAL-SPEC.md`](docs/05-TECHNICAL-SPEC.md) — CLI, schemas, detectors, BYOK, and UI contracts
+- [`docs/06-ACCEPTANCE-CRITERIA.md`](docs/06-ACCEPTANCE-CRITERIA.md) — observable Given/When/Then acceptance
+- [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) — completed slices and next evidence gaps
+
+Current version: `0.5.0`. Current blockers: independent fixture review, real provider calibration, second-repo repeat use, external users, and license selection.

@@ -26,7 +26,7 @@
       "One or more cases still lack an independent human reviewer; the synthetic author cannot self-certify ground truth."
     ]
   },
-  "generatedAt": "2026-08-27T14:02:37.966Z",
+  "generatedAt": "2026-08-27T14:41:41.084Z",
   "limitations": [
     "Cases are synthetic structural fixtures; they do not establish real-repository usefulness or adoption.",
     "Path and declared-coverage checks do not prove that tests validate runtime behavior.",
@@ -94,5 +94,5 @@
     "EV-030"
   ],
   "schemaVersion": 1,
-  "toolVersion": "0.4.0"
+  "toolVersion": "0.5.0"
 }

@@ -1,0 +1,5 @@
+.decisiontrace/cache/
+.decisiontrace/eval/
+.decisiontrace/reports/
+.decisiontrace/reviews.jsonl
+.decisiontrace/semantic-reviews.jsonl

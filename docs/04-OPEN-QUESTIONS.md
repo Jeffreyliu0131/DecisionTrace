@@ -77,6 +77,7 @@
 
 - 状态：Open
 - 当前候选路径：手工 report 访谈 → dogfood shadow mode → 5-user pilot → second-repo repeat use → OSS issues/PRs。
+- Observed：Recruiter-first README、一命令 synthetic demo、UI screenshots 与首个 public dogfood sample 已可公开审查；尚无外部 reviewer 行为、second-repo repeat use 或采用反馈。
 - 反证：只有 AI 生成代码、合成 benchmark 或 GitHub 仓库存在不能证明用户价值。
 - Owner：用户
 

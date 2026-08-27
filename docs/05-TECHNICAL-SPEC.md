@@ -1,7 +1,7 @@
 # DecisionTrace P0 Technical Specification
 
-- 状态：`local-review-ui-and-byok-transport-implemented`
-- 版本：0.4
+- 状态：`recruiter-public-proof-implemented`
+- 版本：0.5
 - 日期：2026-08-27
 - 作用：锁定 coding agent 可以直接实现的 P0 技术合同；产品范围仍以 [`01-PRD.md`](01-PRD.md) 为准
 
@@ -12,6 +12,7 @@ P0 分成两个清晰层次：
 1. **Deterministic Core（M1–M4 必须完成）**：配置、Artifact inventory、contract registry、trace graph、Git diff、D1/D2/D3 规则、报告、review feedback 和 fixture eval。无网络、无模型密钥也必须完整运行。
 2. **Semantic Candidate Layer（M5，受控可选）**：模型只生成候选 claim、edge 或 conflict；默认关闭，支持 fake/replay 与显式 budgeted BYOK transport，只能输出 `exploratory` finding，不能成为 gate。
 3. **Local Review UI（M5.5）**：单用户 React UI + loopback Node API，只读取 canonical reports，并通过现有 review services 追加 disposition；不自动 scan、不修改报告、不提供远程账号或 hosted service。
+4. **Public Proof Surface（M5.6）**：一命令 synthetic demo、root README、Mermaid architecture、真实 dogfood sample 导航与 browser-captured UI assets；只证明可运行/可审查，不证明 adoption。
 
 因此工程可以立即从 Deterministic Core 开始，不等待外部用户、许可证或云模型决定。外部发布、真实 repo dogfood 和模型数据出境仍受独立闸门约束。
 
@@ -66,6 +67,8 @@ DecisionTrace/
 │   └── ui/                             # local API, report store, comparison
 ├── ui/                                 # React/Vite browser application
 │   └── src/
+├── scripts/demo.mjs                    # ephemeral synthetic repo + two scans + review + UI
+├── docs/assets/                        # hashed synthetic browser screenshots + manifest
 ├── schemas/
 ├── fixtures/
 │   ├── d1/
@@ -111,6 +114,13 @@ decisiontrace semantic-review <report.json> --candidate <SEM-id>
                    --reason <text>
 decisiontrace eval --dataset <path> [--output <dir>]
 decisiontrace ui [--repo <path>] [--port <1..65535>] [--api-only]
+```
+
+Repository demo commands：
+
+```text
+npm run demo [-- --port <1..65535>]     # build, prepare synthetic target, serve loopback UI, clean on exit
+npm run demo:check                      # same target/scan/review assertions without starting a listener
 ```
 
 ### 4.2 Defaults
@@ -408,7 +418,15 @@ Rules：
 - Static responses 使用 CSP、`nosniff`、`DENY` frame policy、same-origin resource/opener policy；browser bundle 不加载 CDN、外部字体、analytics 或远程 script。
 - UI 不自动运行 scan、不执行目标 repo 内容、不暴露绝对 repo root，也不把 review 写回 report.json。
 
-## 14. Security Requirements
+## 14. Public Demo & Asset Contract
+
+- `scripts/demo.mjs` 只复制 `fixtures/repositories/shadow` 到 `mkdtemp` 创建的 realpath，初始化独立 Git history、覆盖为空 hooks path并关闭 commit signing，再用 `execFile` 参数数组调用 Git/DecisionTrace；不执行 target package/script、hook 或 provider/network。
+- Demo 先做 full baseline，再提交 implementation-only change 并做 exact paired-ref diff；当前预期为 formal D1/D2 + exploratory D3。Runner 必须验证 status，不得为了好看把 D3 升格 formal。
+- Demo 通过真实 `review` CLI 追加一条带 `Demo reviewer` 标签的 synthetic disposition；它不算 human ground truth。Interactive 模式只启动现有 loopback UI，`Ctrl+C`/error 后删除自己创建的精确 temp root。
+- Screenshot manifest 固定 `path/route/width/height/byteSize/sha256`，测试校验 JPEG bytes 与 README references。Asset 只含 synthetic fixture，不得包含 temp path、真实 repo source 或第三方 logo。
+- Root README 必须链接 dynamic CI/shadow badges、exact dogfood artifacts、当前绿色 Action pin、架构图与明确 blockers；public-source/no-license 边界必须在首屏可见。
+
+## 15. Security Requirements
 
 - 所有 Git 命令使用参数数组和固定 executable，不经过 shell。
 - 不执行被分析 repo 中的代码、scripts、hooks 或文档指令。
@@ -419,7 +437,7 @@ Rules：
 - Local UI 的 loopback HTTP 不改变 Deterministic Core 的禁网合同；它没有 outbound provider/network 调用。
 - BYOK 是唯一显式 outbound exception；其 config 不能越出 target repo、不能跟随 redirect、不能自动 retry，也不能把 provider error body 或 credential 写进 artifact。
 
-## 15. Definition of Technical Done
+## 16. Definition of Technical Done
 
 一个模块只有在以下全部成立时才算完成：
 
@@ -427,5 +445,5 @@ Rules：
 2. Unit tests 覆盖 happy、negative、boundary 和 recovery。
 3. 对应 [`06-ACCEPTANCE-CRITERIA.md`](06-ACCEPTANCE-CRITERIA.md) 场景通过。
 4. 不改变未授权外部状态。
-5. `npm run check` 通过：format/lint、typecheck、tests、build、fixture eval。
+5. `npm run check` 通过：format/lint、typecheck、tests、build、fixture eval 与 non-interactive demo check。
 6. 文档与实际 CLI/schema 一致。

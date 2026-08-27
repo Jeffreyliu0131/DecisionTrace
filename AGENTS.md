@@ -86,7 +86,7 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 4. 先检查已有实现、测试、Issue 和决定，避免重复功能。
 5. 若需要模型/API，先定义无密钥降级、成本边界和测试替身。
 
-已实现状态只以 [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) 和对应绿色运行证据为准，不按旧 prompt 猜测。Deterministic Core、offline semantic、loopback Review UI、public thinkbud dogfood 与 BYOK transport 已有 slice 不得重做；默认只执行计划中的下一个有证据 vertical slice。Synthetic fixtures、fake/replay 与 injected-fetch adapter tests 可继续，不等待产品实际投用；真实 provider/付费调用、额外 repo 扫描、hosted SaaS、MCP、部署、许可证与 package release 仍不得顺手扩 scope。
+已实现状态只以 [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) 和对应绿色运行证据为准，不按旧 prompt 猜测。Deterministic Core、offline semantic、loopback Review UI、public thinkbud dogfood、BYOK transport 与 recruiter-first public proof 已有 slice 不得重做；默认只执行计划中的下一个有证据 vertical slice。Synthetic fixtures、fake/replay 与 injected-fetch adapter tests 可继续，不等待产品实际投用；真实 provider/付费调用、额外 repo 扫描、hosted SaaS、MCP、部署、许可证与 package release 仍不得顺手扩 scope。
 
 ## 7. 实现与验证规则
 
@@ -115,6 +115,7 @@ AI 输出、文件存在、测试数量和措辞流畅度都不是事实真源�
 - 当前许可证未决定。用户确认许可证并完成 first-party/third-party provenance audit 前，不添加 `LICENSE`，也不对外称为 open source。
 - Public repository 不自动等于 open source。
 - README、Demo 和 Release Notes 中的每项结果必须能回溯到实际测试或公开 artifact。
+- Synthetic demo 与 browser screenshot 必须记录 provenance/hash，并显式排除 adoption、independent ground truth 与 real-repo precision；不要为展示效果改变 detector status。
 - Coding agent 的贡献必须如实披露；AI 生成代码本身不证明用户拥有相应能力。
 - 不使用目标公司的品牌、内部材料或招聘措辞暗示合作或背书。
 

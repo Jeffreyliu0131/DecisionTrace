@@ -1,6 +1,6 @@
 {
   "name": "decisiontrace",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "Local-first product contract traceability and deterministic drift detection.",
   "type": "module",
@@ -25,7 +25,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "fixture:eval": "node dist/cli/main.js eval --dataset fixtures/eval-cases.yml --output .decisiontrace/eval",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run fixture:eval",
+    "demo": "npm run build && node scripts/demo.mjs",
+    "demo:check": "node scripts/demo.mjs --check",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run fixture:eval && npm run demo:check",
     "dev": "concurrently -k -n api,ui npm:dev:api npm:dev:ui",
     "dev:api": "tsx watch src/cli/main.ts ui --api-only --port 4173",
     "dev:ui": "vite",

@@ -1,6 +1,6 @@
 # DecisionTrace P0 Architecture
 
-- 状态：`local-review-ui-and-byok-transport-implemented; independent-validation-pending`
+- 状态：`recruiter-public-proof-implemented; independent-validation-pending`
 - 日期：2026-08-27
 - 边界：说明系统怎样嵌入 repo/PR/release 流程；不锁定最终语言、框架或云服务
 
@@ -75,7 +75,13 @@ BYOK 是 CLI 的显式 outbound transport，不是 Deterministic Core 或 Review
 
 Adapter 接收的 body 只有稳定 `decisiontrace.semantic.v1`、精确 model ID、output-token limit 与已脱敏/限量的 semantic input。API key 只进入受限认证 header。Response 按字节流硬限额读取，再做 credential-echo、schema、input/source/contract binding、usage/token/cost 校验；失败即丢弃整批 semantic output 并 abstain。客户端 preflight/postflight cost guard 不是 provider billing guarantee。
 
-### 3.6 Deferred Integrations
+### 3.6 Public Proof Surface
+
+`npm run demo` 是产品入口而非单独 mock：它从 tracked synthetic fixture 创建 ephemeral Git repo，运行 full + exact diff scans，通过正式 review service 追加一条 synthetic disposition，再复用 production loopback server/UI。`npm run demo:check` 运行同一准备与断言但不监听端口。两者都不执行 target scripts、不调用 provider，并在退出/失败后清理自己创建的 temp root。
+
+Root README 只组合现有真源：动态 CI/shadow badges、可复制命令、Mermaid architecture、exact-revision dogfood sample、synthetic browser screenshots 与 limitation。Screenshot manifest 固定 bytes/hash；这些资产证明产品可运行和界面状态，不成为 adoption、precision 或 human-ground-truth evidence。
+
+### 3.7 Deferred Integrations
 
 - MCP server；
 - Jira/Linear/Notion/Figma/Slack；

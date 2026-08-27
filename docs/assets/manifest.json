@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "generatedOn": "2026-08-27",
+  "source": "npm run demo",
+  "capture": "Direct loopback browser screenshots; no image-generation or real-repository source content",
+  "syntheticOnly": true,
+  "assets": [
+    {
+      "path": "review-dashboard.jpg",
+      "route": "/",
+      "width": 720,
+      "height": 540,
+      "byteSize": 34568,
+      "sha256": "8eb720a5da5265774c4d19dcba81857730166fc2fb8f3a389ec761c270da8db7"
+    },
+    {
+      "path": "review-findings.jpg",
+      "route": "/scans/:reportKey",
+      "width": 720,
+      "height": 900,
+      "byteSize": 65981,
+      "sha256": "8638c23f447a4c55b2a0aaf1836b88d395539cdc63caf5d4990857fa7295e2a5"
+    },
+    {
+      "path": "review-compare.jpg",
+      "route": "/compare",
+      "width": 720,
+      "height": 720,
+      "byteSize": 38890,
+      "sha256": "12cce4a7c7d1ab22bd05ae8c981d30a1da749cdbbd546d6777a88a43baa8c84c"
+    }
+  ],
+  "limitations": [
+    "The screenshots demonstrate product behavior on synthetic fixtures, not external adoption.",
+    "Visible scan times and Git revisions belong to one ephemeral demo run and are not stable test IDs."
+  ]
+}

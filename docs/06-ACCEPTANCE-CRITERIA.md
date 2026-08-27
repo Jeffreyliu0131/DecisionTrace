@@ -1,15 +1,15 @@
 ---
 artifact: acceptance-criteria
-version: "0.3"
+version: "0.4"
 created: 2026-08-27
 status: implementation-contract
 ---
 
-# Acceptance Criteria：DecisionTrace P0 Core, Semantic Transport & Local Review UI
+# Acceptance Criteria：DecisionTrace P0 Core, Semantic Transport, Review UI & Public Proof
 
 ## Story Context
 
-本合同覆盖 PRD 中 `US-001`–`US-006`、`US-008` 与 `FR-001`–`FR-035`。P0 让用户在本地 repo 配置 product contracts、执行 full/diff scan、获得有来源的 D1/D2/D3 findings、记录 disposition，并在 GitHub Action shadow mode 中复现相同结果；M5 验证有界脱敏输入、fake/replay、显式 budgeted BYOK transport 与 candidate-only feedback；M5.5 验证 loopback Review UI。
+本合同覆盖 PRD 中 `US-001`–`US-006`、`US-008`–`US-009` 与 `FR-001`–`FR-037`。P0 让用户在本地 repo 配置 product contracts、执行 full/diff scan、获得有来源的 D1/D2/D3 findings、记录 disposition，并在 GitHub Action shadow mode 中复现相同结果；M5 验证有界脱敏输入、fake/replay、显式 budgeted BYOK transport 与 candidate-only feedback；M5.5 验证 loopback Review UI；M5.6 验证 recruiter-first public proof。
 
 真实 local/cloud provider 质量、真实付费调用/数据出境、真实用户价值和许可证选择不属于本验收合同；BYOK 自动化使用 injected fetch，不冒充 live provider evidence。
 
@@ -467,6 +467,32 @@ status: implementation-contract
 
 **Then** 每次显式执行最多一次 request、timeout 会 abort、response body/credential 不进入 diagnostic/report，整批 semantic output 被拒绝，Deterministic Core 继续。
 
+## L. Recruiter-first Public Proof
+
+### AC-055｜一命令 synthetic product demo
+
+**Given** Node 22、Git、built DecisionTrace 与 tracked shadow fixture
+
+**When** `npm run demo:check` 或 interactive `npm run demo` 执行
+
+**Then** runner 在 canonical temp realpath 创建独立 Git repo，完成 full baseline + paired-ref implementation diff、得到 formal D1/D2 与 exploratory D3、通过正式 review service 追加一条明确 synthetic disposition；check mode 不监听，interactive mode 只监听 loopback，二者不执行 target scripts/provider call且结束后删除精确 temp root。
+
+### AC-056｜60 秒公开理解路径
+
+**Given** 首次访问 root README 的技术招聘方或 maintainer
+
+**When** 阅读首屏、运行、dogfood、architecture、Action、evidence 与 failure-boundary sections
+
+**Then** 能定位产品问题、D1/D2/D3/semantic status 差异、一命令 demo、真实 sample、CI/shadow 状态和当前 blockers；Mermaid 在 renderer 中通过，Action pin 使用 immutable SHA，且 README 不把 synthetic test/demo、AI 生成量或 GitHub presence 描述为 adoption/precision/open-source grant。
+
+### AC-057｜Screenshot provenance 与完整性
+
+**Given** Review UI public screenshots
+
+**When** asset test 读取 manifest 与 JPEG bytes
+
+**Then** 三张 screenshot 的 route、尺寸、byteSize、SHA-256 与 README links 一致；manifest 标记 direct browser capture + synthetic-only，并明确不构成 external usage、independent ground truth 或 real-repo precision。
+
 ## Requirements Coverage
 
 | Requirement | Acceptance Criteria |
@@ -506,5 +532,7 @@ status: implementation-contract
 | FR-033 | AC-050–AC-051 |
 | FR-034 | AC-051–AC-054 |
 | FR-035 | AC-035–AC-036, AC-052–AC-054 |
+| FR-036 | AC-056–AC-057 |
+| FR-037 | AC-055–AC-057 |
 
 每个实现 PR 必须列出覆盖的 `FR-*` 与 `AC-*`，没有验收映射的代码不算 P0 完成。

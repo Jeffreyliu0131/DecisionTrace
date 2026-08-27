@@ -1,6 +1,6 @@
 # DecisionTrace P0 Implementation Plan
 
-- 状态：`byok-contract-implemented; independent-validation-and-live-calibration-pending`
+- 状态：`recruiter-public-proof-implemented; metadata-and-independent-validation-pending`
 - 日期：2026-08-27
 - 原则：一次只实现一个可验证 vertical slice；Local UI 必须保持 loopback/single-user，不得扩成 hosted dashboard、MCP 或 cloud LLM
 
@@ -30,10 +30,12 @@ M5 Semantic Candidate Layer (optional, gated)
   ↓
 M5.5 Local Review UI (loopback only)
   ↓
+M5.6 Recruiter-first Public Proof
+  ↓
 M6 Dogfood / External Validation / OSS Release
 ```
 
-`observed 2026-08-27`：`I-001`–`I-015`、`I-017`、M5 offline `I-018`–`I-021`、Local UI `I-023`–`I-028`、public dogfood `I-029` 与 BYOK transport `I-030` 已实现；hosted CI 与 Synthetic Shadow Scan 已在 public main 绿色。`I-016` independent reviewer、second dogfood repo、live provider/calibration 与其余 M6 外部动作保持未完成。
+`observed 2026-08-27`：`I-001`–`I-015`、`I-017`、M5 offline `I-018`–`I-021`、Local UI `I-023`–`I-028`、public dogfood `I-029`、BYOK transport `I-030` 与 recruiter proof `I-031` 已实现；hosted CI 与 Synthetic Shadow Scan 已在 public main 绿色。`I-016` independent reviewer、second dogfood repo、live provider/calibration 与其余 M6 外部动作保持未完成。
 
 ## 3. M1｜Scaffold & Schemas
 
@@ -276,7 +278,20 @@ Coverage：FR-028、FR-031；AC-042、AC-048。
 
 M5.5 Exit：I-023–I-028 与 AC-039–AC-048 通过；UI 仍是本地 review surface，不自动 scan、不部署、不宣称用户 adoption。
 
-## 9. M6｜Dogfood, Field Validation & OSS
+## 9. M5.6｜Recruiter-first Public Proof
+
+### I-031｜Reproducible public product surface
+
+- Root README 首屏解释问题/差异/运行，包含 CI/shadow badge、可复制 CLI/Action、可渲染 architecture、真实 dogfood sample 与 evidence/failure-boundary table。
+- `npm run demo` 在 canonical temp realpath 创建独立 synthetic Git target，跑 full + diff、追加 synthetic review、启动 loopback UI并清理；`demo:check` 进入全量门禁。
+- Dashboard/finding/compare screenshots 来自同一真实 browser run；manifest 固定 route/dimensions/bytes/SHA-256，测试验证 README references 与 JPEG integrity。
+- Demo、截图和 GitHub presence 不进入 precision/adoption/E1 claims；README 首屏保留 no-license boundary。
+
+Coverage：FR-036–FR-037；AC-055–AC-057。
+
+M5.6 Exit：一命令 demo、README、Mermaid render、browser routes、assets manifest/tests 与 `npm run check` 通过；公开展示不等于外部 validation。
+
+## 10. M6｜Dogfood, Field Validation & OSS
 
 分别需要用户明确授权：
 
@@ -296,16 +311,16 @@ M6 的真实结果更新 Evidence，不回写成虚假 P0 完成。
 
 Coverage：FR-032；AC-049。
 
-## 10. Next Coding Task Boundary
+## 11. Next Coding Task Boundary
 
-新的 coding agent 不应重做 M1–M5.5、I-029 或 I-030 已实现 slice。默认下一步只能选择一个有证据的缺口：制作 recruiter-first public proof/真实 sample 导航、协助独立 reviewer 处理 `EV-*` / `SEM-*` feedback、修复已知 bad case，或在用户明确 provider/key/budget/发送范围后执行 I-022 calibration。Hosted SaaS、MCP、额外真实 repo、部署、license 与 package release 仍需当前请求授权。
+新的 coding agent 不应重做 M1–M5.6、I-029–I-031 已实现 slice。当前授权顺序中的下一步是完成 Git 可表达的 repository metadata，再报告只能由 GitHub/Profile UI 完成的 pin/homepage 动作；之后才选择独立 reviewer、已知 bad case 或用户明确 provider/key/budget/发送范围后的 I-022 calibration。Hosted SaaS、MCP、额外真实 repo、部署、license 与 package release 仍需当前请求授权。
 
-## 11. Definition of P0 Complete
+## 12. Definition of P0 Complete
 
 P0 只有在以下全部满足时完成：
 
-- FR-001–FR-035 均有实现与 AC 映射；
-- AC-001–AC-054 全部有自动化或明确人工验证记录；
+- FR-001–FR-037 均有实现与 AC 映射；
+- AC-001–AC-057 全部有自动化或明确人工验证记录；
 - 30+ seeded cases 的真实 baseline 已记录；
 - JSON/Markdown/HTML 一致；
 - local-only 禁网验证通过；
