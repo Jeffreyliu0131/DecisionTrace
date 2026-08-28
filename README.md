@@ -17,6 +17,8 @@ DecisionTrace is a local-first CLI, GitHub Action, and Review UI that catches dr
 
 ![DecisionTrace synthetic Review UI dashboard](docs/assets/review-dashboard.jpg)
 
+> Public-source evaluation build. No `LICENSE` has been selected, so this repository does not currently grant reuse, modification, or distribution rights.
+
 ## Quick start
 
 Requirements: Git and Node.js 22.12+.
