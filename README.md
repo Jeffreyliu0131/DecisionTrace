@@ -3,15 +3,34 @@
 [![CI](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/ci.yml?query=branch%3Amain)
 [![Synthetic Shadow Scan](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/shadow.yml/badge.svg?branch=main)](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/shadow.yml?query=branch%3Amain)
 
-**Find product-contract drift before it becomes a release surprise.**
+**Catch PRD–code–eval drift before release.**
 
-DecisionTrace is a local-first AI product for teams that change code, prompts, evals, and product promises in parallel. It connects declared product contracts to implementation and evidence, detects three narrow classes of drift, and turns every result into an evidence-linked review queue. The model-assisted layer is optional and candidate-only: it can suggest, but it cannot silently change the contract or block a release.
+DecisionTrace is a local-first CLI, GitHub Action, and Review UI that catches drift between product contracts, code, prompts, tests, evals, and release claims. Every finding cites its evidence and enters a human review queue. Optional AI analysis can suggest candidates, but it cannot silently change a contract or block a release.
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#review-workflow">See the UI</a> ·
+  <a href="#first-real-public-dogfood">ThinkBud dogfood</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#evidence-not-claims">Evidence</a>
+</p>
 
 ![DecisionTrace synthetic Review UI dashboard](docs/assets/review-dashboard.jpg)
 
-> Public-source evaluation build. No `LICENSE` has been selected, so this repository does not currently grant reuse, modification, or distribution rights.
+## Quick start
 
-## Understand it in 60 seconds
+Requirements: Git and Node.js 22.12+.
+
+```bash
+git clone https://github.com/Jeffreyliu0131/DecisionTrace.git
+cd DecisionTrace
+npm ci --ignore-scripts
+npm run demo
+```
+
+`npm run demo` builds the product, creates a temporary synthetic Git repository, runs two scans, records one synthetic review, and opens the loopback-only Review UI on `127.0.0.1:4173`. It executes no target-repository scripts, makes no provider call, and deletes the temporary target after `Ctrl+C`.
+
+## What DecisionTrace catches
 
 AI coding increases implementation speed; it does not keep the PRD, ADRs, tests, evals, and release claims synchronized. DecisionTrace adds a read-only control loop beside the delivery path:
 
@@ -23,19 +42,6 @@ AI coding increases implementation speed; it does not keep the PRD, ADRs, tests,
 | Semantic candidate | A redacted provider response suggests a claim, edge, or conflict | Exploratory only; human disposition required, never a gate |
 
 Every finding separates facts from inference, cites validated source spans, preserves a stable ID, and asks for one of five human dispositions: true drift, intentional change, false positive, accepted risk, or insufficient evidence.
-
-## Run the product locally
-
-Requirements: Git and Node.js 22.12+.
-
-```bash
-git clone https://github.com/Jeffreyliu0131/DecisionTrace.git
-cd DecisionTrace
-npm ci --ignore-scripts
-npm run demo
-```
-
-`npm run demo` builds the product, creates a temporary synthetic Git repository, runs a baseline scan and an implementation-only diff scan, records one synthetic review, and starts the Review UI on `127.0.0.1:4173`. It executes no target-repository scripts, makes no provider call, and deletes the temporary target after `Ctrl+C`.
 
 For a non-interactive verification:
 
