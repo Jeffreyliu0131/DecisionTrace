@@ -78,6 +78,13 @@ const contractLinkSchema = z
     locator: z.string().min(1).optional(),
     required: z.boolean().optional(),
     covers: z.array(z.string().min(1)).optional(),
+    expect: z
+      .object({
+        pointer: z.string().regex(/^\//u),
+        equals: z.union([z.string(), z.number(), z.boolean(), z.null()]),
+      })
+      .strict()
+      .optional(),
   })
   .strict()
   .superRefine((value, context) => {

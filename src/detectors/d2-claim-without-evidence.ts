@@ -1,5 +1,9 @@
 import type { ParsedArtifact } from "../artifacts/types.js";
-import { linkMatchesPath, matchingArtifacts } from "../contracts/matching.js";
+import {
+  linkMatchesPath,
+  matchingArtifacts,
+  sourceSpansForLink,
+} from "../contracts/matching.js";
 import type { Contract } from "../schemas/index.js";
 import type { FindingDraft } from "../findings/types.js";
 import { contractDefinitionSources, sourcePaths } from "./shared.js";
@@ -18,7 +22,25 @@ export function detectD2(
         .filter((link) => link.required === true)
         .forEach((link) => {
           const artifactMatches = matchingArtifacts(link, artifacts);
-          if (artifactMatches.length > 0) return;
+          const valid = artifactMatches.some(
+            (parsed) =>
+              parsed.artifact.parserStatus !== "error" &&
+              (link.locator === undefined ||
+                parsed.nodes.some((node) =>
+                  node.text?.includes(link.locator!),
+                )) &&
+              (link.expect === undefined ||
+                parsed.nodes.some(
+                  (node) =>
+                    node.pointer === link.expect!.pointer &&
+                    Object.is(node.value, link.expect!.equals),
+                )),
+          );
+          if (valid) return;
+          const evidenceSources = [
+            ...definitionSources,
+            ...sourceSpansForLink(link, artifacts),
+          ];
           const declared = link.path ?? link.glob ?? "<invalid>";
           const outsideRegistry = unregisteredSafePaths.some((pathname) =>
             linkMatchesPath(link, pathname),
@@ -31,18 +53,21 @@ export function detectD2(
             contractIds: [contract.id],
             facts: [
               {
-                statement: outsideRegistry
-                  ? `Required evidence '${declared}' exists outside the allowed source registry.`
-                  : `Required evidence '${declared}' matched no safe artifact.`,
-                sourceRefs: sourcePaths(definitionSources),
+                statement:
+                  artifactMatches.length > 0
+                    ? `Required evidence '${declared}' exists but its parser, locator, or typed JSON-pointer expectation failed.`
+                    : outsideRegistry
+                      ? `Required evidence '${declared}' exists outside the allowed source registry.`
+                      : `Required evidence '${declared}' matched no safe artifact.`,
+                sourceRefs: sourcePaths(evidenceSources),
               },
             ],
             inferences: [],
-            sources: definitionSources,
+            sources: evidenceSources,
             affectedPaths: [declared, ...sourcePaths(definitionSources)],
             suggestedReview:
               "Add or correctly register the required evidence, or explicitly revise the contract's evidence requirement.",
-            reasonKey: `d2-required-evidence-${outsideRegistry ? "outside-registry" : "missing"}:${contract.id}:${declared}`,
+            reasonKey: `d2-required-evidence-${artifactMatches.length > 0 ? "invalid" : outsideRegistry ? "outside-registry" : "missing"}:${contract.id}:${declared}:${JSON.stringify(link.expect ?? link.locator ?? "")}`,
           });
         });
 

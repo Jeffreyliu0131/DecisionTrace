@@ -449,3 +449,9 @@ Rules：
 4. 不改变未授权外部状态。
 5. `npm run check` 通过：format/lint、typecheck、tests、build、fixture eval 与 non-interactive demo check。
 6. 文档与实际 CLI/schema 一致。
+
+## Audit revision · 2026-09-05
+
+Required `verified_by` links now accept optional `expect: {pointer: "/approved", equals: true}`. JSON/YAML pointers use RFC 6901 escaping and primitive values are type-sensitive (string "true" is not boolean true). Locators must exist and parser errors cannot satisfy required evidence. This validates declared data, not the truth of an arbitrary test assertion.
+
+D3 co-changed definition/evidence/claim paths no longer suppress a candidate. The candidate stays exploratory, uses confidence 0.4, and states that semantic synchronization remains unknown. This supersedes automatic path-co-change suppression in section 8.3; independent disposition remains required.

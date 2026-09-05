@@ -171,7 +171,7 @@ status: implementation-contract
 
 **When** D3 detector 运行
 
-**Then** 不生成“evidence 未同步”的 D3 finding；其他 detector 仍可独立运行。
+**Then** 保留 confidence 0.4 的 exploratory candidate，事实明确说明关联文件也改变、语义同步尚未验证；不得声称 evidence 未改变，不触发 gate。
 
 ## E. Findings & Reports
 
@@ -547,3 +547,9 @@ status: implementation-contract
 | FR-038 | AC-058 |
 
 每个实现 PR 必须列出覆盖的 `FR-*` 与 `AC-*`，没有验收映射的代码不算 P0 完成。
+
+## 2026-09-05 audit acceptance revision
+
+FR-013 / AC-016 / I-010: required evidence can include `expect: { pointer: /approved, equals: true }`. A missing pointer, wrong primitive type/value, missing locator or parser error must produce D2; actual boolean true passes.
+
+FR-014 / AC-019 / I-011: co-changing README or a test path must not silently erase implementation impact. Retain an explicitly unverified exploratory candidate with lower confidence; this is a review queue entry, not proof of semantic drift.

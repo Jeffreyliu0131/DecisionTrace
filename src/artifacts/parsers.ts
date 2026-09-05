@@ -108,6 +108,12 @@ function visitStructured(
   nodes.push({
     kind,
     pointer: pointer || "/",
+    ...(value === null ||
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+      ? { value }
+      : {}),
     ...(text === undefined ? {} : { text }),
   });
   if (Array.isArray(value)) {

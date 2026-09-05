@@ -238,3 +238,9 @@ M5 的 fake provider、离线 replay 与 injected-fetch BYOK adapter tests 只�
 - Known limitations；
 - 是否达到哪个 Gate；
 - 哪些结论仍不能推出。
+
+## Next field decision · 2026-09-05
+
+Evaluate one authorized repo and one reviewer who did not build the detector. First record manual review on a fixed PR set, then use DecisionTrace on a counterbalanced set. Record setup minutes, review minutes per PR, accepted findings, false alarms, known seeded misses and repeat-use choice. Keep co-change candidates separate in the readout. Do not contact a reviewer, scan another repo or invent a participant result as part of local implementation.
+
+The unchanged legacy D3 labels now expose 4 TP and 4 FP (precision 0.5) after co-change suppression was removed. This is an explicit noise trade-off, not a quality improvement claim. E1 remains blocked pending independent review.

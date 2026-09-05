@@ -78,6 +78,22 @@
                     "covers": {
                       "type": "array",
                       "items": { "type": "string", "minLength": 1 }
+                    },
+                    "expect": {
+                      "type": "object",
+                      "properties": {
+                        "pointer": { "type": "string", "pattern": "^\\/" },
+                        "equals": {
+                          "anyOf": [
+                            { "type": "string" },
+                            { "type": "number" },
+                            { "type": "boolean" },
+                            { "type": "null" }
+                          ]
+                        }
+                      },
+                      "required": ["pointer", "equals"],
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false
@@ -96,6 +112,22 @@
                     "covers": {
                       "type": "array",
                       "items": { "type": "string", "minLength": 1 }
+                    },
+                    "expect": {
+                      "type": "object",
+                      "properties": {
+                        "pointer": { "type": "string", "pattern": "^\\/" },
+                        "equals": {
+                          "anyOf": [
+                            { "type": "string" },
+                            { "type": "number" },
+                            { "type": "boolean" },
+                            { "type": "null" }
+                          ]
+                        }
+                      },
+                      "required": ["pointer", "equals"],
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false
@@ -114,6 +146,22 @@
                     "covers": {
                       "type": "array",
                       "items": { "type": "string", "minLength": 1 }
+                    },
+                    "expect": {
+                      "type": "object",
+                      "properties": {
+                        "pointer": { "type": "string", "pattern": "^\\/" },
+                        "equals": {
+                          "anyOf": [
+                            { "type": "string" },
+                            { "type": "number" },
+                            { "type": "boolean" },
+                            { "type": "null" }
+                          ]
+                        }
+                      },
+                      "required": ["pointer", "equals"],
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false
@@ -132,6 +180,22 @@
                     "covers": {
                       "type": "array",
                       "items": { "type": "string", "minLength": 1 }
+                    },
+                    "expect": {
+                      "type": "object",
+                      "properties": {
+                        "pointer": { "type": "string", "pattern": "^\\/" },
+                        "equals": {
+                          "anyOf": [
+                            { "type": "string" },
+                            { "type": "number" },
+                            { "type": "boolean" },
+                            { "type": "null" }
+                          ]
+                        }
+                      },
+                      "required": ["pointer", "equals"],
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false
@@ -150,6 +214,22 @@
                     "covers": {
                       "type": "array",
                       "items": { "type": "string", "minLength": 1 }
+                    },
+                    "expect": {
+                      "type": "object",
+                      "properties": {
+                        "pointer": { "type": "string", "pattern": "^\\/" },
+                        "equals": {
+                          "anyOf": [
+                            { "type": "string" },
+                            { "type": "number" },
+                            { "type": "boolean" },
+                            { "type": "null" }
+                          ]
+                        }
+                      },
+                      "required": ["pointer", "equals"],
+                      "additionalProperties": false
                     }
                   },
                   "additionalProperties": false

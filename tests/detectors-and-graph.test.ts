@@ -237,13 +237,13 @@ describe("D3 detector and evidence gate", () => {
     expect(findings[0]?.inferences).toHaveLength(1);
   });
 
-  it("[AC-019] does not report evidence-unsynchronized when evidence changed", () => {
+  it("[AC-019] retains an explicitly uncertain candidate when evidence also changed", () => {
     expect(
       detectD3([subject], artifacts, [
         "src/service.ts",
         "tests/service.test.ts",
       ]),
-    ).toHaveLength(0);
+    ).toHaveLength(1);
   });
 
   it("[AC-020, AC-023] downgrades source-less formal drafts and keeps stable IDs", () => {
@@ -264,5 +264,66 @@ describe("D3 detector and evidence gate", () => {
     const second = assembleFinding(draft, "SCAN-B", artifacts);
     expect(first.status).toBe("exploratory");
     expect(first.id).toBe(second.id);
+  });
+});
+
+describe("audit regressions", () => {
+  it("[FR-014, AC-019] README-only co-change cannot hide implementation impact", () => {
+    const subject = contract("CTR-090", {
+      implemented_by: [{ path: "src/service.ts" }],
+      claimed_in: [{ path: "README.md" }],
+    });
+    const found = detectD3(
+      [subject],
+      [artifact("docs/CTR-090.md", "requirements", ["CTR-090"])],
+      ["src/service.ts", "README.md"],
+    );
+    expect(found).toHaveLength(1);
+    expect(found[0]?.status).toBe("exploratory");
+    expect(found[0]?.facts[0]?.statement).toContain("unverified");
+  });
+  it("[FR-013, AC-016] requires a typed evidence value rather than a matching path", () => {
+    const subject = contract("CTR-091", {
+      verified_by: [
+        {
+          path: "result.json",
+          required: true,
+          covers: ["chat"],
+          expect: { pointer: "/approved", equals: true },
+        },
+      ],
+    });
+    for (const value of [false, "true", undefined]) {
+      const evidence = artifact("result.json", "evals");
+      evidence.nodes = [
+        {
+          kind: "json",
+          pointer: "/approved",
+          ...(value === undefined ? {} : { value }),
+        },
+      ];
+      expect(detectD2([subject], [evidence], [])).toHaveLength(1);
+    }
+    const evidence = artifact("result.json", "evals");
+    evidence.nodes = [{ kind: "json", pointer: "/approved", value: true }];
+    expect(detectD2([subject], [evidence], [])).toHaveLength(0);
+  });
+  it("[FR-013, AC-016] does not accept a missing locator or an unparseable evidence file", () => {
+    const subject = contract("CTR-092", {
+      verified_by: [
+        {
+          path: "test.md",
+          locator: "actual-test",
+          required: true,
+          covers: ["chat"],
+        },
+      ],
+    });
+    expect(
+      detectD2([subject], [artifact("test.md", "tests", ["unrelated"])], []),
+    ).toHaveLength(1);
+    const broken = artifact("test.md", "tests", ["actual-test"]);
+    broken.artifact.parserStatus = "error";
+    expect(detectD2([subject], [broken], [])).toHaveLength(1);
   });
 });

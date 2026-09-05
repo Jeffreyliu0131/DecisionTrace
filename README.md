@@ -40,7 +40,7 @@ AI coding increases implementation speed; it does not keep the PRD, ADRs, tests,
 |---|---|---|
 | `D1` Decision Conflict | Two active structured contracts contain mutually exclusive rules | Formal when both sources are directly cited |
 | `D2` Claim Without Evidence | Required evidence is missing or declared coverage is incomplete | Formal for file/coverage facts; not proof of test quality |
-| `D3` Change-Induced Mismatch | A linked implementation changed while its requirement, evidence, and claim did not | Exploratory; unchanged evidence may still be valid |
+| `D3` Change-Induced Mismatch | A linked implementation changed; co-changed documents remain explicitly unverified | Exploratory; unchanged evidence may still be valid |
 | Semantic candidate | A redacted provider response suggests a claim, edge, or conflict | Exploratory only; human disposition required, never a gate |
 
 Every finding separates facts from inference, cites validated source spans, preserves a stable ID, and asks for one of five human dispositions: true drift, intentional change, false positive, accepted risk, or insufficient evidence.
@@ -167,7 +167,7 @@ The Action uploads the report and preserves the CLI status. Current main remains
 ## Deliberate failure boundaries
 
 - No evidence means abstain or exploratory; model text cannot become a formal fact.
-- D2 proves declared evidence presence/coverage, not that an assertion validates runtime behavior.
+- D2 checks declared evidence presence/coverage, locators and optional typed JSON-pointer expectations; it does not prove runtime behavior.
 - D3 is a review candidate, not an accusation that documentation is stale.
 - Missing key, timeout, invalid/stale response, credential echo, or budget breach preserves deterministic findings and abstains from semantic output.
 - Reports and review logs do not prove user value, time saved, adoption, or market demand.
@@ -184,3 +184,7 @@ The Action uploads the report and preserves the CLI status. Current main remains
 - [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) — completed slices and next evidence gaps
 
 Current version: `0.5.0`. Current blockers: independent fixture review, real provider calibration, second-repo repeat use, external users, and license selection.
+
+## 2026-09-05 audit follow-through
+
+Focus: help a reviewer decide which product contracts merit inspection after a code change. Required JSON/YAML evidence can assert a typed value; changing a README no longer silently clears an implementation-impact candidate. Co-change candidates are exploratory and never gate. The unchanged historical D3 dataset now exposes 4 TP / 4 FP (precision 0.5), an explicit increase in review noise; independent field usefulness remains unknown. See the evaluation contract for the next controlled reviewer comparison.

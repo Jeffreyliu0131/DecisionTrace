@@ -100,9 +100,9 @@ describe("fixture evaluation", () => {
     expect(report.report.metrics.D1).toMatchObject({ tp: 4, fp: 0, fn: 0 });
     expect(report.report.metrics.D3).toMatchObject({
       tp: 4,
-      fp: 1,
+      fp: 4,
       fn: 0,
-      precision: 0.8,
+      precision: 0.5,
     });
     expect(report.report.failures).toEqual(
       expect.arrayContaining([

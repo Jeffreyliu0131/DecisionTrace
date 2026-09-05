@@ -32,9 +32,11 @@ export function sourceSpansForLink(
 ): SourceSpan[] {
   return matchingArtifacts(link, artifacts).map((parsed) => {
     const locatorNode =
-      link.locator === undefined
-        ? undefined
-        : parsed.nodes.find((node) => node.text?.includes(link.locator!));
+      link.expect !== undefined
+        ? parsed.nodes.find((node) => node.pointer === link.expect!.pointer)
+        : link.locator === undefined
+          ? undefined
+          : parsed.nodes.find((node) => node.text?.includes(link.locator!));
     return {
       path: parsed.artifact.path,
       contentHash: parsed.artifact.contentHash,

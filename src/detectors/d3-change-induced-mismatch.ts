@@ -26,7 +26,8 @@ export function detectD3(
       const synchronized = changedPaths.some((pathname) =>
         synchronizationLinks.some((link) => linkMatchesPath(link, pathname)),
       );
-      if (synchronized) return;
+      // Co-changing a file is not evidence that the relevant assertion changed.
+      // Keep a candidate for human disposition; never turn it into a release gate.
 
       const definitionSources = contractDefinitionSources(contract, artifacts);
       const implementationSources = contract.implemented_by.flatMap((link) =>
@@ -39,11 +40,11 @@ export function detectD3(
         driftType: "D3",
         status: "exploratory",
         severity: contract.severity,
-        confidence: 0.65,
+        confidence: synchronized ? 0.4 : 0.65,
         contractIds: [contract.id],
         facts: [
           {
-            statement: `Declared implementation path(s) changed: ${changedImplementation.join(", ")}. No declared definition, evidence, or public-claim path changed in the same diff.`,
+            statement: `Declared implementation path(s) changed: ${changedImplementation.join(", ")}. ${synchronized ? "Linked definition, evidence, or claim paths also changed; semantic synchronization is unverified." : "No declared definition, evidence, or public-claim path changed in the same diff."}`,
             sourceRefs: sourcePaths(sources),
           },
         ],

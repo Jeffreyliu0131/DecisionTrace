@@ -7,6 +7,7 @@ import type {
 export type ParsedNode = {
   kind: "heading" | "paragraph" | "frontmatter" | "json" | "yaml" | "text";
   text?: string;
+  value?: string | number | boolean | null;
   startLine?: number;
   endLine?: number;
   pointer?: string;

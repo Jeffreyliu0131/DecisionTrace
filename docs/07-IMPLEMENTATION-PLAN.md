@@ -335,3 +335,9 @@ P0 只有在以下全部满足时完成：
 - GitHub Action 默认 shadow、不误阻断；
 - 所有已知失败、局限和 Unknown 保留；
 - 未宣称外部 adoption、商业结果或正式 open source，除非对应事实与许可证真实存在。
+
+## Audit repair · 2026-09-05
+
+Current scope: FR-013/AC-016/I-010 typed evidence expectations and locator/parser validation; FR-014/AC-019/I-011 co-change candidates. Regression tests exercise wrong values, missing locators, parser errors and README co-changes.
+
+Known trade-off: retaining co-change candidates makes the unchanged historical D3 fixture set report 4 TP / 4 FP / 0 FN (precision 0.5), versus the older path-suppression behavior's 4 TP / 1 FP. Ground-truth labels have NOT been changed. Candidate generation is more conservative about evidence, not demonstrated to be more useful. The next step is independent reviewer triage with setup/review time and missed-drift tracking; no semantic hard gate, adoption or field-precision claim is authorized by these checks.
