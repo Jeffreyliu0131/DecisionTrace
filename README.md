@@ -5,7 +5,11 @@
 
 **Focus review on the product commitments a change may affect.**
 
-DecisionTrace is a local-first CLI, GitHub Action, and Review UI that identifies evidence-linked drift and review candidates across product contracts, code, prompts, tests, evals, and release claims. Every finding cites its evidence and enters a human review queue. Optional AI analysis can suggest candidates, but it cannot silently change a contract or block a release.
+A code change can leave a product rule, test, or release claim behind. DecisionTrace links declared product commitments to changed implementation and evidence, then gives the reviewer a queue of findings to inspect.
+
+**Key choice:** show cited facts separately from inferred mismatches. A reviewer decides whether a finding is real drift, an intentional change, or a false positive. Optional AI analysis cannot silently rewrite a contract or block a release.
+
+**Status:** local CLI, GitHub Action, and Review UI; reproducible synthetic evaluation and one public ThinkBud dogfood example. External usefulness and real-repository precision remain unvalidated.
 
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
@@ -17,7 +21,7 @@ DecisionTrace is a local-first CLI, GitHub Action, and Review UI that identifies
 
 ![DecisionTrace synthetic Review UI dashboard](docs/assets/review-dashboard.jpg)
 
-These are archived synthetic captures from the initial Review UI. Current finding scores are labeled as uncalibrated heuristics and disposition forms start without a selection; run the demo below for the current interface.
+Historical synthetic capture. Run the demo for the current interface, including explicit score labels and unselected disposition forms.
 
 > Public-source evaluation build. No `LICENSE` has been selected, so this repository does not currently grant reuse, modification, or distribution rights.
 
