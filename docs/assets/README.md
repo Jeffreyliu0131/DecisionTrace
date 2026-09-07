@@ -1,5 +1,7 @@
 # Review UI demo assets
 
+These archived JPEGs predate the September 7 review-clarity changes. They show historical labels and selected dispositions, not the current default state. `npm run demo` runs the current UI.
+
 These JPEGs are direct browser screenshots of the loopback Review UI created by `npm run demo`; they are not image-generated mockups.
 
 [`manifest.json`](manifest.json) records dimensions, byte sizes, SHA-256 hashes, routes, and the synthetic-only boundary.

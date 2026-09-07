@@ -3,9 +3,9 @@
 [![CI](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/ci.yml?query=branch%3Amain)
 [![Synthetic Shadow Scan](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/shadow.yml/badge.svg?branch=main)](https://github.com/Jeffreyliu0131/DecisionTrace/actions/workflows/shadow.yml?query=branch%3Amain)
 
-**Catch PRD–code–eval drift before release.**
+**Focus review on the product commitments a change may affect.**
 
-DecisionTrace is a local-first CLI, GitHub Action, and Review UI that catches drift between product contracts, code, prompts, tests, evals, and release claims. Every finding cites its evidence and enters a human review queue. Optional AI analysis can suggest candidates, but it cannot silently change a contract or block a release.
+DecisionTrace is a local-first CLI, GitHub Action, and Review UI that identifies evidence-linked drift and review candidates across product contracts, code, prompts, tests, evals, and release claims. Every finding cites its evidence and enters a human review queue. Optional AI analysis can suggest candidates, but it cannot silently change a contract or block a release.
 
 <p align="center">
   <a href="#quick-start">Quick start</a> ·
@@ -16,6 +16,8 @@ DecisionTrace is a local-first CLI, GitHub Action, and Review UI that catches dr
 </p>
 
 ![DecisionTrace synthetic Review UI dashboard](docs/assets/review-dashboard.jpg)
+
+These are archived synthetic captures from the initial Review UI. Current finding scores are labeled as uncalibrated heuristics and disposition forms start without a selection; run the demo below for the current interface.
 
 > Public-source evaluation build. No `LICENSE` has been selected, so this repository does not currently grant reuse, modification, or distribution rights.
 
@@ -56,6 +58,10 @@ The synthetic demo deliberately produces two formal findings (`D1`, `D2`) and tw
 
 ## Review workflow
 
+Finding scores are explicitly labeled as uncalibrated heuristics. D3 names the affected commitment and preserves co-change uncertainty. Both disposition forms require an explicit choice; a successful save clears that choice. Reviews belong to one scan: use comparison and the earlier report to consult prior reasoning, then make a fresh judgment. Stable IDs alone do not authorize reuse.
+
+A scan with zero active contracts is uncovered, even when execution completes. D3 highlights the affected commitment and changed paths; it does not prove a behavioral mismatch.
+
 | Evidence-linked review | Stable report comparison |
 |---|---|
 | ![Finding detail with facts, inference, sources, and disposition](docs/assets/review-findings.jpg) | ![Stable-ID and artifact-hash report comparison](docs/assets/review-compare.jpg) |
@@ -78,8 +84,6 @@ node dist/cli/main.js ui --repo /path/to/target-repo
 ```
 
 The target owns `.decisiontrace.yml` and `.decisiontrace/contracts.yml`; `decisiontrace init` creates minimal local-only starters with no active contracts. Before scanning, replace the commented candidate with one real commitment: set its title, definition path/locator, implementation path and required evidence; set `status: active` only after confirming that commitment. Ensure every referenced path is included in the configured sources. An empty registry is reported as uncovered, not a clean product. Reports are canonical JSON plus Markdown and static HTML.
-
-Scores are explicitly labeled as uncalibrated heuristics. D3 names the affected commitment and preserves co-change uncertainty. Both disposition forms require an explicit choice; a successful save clears that choice. Reviews belong to one scan: use comparison and the earlier report to consult prior reasoning, then make a fresh judgment. Stable IDs alone do not authorize reuse.
 
 ## First real public dogfood
 
@@ -130,7 +134,7 @@ The Deterministic Core is network-free. The only outbound semantic path requires
 
 ## GitHub Action
 
-Pin the last green product commit rather than a mutable branch:
+Pin this verified product revision for the September 7 review workflow:
 
 ```yaml
 permissions:
@@ -145,7 +149,7 @@ steps:
   - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
     with:
       node-version: 22
-  - uses: Jeffreyliu0131/DecisionTrace@b7085cde1f96ae7eb0086687d723d64f5e332ee8
+  - uses: Jeffreyliu0131/DecisionTrace@6e50bcef5465580bac90e7f13c16c60d8edd182b
     with:
       repository: .
       base: ${{ github.event.pull_request.base.sha }}
@@ -185,7 +189,7 @@ The Action uploads the report and preserves the CLI status. Current main remains
 - [`docs/06-ACCEPTANCE-CRITERIA.md`](docs/06-ACCEPTANCE-CRITERIA.md) — observable Given/When/Then acceptance
 - [`docs/07-IMPLEMENTATION-PLAN.md`](docs/07-IMPLEMENTATION-PLAN.md) — completed slices and next evidence gaps
 
-Current version: `0.5.0`. Current blockers: independent fixture review, real provider calibration, second-repo repeat use, external users, and license selection.
+Current version: `0.5.0`. Evidence gaps: independent fixture review, real provider calibration, second-repo repeat use, and external users. License selection is still pending; these gaps are not claims that this public source revision is unpublished.
 
 ## 2026-09-05 audit follow-through
 
