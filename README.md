@@ -77,7 +77,9 @@ node dist/cli/main.js scan \
 node dist/cli/main.js ui --repo /path/to/target-repo
 ```
 
-The target owns `.decisiontrace.yml` and `.decisiontrace/contracts.yml`; `decisiontrace init` creates minimal local-only starters. Reports are canonical JSON plus Markdown and static HTML.
+The target owns `.decisiontrace.yml` and `.decisiontrace/contracts.yml`; `decisiontrace init` creates minimal local-only starters with no active contracts. Before scanning, replace the commented candidate with one real commitment: set its title, definition path/locator, implementation path and required evidence; set `status: active` only after confirming that commitment. Ensure every referenced path is included in the configured sources. An empty registry is reported as uncovered, not a clean product. Reports are canonical JSON plus Markdown and static HTML.
+
+Scores are explicitly labeled as uncalibrated heuristics. D3 names the affected commitment and preserves co-change uncertainty. Both disposition forms require an explicit choice; a successful save clears that choice. Reviews belong to one scan: use comparison and the earlier report to consult prior reasoning, then make a fresh judgment. Stable IDs alone do not authorize reuse.
 
 ## First real public dogfood
 
@@ -87,7 +89,7 @@ The first read-only target is [`Jeffreyliu0131/thinkbud-ai`](https://github.com/
 - [Analyst triage and detector limitations](examples/dogfood/thinkbud-ai/analysis.md)
 - [Reproduction inputs and provenance](examples/dogfood/thinkbud-ai/README.md)
 
-Observed result: three formal `D2` evidence findings. One exposes a missing dedicated RTC-default regression evidence mapping; the other two reproduce limitations the target already declares (fresh live/human evidence and licensing). This is a configuration-dependent dogfood result, not real-repository precision: no independent reviewer has dispositioned it, and D2 currently verifies declared file/coverage presence rather than the semantic truth of JSON values.
+Observed result: three formal `D2` evidence findings. One exposes a missing dedicated RTC-default regression evidence mapping; the other two reproduce limitations the target already declares (fresh live/human evidence and licensing). This is a configuration-dependent dogfood result, not real-repository precision: no independent reviewer has dispositioned it, and that historical report used file/coverage presence checks. Current D2 also supports typed JSON-pointer expectations, which still do not prove runtime behavior.
 
 ## Architecture
 

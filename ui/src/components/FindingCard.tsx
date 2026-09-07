@@ -42,12 +42,8 @@ export function FindingCard({
           </p>
         </div>
         <div className="confidence-block">
-          <span>{Math.round(finding.confidence * 100)}%</span>
-          <progress
-            max={1}
-            value={finding.confidence}
-            aria-label="Finding confidence"
-          />
+          <span>Heuristic score {finding.confidence.toFixed(2)}</span>
+          <small>Not a calibrated drift probability</small>
         </div>
       </header>
 

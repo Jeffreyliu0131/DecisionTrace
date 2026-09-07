@@ -53,8 +53,9 @@ export function FindingReviewForm({
   existing?: Review;
   submit: (request: FindingReviewRequest) => Promise<void>;
 }) {
-  const [decision, setDecision] =
-    useState<FindingReviewRequest["decision"]>("true_drift");
+  const [decision, setDecision] = useState<
+    FindingReviewRequest["decision"] | ""
+  >("");
   const [reason, setReason] = useState("");
   const [reviewer, setReviewer] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -62,6 +63,7 @@ export function FindingReviewForm({
 
   async function onSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (decision === "" || reason.trim() === "") return;
     setSubmitting(true);
     setError(undefined);
     try {
@@ -73,6 +75,7 @@ export function FindingReviewForm({
         ...(reviewer.trim() === "" ? {} : { reviewer }),
       });
       setReason("");
+      setDecision("");
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : String(caught));
     } finally {
@@ -94,11 +97,15 @@ export function FindingReviewForm({
           <label>
             <span>Decision</span>
             <select
+              required
               value={decision}
               onChange={(event) =>
                 setDecision(event.target.value as typeof decision)
               }
             >
+              <option value="" disabled>
+                Choose a disposition
+              </option>
               {FINDING_DECISIONS.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -133,7 +140,7 @@ export function FindingReviewForm({
           )}
           <button
             className="button button-primary"
-            disabled={submitting}
+            disabled={submitting || decision === "" || reason.trim() === ""}
             type="submit"
           >
             {submitting ? "写入中…" : "追加到 review log"}
@@ -155,8 +162,9 @@ export function SemanticReviewForm({
   existing?: SemanticReview;
   submit: (request: SemanticReviewRequest) => Promise<void>;
 }) {
-  const [decision, setDecision] =
-    useState<SemanticReviewRequest["decision"]>("needs_context");
+  const [decision, setDecision] = useState<
+    SemanticReviewRequest["decision"] | ""
+  >("");
   const [reason, setReason] = useState("");
   const [reviewer, setReviewer] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -164,6 +172,7 @@ export function SemanticReviewForm({
 
   async function onSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (decision === "" || reason.trim() === "") return;
     setSubmitting(true);
     setError(undefined);
     try {
@@ -175,6 +184,7 @@ export function SemanticReviewForm({
         ...(reviewer.trim() === "" ? {} : { reviewer }),
       });
       setReason("");
+      setDecision("");
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : String(caught));
     } finally {
@@ -198,11 +208,15 @@ export function SemanticReviewForm({
           <label>
             <span>Decision</span>
             <select
+              required
               value={decision}
               onChange={(event) =>
                 setDecision(event.target.value as typeof decision)
               }
             >
+              <option value="" disabled>
+                Choose a disposition
+              </option>
               {SEMANTIC_DECISIONS.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -236,7 +250,7 @@ export function SemanticReviewForm({
           )}
           <button
             className="button button-primary"
-            disabled={submitting}
+            disabled={submitting || decision === "" || reason.trim() === ""}
             type="submit"
           >
             {submitting ? "写入中…" : "追加到 semantic review log"}

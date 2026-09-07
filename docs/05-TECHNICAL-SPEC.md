@@ -341,7 +341,7 @@ Formal inputs：Git diff changed paths + declared contract globs。
 D3 candidate triggers when：
 
 - at least one `implemented_by` path for an active contract changed；and
-- none of its `defined_by`、`verified_by` or `claimed_in` paths changed。
+- co-changed `defined_by`、`verified_by` or `claimed_in` paths remain candidates: file co-change does not prove semantic synchronization。
 
 Because unchanged evidence may still remain valid，D3 status is `exploratory` by default，severity cannot exceed contract severity，and it never gates in P0。
 
@@ -455,3 +455,13 @@ Rules：
 Required `verified_by` links now accept optional `expect: {pointer: "/approved", equals: true}`. JSON/YAML pointers use RFC 6901 escaping and primitive values are type-sensitive (string "true" is not boolean true). Locators must exist and parser errors cannot satisfy required evidence. This validates declared data, not the truth of an arbitrary test assertion.
 
 D3 co-changed definition/evidence/claim paths no longer suppress a candidate. The candidate stays exploratory, uses confidence 0.4, and states that semantic synchronization remains unknown. This supersedes automatic path-co-change suppression in section 8.3; independent disposition remains required.
+
+## 2026-09-07 review clarity slice
+
+FR-002 / AC-001, AC-004 / I-005: initialization remains empty until a human confirms a contract. Zero active contracts produces NO_ACTIVE_CONTRACTS; execution status remains separate from contract coverage. Reports display the active count and declared-scope boundary.
+
+FR-014, FR-016 / AC-018, AC-021 / I-011, I-012: D3 includes the affected contract title alongside changed-path evidence. Numeric scores remain schema-compatible heuristics, explicitly not calibrated probabilities.
+
+FR-018, FR-029 / AC-025, AC-043, AC-047 / I-014, I-027: both forms start without a disposition and require an explicit choice and nonblank reason. Successful submission resets the choice; failure preserves the draft for retry. Review remains scan-scoped, with no automatic carry-forward even for stable IDs. Comparison is a finding-metadata/artifact comparison, not a certification that previous reasoning remains valid.
+
+Verification: local `npm run check` passed (75 tests, typecheck/lint/format, build, 30 synthetic eval cases, demo check). E1 remains unachieved; synthetic results do not establish real-repo precision. Hosted status is available from the README CI/shadow links. No provider calls, automatic contract activation, detector gates or cross-scan approval reuse added.

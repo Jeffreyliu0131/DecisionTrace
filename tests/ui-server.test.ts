@@ -130,7 +130,10 @@ describe("local report store", () => {
     ]);
     const target = history.reports[0]!;
     const detail = await store.detail(target.key);
-    const finding = detail.report.findings[0]!;
+    const earlier = await store.detail(history.reports[1]!.key);
+    const finding = detail.report.findings.find((item) =>
+      earlier.report.findings.some((old) => old.id === item.id),
+    )!;
     const before = await readFile(
       path.join(root, ".decisiontrace/reports/second/report.json"),
     );
@@ -144,6 +147,11 @@ describe("local report store", () => {
     expect(refreshed.reviews.findings[finding.id]?.decision).toBe(
       "intentional_change",
     );
+    const prior = await store.detail(history.reports[1]!.key);
+    expect(prior.report.findings.some((item) => item.id === finding.id)).toBe(
+      true,
+    );
+    expect(prior.reviews.findings[finding.id]).toBeUndefined();
     expect(
       await readFile(
         path.join(root, ".decisiontrace/reports/second/report.json"),

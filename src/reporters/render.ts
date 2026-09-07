@@ -58,7 +58,7 @@ function markdownFinding(finding: Finding): string {
   return `### ${finding.id} · ${finding.driftType} · ${finding.status}
 
 - Severity: \`${finding.severity}\`
-- Confidence: \`${finding.confidence.toFixed(2)}\`
+- Heuristic score (not calibrated probability): \`${finding.confidence.toFixed(2)}\`
 - Contracts: ${finding.contractIds.map((id) => `\`${id}\``).join(", ") || "None"}
 
 #### Facts
@@ -89,7 +89,7 @@ function markdownSemanticCandidate(candidate: SemanticCandidate): string {
   return `### ${candidate.id} · ${candidate.kind} · exploratory
 
 - Provider: \`${markdownEscape(candidate.provider)}\`
-- Confidence: \`${candidate.confidence.toFixed(2)}\`
+- Heuristic score (not calibrated probability): \`${candidate.confidence.toFixed(2)}\`
 - ${markdownEscape(detail)}
 - Sources: ${candidate.sources.map((source) => `\`${markdownEscape(source.path)}\``).join(", ")}
 
@@ -131,6 +131,7 @@ export function renderMarkdown(report: ScanReport): string {
 | Semantic stage | \`${report.semantic.status}\` via \`${markdownEscape(report.semantic.provider)}\` |
 | Semantic candidates | ${report.semantic.candidates.length} |
 | Semantic cost | ${markdownEscape(semanticCostText(report))} |
+| Active contracts | ${report.contracts.filter((contract) => contract.status === "active").length} (only declared scope is checked) |
 | Included artifacts | ${report.artifacts.length} |
 | Skipped artifacts | ${report.coverage.skipped.length} |
 | Findings | ${report.summary.total} (${report.summary.formal} formal, ${report.summary.exploratory} exploratory, ${report.summary.abstained} abstained) |
@@ -149,7 +150,7 @@ ${findings}
 
 ---
 
-DecisionTrace findings are candidates. A human reviewer owns disposition and release decisions.
+Execution complete does not mean product consistency verified. DecisionTrace findings are candidates. A human reviewer owns disposition and release decisions.
 `;
 }
 
@@ -171,7 +172,7 @@ function htmlFinding(finding: Finding): string {
     : "<p>None validated</p>";
   return `<article>
   <h3>${htmlEscape(finding.id)} · ${finding.driftType} · ${finding.status}</h3>
-  <dl><dt>Severity</dt><dd>${finding.severity}</dd><dt>Confidence</dt><dd>${finding.confidence.toFixed(2)}</dd><dt>Contracts</dt><dd>${htmlEscape(finding.contractIds.join(", ") || "None")}</dd></dl>
+  <dl><dt>Severity</dt><dd>${finding.severity}</dd><dt>Heuristic score (not calibrated probability)</dt><dd>${finding.confidence.toFixed(2)}</dd><dt>Contracts</dt><dd>${htmlEscape(finding.contractIds.join(", ") || "None")}</dd></dl>
   <h4>Facts</h4>${list(finding.facts)}
   <h4>Inferences</h4>${list(finding.inferences)}
   <h4>Sources</h4>${sources}
@@ -188,7 +189,7 @@ function htmlSemanticCandidate(candidate: SemanticCandidate): string {
         : `Candidate ${candidate.driftType}: ${candidate.contractIds.join(", ")}`;
   return `<article>
   <h3>${htmlEscape(candidate.id)} · ${candidate.kind} · exploratory</h3>
-  <dl><dt>Provider</dt><dd>${htmlEscape(candidate.provider)}</dd><dt>Confidence</dt><dd>${candidate.confidence.toFixed(2)}</dd><dt>Candidate</dt><dd>${htmlEscape(detail)}</dd></dl>
+  <dl><dt>Provider</dt><dd>${htmlEscape(candidate.provider)}</dd><dt>Heuristic score (not calibrated probability)</dt><dd>${candidate.confidence.toFixed(2)}</dd><dt>Candidate</dt><dd>${htmlEscape(detail)}</dd></dl>
   <h4>Model inference</h4><p>${htmlEscape(candidate.statement)}</p>
   <h4>Sources</h4><ul>${candidate.sources.map((source) => `<li><code>${htmlEscape(source.path)}</code></li>`).join("")}</ul>
   <h4>Suggested human review</h4><p>${htmlEscape(candidate.suggestedReview)}</p>
@@ -216,11 +217,11 @@ export function renderHtml(report: ScanReport): string {
 </head>
 <body>
   <h1>DecisionTrace Scan Report</h1>
-  <dl><dt>Scan</dt><dd><code>${htmlEscape(report.scanId)}</code></dd><dt>Result</dt><dd>${report.result}</dd><dt>Mode</dt><dd>${report.mode}</dd><dt>Head</dt><dd><code>${htmlEscape(report.repository.head)}</code></dd><dt>Semantic stage</dt><dd>${report.semantic.status} via ${htmlEscape(report.semantic.provider)}</dd><dt>Semantic candidates</dt><dd>${report.semantic.candidates.length}</dd><dt>Semantic cost</dt><dd>${htmlEscape(semanticCostText(report))}</dd><dt>Findings</dt><dd>${report.summary.total} (${report.summary.formal} formal, ${report.summary.exploratory} exploratory, ${report.summary.abstained} abstained)</dd></dl>
+  <dl><dt>Scan</dt><dd><code>${htmlEscape(report.scanId)}</code></dd><dt>Execution result</dt><dd>${report.result}</dd><dt>Active contracts</dt><dd>${report.contracts.filter((contract) => contract.status === "active").length} (only declared scope is checked)</dd><dt>Mode</dt><dd>${report.mode}</dd><dt>Head</dt><dd><code>${htmlEscape(report.repository.head)}</code></dd><dt>Semantic stage</dt><dd>${report.semantic.status} via ${htmlEscape(report.semantic.provider)}</dd><dt>Semantic candidates</dt><dd>${report.semantic.candidates.length}</dd><dt>Semantic cost</dt><dd>${htmlEscape(semanticCostText(report))}</dd><dt>Findings</dt><dd>${report.summary.total} (${report.summary.formal} formal, ${report.summary.exploratory} exploratory, ${report.summary.abstained} abstained)</dd></dl>
   <h2>Diagnostics</h2>${diagnostics}
   <h2>Semantic Candidates</h2>${semanticCandidates}
   <h2>Findings</h2>${findings}
-  <p class="warning">DecisionTrace findings are candidates. A human reviewer owns disposition and release decisions.</p>
+  <p class="warning">Execution complete does not mean product consistency verified. DecisionTrace findings are candidates. A human reviewer owns disposition and release decisions.</p>
 </body>
 </html>
 `;

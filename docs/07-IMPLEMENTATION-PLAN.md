@@ -341,3 +341,13 @@ P0 只有在以下全部满足时完成：
 Current scope: FR-013/AC-016/I-010 typed evidence expectations and locator/parser validation; FR-014/AC-019/I-011 co-change candidates. Regression tests exercise wrong values, missing locators, parser errors and README co-changes.
 
 Known trade-off: retaining co-change candidates makes the unchanged historical D3 fixture set report 4 TP / 4 FP / 0 FN (precision 0.5), versus the older path-suppression behavior's 4 TP / 1 FP. Ground-truth labels have NOT been changed. Candidate generation is more conservative about evidence, not demonstrated to be more useful. The next step is independent reviewer triage with setup/review time and missed-drift tracking; no semantic hard gate, adoption or field-precision claim is authorized by these checks.
+
+## 2026-09-07 review clarity slice
+
+FR-002 / AC-001, AC-004 / I-005: initialization remains empty until a human confirms a contract. Zero active contracts produces NO_ACTIVE_CONTRACTS; execution status remains separate from contract coverage. Reports display the active count and declared-scope boundary.
+
+FR-014, FR-016 / AC-018, AC-021 / I-011, I-012: D3 includes the affected contract title alongside changed-path evidence. Numeric scores remain schema-compatible heuristics, explicitly not calibrated probabilities.
+
+FR-018, FR-029 / AC-025, AC-043, AC-047 / I-014, I-027: both forms start without a disposition and require an explicit choice and nonblank reason. Successful submission resets the choice; failure preserves the draft for retry. Review remains scan-scoped, with no automatic carry-forward even for stable IDs. Comparison is a finding-metadata/artifact comparison, not a certification that previous reasoning remains valid.
+
+Verification: local `npm run check` passed (75 tests, typecheck/lint/format, build, 30 synthetic eval cases, demo check). E1 remains unachieved; synthetic results do not establish real-repo precision. Hosted status is available from the README CI/shadow links. No provider calls, automatic contract activation, detector gates or cross-scan approval reuse added.

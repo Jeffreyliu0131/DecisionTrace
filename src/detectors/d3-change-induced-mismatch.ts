@@ -44,6 +44,10 @@ export function detectD3(
         contractIds: [contract.id],
         facts: [
           {
+            statement: `Affected product commitment: ${contract.id} — ${contract.title}.`,
+            sourceRefs: sourcePaths(definitionSources),
+          },
+          {
             statement: `Declared implementation path(s) changed: ${changedImplementation.join(", ")}. ${synchronized ? "Linked definition, evidence, or claim paths also changed; semantic synchronization is unverified." : "No declared definition, evidence, or public-claim path changed in the same diff."}`,
             sourceRefs: sourcePaths(sources),
           },

@@ -21,6 +21,14 @@ export function buildContractGraph(
   const edges: TraceEdge[] = [];
   const diagnostics: Diagnostic[] = [];
   const reverse = new Map<string, Set<string>>();
+  if (!registry.contracts.some((contract) => contract.status === "active")) {
+    diagnostics.push({
+      code: "NO_ACTIVE_CONTRACTS",
+      severity: "warning",
+      message:
+        "No active contracts: product commitments were not checked. Confirm one contract and map its definition, implementation and evidence before interpreting a zero-finding scan.",
+    });
+  }
   const contractIds = new Set(
     registry.contracts.map((contract) => contract.id),
   );

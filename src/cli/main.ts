@@ -77,6 +77,9 @@ export async function main(
       if (result.backups.length > 0) {
         io.stdout(`Backups: ${result.backups.join(", ")}\n`);
       }
+      io.stdout(
+        "Coverage is empty. Edit .decisiontrace/contracts.yml, map one real commitment and confirm status: active before scanning.\n",
+      );
       io.stdout(`Next: ${result.nextCommand}\n`);
     });
 

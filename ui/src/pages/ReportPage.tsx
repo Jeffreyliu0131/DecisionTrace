@@ -121,6 +121,14 @@ export function ReportPage() {
         </div>
       </div>
 
+      <p className="muted" role="status">
+        {report.contracts.filter((contract) => contract.status === "active")
+          .length === 0
+          ? "No active contracts: product commitments were not checked. Confirm a contract in .decisiontrace/contracts.yml before interpreting zero findings."
+          : `${report.contracts.filter((contract) => contract.status === "active").length} active contracts checked within declared coverage. Execution complete does not mean product consistency verified.`}{" "}
+        Dispositions apply only to this scan; stable finding IDs do not carry
+        prior approval forward.
+      </p>
       <section className="metric-grid metric-grid-compact">
         <Metric
           label="Total findings"
@@ -130,7 +138,7 @@ export function ReportPage() {
         <Metric
           label="Formal"
           value={report.summary.formal}
-          tone={report.summary.formal > 0 ? "warning" : "success"}
+          tone={report.summary.formal > 0 ? "warning" : "neutral"}
         />
         <Metric
           label="Exploratory"

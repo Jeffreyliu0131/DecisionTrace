@@ -26,6 +26,29 @@ function fixedClock(...values: string[]): () => Date {
 }
 
 describe("scan integration", () => {
+  it("[AC-001, AC-004, AC-022] distinguishes empty coverage from a completed execution", async () => {
+    const root = await copyShadowRepository();
+    repositories.push(root);
+    await writeFile(
+      path.join(root, ".decisiontrace/contracts.yml"),
+      "version: 1\ncontracts: []\n",
+    );
+    await git(root, ["add", ".decisiontrace/contracts.yml"]);
+    await git(root, ["commit", "-m", "Empty confirmed scope"]);
+    const execution = await scanRepository({ repo: root, semanticMode: "off" });
+    expect(execution.report.result).toBe("complete");
+    expect(execution.report.findings).toHaveLength(0);
+    expect(execution.report.diagnostics).toContainEqual(
+      expect.objectContaining({ code: "NO_ACTIVE_CONTRACTS" }),
+    );
+    expect(await readFile(execution.bundle.reportMarkdown, "utf8")).toContain(
+      "Active contracts | 0",
+    );
+    expect(await readFile(execution.bundle.reportHtml, "utf8")).toContain(
+      "product commitments were not checked",
+    );
+  });
+
   it("[AC-005, AC-022, AC-023, AC-028, AC-030] produces deterministic full-scan reports without network access or finding-based failure", async () => {
     const root = await copyShadowRepository();
     repositories.push(root);
@@ -114,6 +137,13 @@ describe("scan integration", () => {
     );
     expect(d3.length).toBeGreaterThan(0);
     expect(d3.every((finding) => finding.status === "exploratory")).toBe(true);
+    expect(
+      d3.every((finding) =>
+        finding.facts.some((fact) =>
+          fact.statement.startsWith("Affected product commitment:"),
+        ),
+      ),
+    ).toBe(true);
   });
 
   it("[AC-008] reports an unavailable ref and never falls back to a full scan", async () => {

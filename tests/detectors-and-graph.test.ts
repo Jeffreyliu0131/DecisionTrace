@@ -233,7 +233,7 @@ describe("D3 detector and evidence gate", () => {
       status: "exploratory",
       confidence: 0.65,
     });
-    expect(findings[0]?.facts).toHaveLength(1);
+    expect(findings[0]?.facts).toHaveLength(2);
     expect(findings[0]?.inferences).toHaveLength(1);
   });
 
@@ -280,7 +280,9 @@ describe("audit regressions", () => {
     );
     expect(found).toHaveLength(1);
     expect(found[0]?.status).toBe("exploratory");
-    expect(found[0]?.facts[0]?.statement).toContain("unverified");
+    expect(
+      found[0]?.facts.some((fact) => fact.statement.includes("unverified")),
+    ).toBe(true);
   });
   it("[FR-013, AC-016] requires a typed evidence value rather than a matching path", () => {
     const subject = contract("CTR-091", {

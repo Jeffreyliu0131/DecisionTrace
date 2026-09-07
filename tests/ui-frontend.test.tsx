@@ -300,6 +300,16 @@ describe("React review console", () => {
     expect(screen.queryByText("FND-111111111111")).toBeNull();
     expect(screen.getByText("FND-222222222222")).not.toBeNull();
 
+    expect(screen.getByLabelText<HTMLSelectElement>("Decision").value).toBe("");
+    await user.type(
+      screen.getByPlaceholderText("写下支持这个判断的最小充分理由"),
+      "Reason before decision. ",
+    );
+    await user.click(screen.getByRole("button", { name: "追加到 review log" }));
+    expect(submitFindingReview).not.toHaveBeenCalled();
+    await user.clear(
+      screen.getByPlaceholderText("写下支持这个判断的最小充分理由"),
+    );
     await user.selectOptions(
       screen.getByLabelText("Decision"),
       "intentional_change",
@@ -416,6 +426,7 @@ describe("React review console", () => {
       screen.getByText("Reported 0.0002 USD · 120 input / 40 output tokens"),
     ).not.toBeNull();
     expect(screen.getByText("SEM-111111111111")).not.toBeNull();
+    expect(screen.getByLabelText<HTMLSelectElement>("Decision").value).toBe("");
     await user.selectOptions(screen.getByLabelText("Decision"), "confirmed");
     await user.type(
       screen.getByPlaceholderText("说明为何确认、拒绝或仍需上下文"),

@@ -553,3 +553,13 @@ status: implementation-contract
 FR-013 / AC-016 / I-010: required evidence can include `expect: { pointer: /approved, equals: true }`. A missing pointer, wrong primitive type/value, missing locator or parser error must produce D2; actual boolean true passes.
 
 FR-014 / AC-019 / I-011: co-changing README or a test path must not silently erase implementation impact. Retain an explicitly unverified exploratory candidate with lower confidence; this is a review queue entry, not proof of semantic drift.
+
+## 2026-09-07 review clarity slice
+
+FR-002 / AC-001, AC-004 / I-005: initialization remains empty until a human confirms a contract. Zero active contracts produces NO_ACTIVE_CONTRACTS; execution status remains separate from contract coverage. Reports display the active count and declared-scope boundary.
+
+FR-014, FR-016 / AC-018, AC-021 / I-011, I-012: D3 includes the affected contract title alongside changed-path evidence. Numeric scores remain schema-compatible heuristics, explicitly not calibrated probabilities.
+
+FR-018, FR-029 / AC-025, AC-043, AC-047 / I-014, I-027: both forms start without a disposition and require an explicit choice and nonblank reason. Successful submission resets the choice; failure preserves the draft for retry. Review remains scan-scoped, with no automatic carry-forward even for stable IDs. Comparison is a finding-metadata/artifact comparison, not a certification that previous reasoning remains valid.
+
+Verification: local `npm run check` passed (75 tests, typecheck/lint/format, build, 30 synthetic eval cases, demo check). E1 remains unachieved; synthetic results do not establish real-repo precision. Hosted status is available from the README CI/shadow links. No provider calls, automatic contract activation, detector gates or cross-scan approval reuse added.
